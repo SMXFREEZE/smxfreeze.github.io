@@ -341,6 +341,12 @@
       0%, 100% { transform: translate(-50%, -50%) scaleX(-1); }
       50%      { transform: translate(-50%, calc(-50% - 14px)) scaleX(-1); }
     }
+    /* Mobile run out */
+    @keyframes sq-run-out-mobile {
+      0%   { transform: translate(-50%, -50%) scaleX(1); }
+      100% { transform: translate(-1500px, -50%) scaleX(1); }
+    }
+
 
     /* Water ring expand */
     @keyframes ring-expand {
@@ -358,6 +364,9 @@
     }
     .squirtle-scene .squirtle-sprite-wrap.sq-bounce {
       animation: sq-bounce 0.9s ease-in-out forwards;
+    }
+    .squirtle-scene .squirtle-sprite-wrap.sq-out {
+      animation: sq-run-out-mobile 0.5s cubic-bezier(0.6,0,0.85,0) forwards;
     }
     .squirtle-scene .squirtle-sprite-wrap.sq-float-steady {
       animation: sq-float 4s ease-in-out infinite forwards;
@@ -718,6 +727,15 @@
       /* DISABLE hover transforms on touch */
       .stat-cell:hover { transform: none; }
       .proj-card:hover { transform: none; }
+      
+      /* SQUIRTLE: Escape logo box, act as section overlay for Original Forma */
+      .squirtle-scene {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw; height: 100%;
+        pointer-events: none; z-index: 10;
+      }
     }
     @media (max-width: 480px) {
       /* HERO */
@@ -1585,10 +1603,18 @@
           }, 280);
 
           setTimeout(() => {
-            // Phase 3: Transition to steady float state instead of running away!
-            wrap.classList.remove('sq-bounce');
-            wrap.classList.add('sq-float-steady');
-            // We leave the speech bubble visible while he floats around
+            if (window.innerWidth <= 900) {
+              // Mobile: original run out format
+              if (speech) speech.classList.remove('sq-speech-show');
+              setTimeout(() => {
+                wrap.classList.remove('sq-bounce');
+                wrap.classList.add('sq-out');
+              }, 250);
+            } else {
+              // Laptop: transition to steady float in the logo spot
+              wrap.classList.remove('sq-bounce');
+              wrap.classList.add('sq-float-steady');
+            }
           }, 900);
         }, 650);
       }
