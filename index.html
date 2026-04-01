@@ -1621,6 +1621,7 @@
         }, 650);
       }
 
+      const visualTarget = document.querySelector('.orax-visual');
       const obs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
           if (e.isIntersecting) {
@@ -1628,9 +1629,9 @@
             obs.disconnect();
           }
         });
-      }, { threshold: 0.25 });
+      }, { threshold: 0.1 });
 
-      obs.observe(section);
+      obs.observe(visualTarget || section);
     })();
 
     /* ── SECTION TITLE HOVER ── */
