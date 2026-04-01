@@ -626,23 +626,20 @@
     .proj-flip { width: 268px; aspect-ratio: 245/342; perspective: 1200px; cursor: pointer; flex-shrink: 0; position: relative; }
     .proj-reveal-btn {
       width: 100%; margin-top: 12px;
-      padding: 13px 18px;
-      background: #ffffff;
-      border: 1px solid #ffffff;
-      color: #0a0a0e;
+      padding: 13px 22px;
+      background: var(--cream); border: none;
+      color: var(--bg);
       font-family: var(--fm); font-size: 11px; letter-spacing: 2px;
       text-transform: uppercase; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      border-radius: 3px;
-      transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 2px;
+      transition: background 0.2s ease, color 0.2s ease;
     }
-    .proj-reveal-btn:hover { background: var(--fire); border-color: var(--fire); color: #fff; box-shadow: 0 4px 20px rgba(255,107,53,0.35); }
-    .proj-reveal-btn svg { flex-shrink: 0; transition: transform 0.25s ease; }
+    .proj-reveal-btn:hover { background: var(--fire); color: #fff; }
+    .proj-reveal-btn svg { flex-shrink: 0; transition: transform 0.2s ease; }
     .proj-reveal-btn:hover svg { transform: translateX(3px); }
-    .proj-item.flipped .proj-reveal-btn { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
-    .proj-item.flipped .proj-reveal-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
-    [data-theme="light"] .proj-reveal-btn { background: #fff; border-color: #fff; color: #0a0a0e; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-    [data-theme="light"] .proj-item.flipped .proj-reveal-btn { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); color: #5a5850; }
+    .proj-item.flipped .proj-reveal-btn { background: rgba(237,233,223,0.15); color: rgba(237,233,223,0.5); }
+    .proj-item.flipped .proj-reveal-btn:hover { background: var(--cream); color: var(--bg); }
     .proj-flip-inner {
       position: relative; width: 100%; height: 100%;
       transform-style: preserve-3d;
