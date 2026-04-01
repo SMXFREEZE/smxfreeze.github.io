@@ -532,7 +532,8 @@
       .proj-card { padding: 24px; }
       .browser-frame { margin-bottom: 20px; }
       .proj-deck { gap: 20px; }
-      .proj-flip { width: 210px; }
+      .proj-item { width: 210px; }
+      .proj-flip { width: 100%; }
       .pfb-title { font-size: 20px; }
       .contact-headline { font-size: clamp(48px,14vw,100px); }
       .contact-row { flex-direction: column; gap: 28px; align-items: flex-start; }
@@ -557,7 +558,8 @@
       .exp-role-title { font-size: 18px; }
       .orax-metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
       .proj-deck { gap: 14px; justify-content: center; }
-      .proj-flip { width: calc(50vw - 36px); max-width: 180px; }
+      .proj-item { width: calc(50vw - 36px); max-width: 180px; }
+      .proj-flip { width: 100%; }
       .proj-flip-back { padding: 18px 14px 16px; gap: 7px; }
       .pfb-title { font-size: 17px; }
       .pfb-desc { font-size: 11px; -webkit-line-clamp: 5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
@@ -619,8 +621,28 @@
       pointer-events: none; transition: opacity 0.25s ease;
     }
     /* ── PROJECT FLIP CARDS ── */
-    .proj-deck { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 56px; }
+    .proj-deck { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 56px; align-items: flex-start; }
+    .proj-item { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
     .proj-flip { width: 268px; aspect-ratio: 245/342; perspective: 1200px; cursor: pointer; flex-shrink: 0; position: relative; }
+    .proj-reveal-btn {
+      width: 100%; margin-top: 12px;
+      padding: 13px 18px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink-2);
+      font-family: var(--fm); font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      border-radius: 3px;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .proj-reveal-btn:hover { background: var(--fire); color: #0a0a0e; border-color: var(--fire); }
+    .proj-reveal-btn svg { flex-shrink: 0; transition: transform 0.25s ease; }
+    .proj-reveal-btn:hover svg { transform: translateX(3px); }
+    .proj-item.flipped .proj-reveal-btn { color: var(--ink-3); border-color: var(--border-2); }
+    .proj-item.flipped .proj-reveal-btn:hover { background: var(--bg-3); color: var(--ink); border-color: var(--border); }
+    [data-theme="light"] .proj-reveal-btn { color: #5a5850; border-color: rgba(0,0,0,0.12); }
+    [data-theme="light"] .proj-reveal-btn:hover { background: var(--fire); color: #fff; border-color: var(--fire); }
     .proj-flip-inner {
       position: relative; width: 100%; height: 100%;
       transform-style: preserve-3d;
@@ -633,15 +655,7 @@
       backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
     .proj-flip-front .poke-wrap { width: 100%; height: 100%; border-radius: inherit; }
-    .proj-flip-hint {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 24px 12px 10px; text-align: center;
-      font-family: var(--fm); font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.7);
-      text-transform: uppercase; pointer-events: none;
-      background: linear-gradient(transparent, rgba(0,0,0,0.55));
-      transition: opacity 0.3s;
-    }
-    .proj-flip.flipped .proj-flip-hint { opacity: 0; }
+    .proj-flip-hint { display: none; }
     .proj-flip-back {
       transform: rotateY(180deg);
       background: var(--bg-3); border: 1px solid var(--border);
@@ -984,94 +998,109 @@
     <div class="proj-deck">
 
       <!-- FormulaForge / Magneton -->
-      <div class="proj-flip reveal">
-        <div class="proj-flip-inner">
-          <div class="proj-flip-front">
-            <div class="poke-wrap">
-              <img class="poke-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton"
-                onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';" />
-              <div class="poke-shine"></div>
-              <div class="poke-glare"></div>
+      <div class="proj-item reveal">
+        <div class="proj-flip">
+          <div class="proj-flip-inner">
+            <div class="proj-flip-front">
+              <div class="poke-wrap">
+                <img class="poke-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton"
+                  onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';" />
+                <div class="poke-shine"></div>
+                <div class="poke-glare"></div>
+              </div>
             </div>
-            <div class="proj-flip-hint">tap to reveal</div>
-          </div>
-          <div class="proj-flip-back">
-            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-            <div class="pfb-type">Electric Type · Featured</div>
-            <div class="pfb-title">FormulaForge</div>
-            <p class="pfb-desc">Cosmetic ingredient optimizer built on OpenAI, AWS Bedrock, and PuLP linear programming. Picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the trade-offs in plain language.</p>
-            <div class="pfb-tags">
-              <span class="pfb-tag">Python</span><span class="pfb-tag">AWS Bedrock</span>
-              <span class="pfb-tag">Hugging Face</span><span class="pfb-tag">PuLP</span><span class="pfb-tag">Streamlit</span>
-            </div>
-            <div class="pfb-links">
-              <a href="https://formula-forge.onrender.com" target="_blank" rel="noopener" class="pfb-link">
-                Live Demo
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
-              </a>
+            <div class="proj-flip-back">
+              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+              <div class="pfb-type">Electric Type · Featured</div>
+              <div class="pfb-title">FormulaForge</div>
+              <p class="pfb-desc">Cosmetic ingredient optimizer built on OpenAI, AWS Bedrock, and PuLP linear programming. Picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the trade-offs in plain language.</p>
+              <div class="pfb-tags">
+                <span class="pfb-tag">Python</span><span class="pfb-tag">AWS Bedrock</span>
+                <span class="pfb-tag">Hugging Face</span><span class="pfb-tag">PuLP</span><span class="pfb-tag">Streamlit</span>
+              </div>
+              <div class="pfb-links">
+                <a href="https://formula-forge.onrender.com" target="_blank" rel="noopener" class="pfb-link">
+                  Live Demo
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <button class="proj-reveal-btn" aria-label="Reveal project">
+          <span>Reveal project</span>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 6.5h9M7 2l4.5 4.5L7 11"/></svg>
+        </button>
       </div>
 
       <!-- PaideAI / Alakazam -->
-      <div class="proj-flip reveal">
-        <div class="proj-flip-inner">
-          <div class="proj-flip-front">
-            <div class="poke-wrap">
-              <img class="poke-img" src="https://images.pokemontcg.io/base1/1_hires.png" alt="Alakazam"
-                onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';" />
-              <div class="poke-shine"></div>
-              <div class="poke-glare"></div>
+      <div class="proj-item reveal">
+        <div class="proj-flip">
+          <div class="proj-flip-inner">
+            <div class="proj-flip-front">
+              <div class="poke-wrap">
+                <img class="poke-img" src="https://images.pokemontcg.io/base1/1_hires.png" alt="Alakazam"
+                  onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';" />
+                <div class="poke-shine"></div>
+                <div class="poke-glare"></div>
+              </div>
             </div>
-            <div class="proj-flip-hint">tap to reveal</div>
-          </div>
-          <div class="proj-flip-back">
-            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-            <div class="pfb-type">Psychic Type · Active</div>
-            <div class="pfb-title">PaideAI</div>
-            <p class="pfb-desc">Math tutor that adapts to how each student thinks. Generates problems, gives hints in real time, and lets teachers track the whole class. Built around real research on calculus intuition.</p>
-            <div class="pfb-tags">
-              <span class="pfb-tag">React</span><span class="pfb-tag">Claude API</span><span class="pfb-tag">FastAPI</span>
-            </div>
-            <div class="pfb-links">
-              <a href="https://paideai.onrender.com" target="_blank" rel="noopener" class="pfb-link">
-                Live Demo
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
-              </a>
+            <div class="proj-flip-back">
+              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+              <div class="pfb-type">Psychic Type · Active</div>
+              <div class="pfb-title">PaideAI</div>
+              <p class="pfb-desc">Math tutor that adapts to how each student thinks. Generates problems, gives hints in real time, and lets teachers track the whole class. Built around real research on calculus intuition.</p>
+              <div class="pfb-tags">
+                <span class="pfb-tag">React</span><span class="pfb-tag">Claude API</span><span class="pfb-tag">FastAPI</span>
+              </div>
+              <div class="pfb-links">
+                <a href="https://paideai.onrender.com" target="_blank" rel="noopener" class="pfb-link">
+                  Live Demo
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <button class="proj-reveal-btn" aria-label="Reveal project">
+          <span>Reveal project</span>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 6.5h9M7 2l4.5 4.5L7 11"/></svg>
+        </button>
       </div>
 
       <!-- Multi-Agent Pipeline / Mewtwo -->
-      <div class="proj-flip reveal">
-        <div class="proj-flip-inner">
-          <div class="proj-flip-front">
-            <div class="poke-wrap">
-              <img class="poke-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo"
-                onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';" />
-              <div class="poke-shine"></div>
-              <div class="poke-glare"></div>
+      <div class="proj-item reveal">
+        <div class="proj-flip">
+          <div class="proj-flip-inner">
+            <div class="proj-flip-front">
+              <div class="poke-wrap">
+                <img class="poke-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo"
+                  onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';" />
+                <div class="poke-shine"></div>
+                <div class="poke-glare"></div>
+              </div>
             </div>
-            <div class="proj-flip-hint">tap to reveal</div>
-          </div>
-          <div class="proj-flip-back">
-            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-            <div class="pfb-type">Psychic Type · Production</div>
-            <div class="pfb-title">Multi-Agent Pipeline</div>
-            <p class="pfb-desc">Triage, execution, and review pipeline running on AWS. Around 40% faster than a single-agent baseline by running agents in parallel with fallback handling built in.</p>
-            <div class="pfb-tags">
-              <span class="pfb-tag">AWS</span><span class="pfb-tag">NeuralSeek</span><span class="pfb-tag">Python</span>
-            </div>
-            <div class="pfb-links">
-              <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="pfb-link">
-                GitHub
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
-              </a>
+            <div class="proj-flip-back">
+              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+              <div class="pfb-type">Psychic Type · Production</div>
+              <div class="pfb-title">Multi-Agent Pipeline</div>
+              <p class="pfb-desc">Triage, execution, and review pipeline running on AWS. Around 40% faster than a single-agent baseline by running agents in parallel with fallback handling built in.</p>
+              <div class="pfb-tags">
+                <span class="pfb-tag">AWS</span><span class="pfb-tag">NeuralSeek</span><span class="pfb-tag">Python</span>
+              </div>
+              <div class="pfb-links">
+                <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="pfb-link">
+                  GitHub
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <button class="proj-reveal-btn" aria-label="Reveal project">
+          <span>Reveal project</span>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 6.5h9M7 2l4.5 4.5L7 11"/></svg>
+        </button>
       </div>
 
     </div>
@@ -1204,14 +1233,18 @@
   }
 
   /* ── PROJECT CARD FLIP ── */
-  document.querySelectorAll('.proj-flip').forEach(card => {
-    card.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
-      card.classList.toggle('flipped');
-    });
-    card.querySelector('.pfb-back-btn')?.addEventListener('click', () => {
-      card.classList.remove('flipped');
-    });
+  document.querySelectorAll('.proj-item').forEach(item => {
+    const card    = item.querySelector('.proj-flip');
+    const btn     = item.querySelector('.proj-reveal-btn');
+    const btnText = btn?.querySelector('span');
+
+    const flipOn  = () => { card.classList.add('flipped'); item.classList.add('flipped'); if (btnText) btnText.textContent = 'Flip back'; };
+    const flipOff = () => { card.classList.remove('flipped'); item.classList.remove('flipped'); if (btnText) btnText.textContent = 'Reveal project'; };
+    const toggle  = () => card.classList.contains('flipped') ? flipOff() : flipOn();
+
+    card.addEventListener('click', e => { if (!e.target.closest('a')) toggle(); });
+    btn?.addEventListener('click', toggle);
+    card.querySelector('.pfb-back-btn')?.addEventListener('click', flipOff);
   });
 
   /* ── ORAXAI NETWORK PARALLAX ── */
