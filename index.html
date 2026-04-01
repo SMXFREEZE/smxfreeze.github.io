@@ -703,7 +703,7 @@
       .edu-logo-img { height: 32px; width: 32px; }
       /* ORAXAI */
       .orax-layout { grid-template-columns: 1fr; gap: 36px; }
-      .orax-visual { display: block; height: 0; margin: 0; overflow: visible; }
+      .orax-visual { display: flex; align-items: center; justify-content: center; min-height: 280px; width: 100%; margin: 20px 0 0; }
       .orax-metrics { grid-template-columns: 1fr 1fr; gap: 10px; }
       .orax-m { padding: 14px 16px; }
       /* PROJECTS */
@@ -727,15 +727,6 @@
       /* DISABLE hover transforms on touch */
       .stat-cell:hover { transform: none; }
       .proj-card:hover { transform: none; }
-      
-      /* SQUIRTLE: Escape logo box, act as section overlay for Original Forma */
-      .squirtle-scene {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100vw; height: 100%;
-        pointer-events: none; z-index: 10;
-      }
     }
     @media (max-width: 480px) {
       /* HERO */
@@ -1605,18 +1596,9 @@
           }, 280);
 
           setTimeout(() => {
-            if (window.innerWidth <= 900) {
-              // Mobile: original run out format
-              if (speech) speech.classList.remove('sq-speech-show');
-              setTimeout(() => {
-                wrap.classList.remove('sq-bounce');
-                wrap.classList.add('sq-out');
-              }, 250);
-            } else {
-              // Laptop: transition to steady float in the logo spot
-              wrap.classList.remove('sq-bounce');
-              wrap.classList.add('sq-float-steady');
-            }
+            // Unify Mobile and Laptop: transition to steady float in the logo spot
+            wrap.classList.remove('sq-bounce');
+            wrap.classList.add('sq-float-steady');
           }, 900);
         }, 650);
       }
