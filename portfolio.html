@@ -71,6 +71,7 @@
     }
     nav.scrolled {
       background: rgba(6,6,8,0.86);
+      -webkit-backdrop-filter: blur(18px);
       backdrop-filter: blur(18px);
       border-color: var(--border);
     }
@@ -124,6 +125,48 @@
       border-color: rgba(255,255,255,0.25) !important;
       background: rgba(255,255,255,0.04);
     }
+
+    /* ── MOBILE HAMBURGER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 6px; z-index: 300;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--ink); border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .nav-hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(6,6,8,0.95);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      z-index: 199;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 32px;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .mobile-nav-overlay.active {
+      display: flex; opacity: 1;
+    }
+    .mobile-nav-overlay a {
+      font-family: var(--fm); font-size: 14px; font-weight: 500;
+      color: var(--ink-2); text-decoration: none;
+      letter-spacing: 2px; text-transform: uppercase;
+      transition: color 0.2s;
+      padding: 8px 0;
+    }
+    .mobile-nav-overlay a:hover { color: var(--ink); }
+    .mobile-nav-overlay .nav-oraxai { color: #7aaeff !important; }
+    .mobile-nav-overlay .nav-oraxai:hover { color: #a8c8ff !important; }
 
     /* ── HERO ─────────────────────────────────── */
     .hero {
@@ -412,6 +455,113 @@
       display: flex; align-items: center; justify-content: center;
     }
     .orax-network-wrap { position: relative; width: 300px; height: 300px; }
+
+    /* ── SQUIRTLE MASCOT ── */
+    .squirtle-scene {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center;
+      width: 340px; height: 400px;
+    }
+    .squirtle-sprite {
+      image-rendering: pixelated;
+      width: 120px; height: 120px;
+      filter: drop-shadow(0 8px 28px rgba(79,126,247,0.35))
+             drop-shadow(0 2px 8px rgba(122,174,255,0.25));
+      animation: squirtle-float 4s ease-in-out infinite;
+      position: relative; z-index: 3;
+    }
+    @keyframes squirtle-float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      25%     { transform: translateY(-10px) rotate(1deg); }
+      50%     { transform: translateY(-16px) rotate(0deg); }
+      75%     { transform: translateY(-8px) rotate(-1deg); }
+    }
+    .squirtle-id {
+      margin-top: 10px;
+      font-family: var(--fm); font-size: 9px;
+      color: rgba(122,174,255,0.45); letter-spacing: 1.5px; text-transform: uppercase;
+      position: relative; z-index: 3;
+    }
+
+    /* ── SPEECH BUBBLE ── */
+    .squirtle-speech {
+      position: absolute;
+      top: -10px; left: 50%; transform: translateX(-50%);
+      width: 280px;
+      background: rgba(10,18,40,0.85);
+      border: 1px solid rgba(79,126,247,0.3);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-family: var(--fm); font-size: 12px;
+      color: #c8d8ff;
+      line-height: 1.65;
+      letter-spacing: 0.2px;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      box-shadow:
+        0 4px 24px rgba(79,126,247,0.12),
+        0 1px 0 rgba(122,174,255,0.08) inset;
+      z-index: 4;
+      opacity: 0;
+      animation: speech-appear 0.6s ease 1.2s forwards;
+    }
+    .squirtle-speech::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid rgba(79,126,247,0.3);
+    }
+    .squirtle-speech::before {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid rgba(10,18,40,0.85);
+      z-index: 1;
+    }
+    @keyframes speech-appear {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.95); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    }
+    .speech-hello {
+      color: #7aaeff; font-weight: 500;
+    }
+    .speech-brand {
+      color: #a0bcff; font-weight: 500;
+    }
+    .speech-cursor {
+      display: inline-block;
+      width: 2px; height: 13px;
+      background: #4F7EF7;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink-cursor 0.8s step-end infinite;
+    }
+    @keyframes blink-cursor {
+      0%,100% { opacity: 1; }
+      50%     { opacity: 0; }
+    }
+    /* Subtle pulsing ring behind Squirtle */
+    .squirtle-ring {
+      position: absolute;
+      bottom: 52px;
+      left: 50%; transform: translateX(-50%);
+      width: 100px; height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(79,126,247,0.18) 0%, transparent 70%);
+      animation: ring-pulse 4s ease-in-out infinite;
+      z-index: 1;
+    }
+    @keyframes ring-pulse {
+      0%,100% { transform: translateX(-50%) scaleX(1); opacity: 0.6; }
+      50%     { transform: translateX(-50%) scaleX(1.3); opacity: 1; }
+    }
     .orax-net-glow {
       position: absolute; inset: -60px;
       background: radial-gradient(circle, rgba(79,126,247,0.15) 0%, transparent 65%);
@@ -679,6 +829,7 @@
     @media (max-width: 900px) {
       nav { padding: 18px 24px; }
       .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
       .hero { padding: 0 24px; }
       .hero-upper { flex-direction: column; gap: 32px; padding-top: 100px; }
       .hero-char { padding: 0; }
@@ -696,6 +847,15 @@
       .edu-note { text-align: left; }
       .orax-layout { grid-template-columns: 1fr; gap: 40px; }
       .orax-metrics { grid-template-columns: 1fr 1fr; }
+      .squirtle-scene { width: 260px; height: 340px; margin: 0 auto; }
+      .squirtle-sprite { width: 96px; height: 96px; }
+      .squirtle-speech {
+        width: 240px;
+        font-size: 11px;
+        padding: 14px 14px;
+        top: -8px;
+      }
+      #oraxai { padding: 64px 24px; }
       .proj-asymm { grid-template-columns: 1fr; }
       .proj-card-featured { grid-row: auto; }
       .contact-headline { font-size: clamp(48px, 14vw, 100px); }
@@ -718,7 +878,19 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#experience" class="mobile-nav-link">Work</a>
+  <a href="#oraxai" class="mobile-nav-link nav-oraxai">OraxAI</a>
+  <a href="#projects" class="mobile-nav-link">Projects</a>
+  <a href="#contact" class="mobile-nav-link">Contact</a>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
@@ -959,58 +1131,21 @@
   <div class="hero-glow"></div>
   <div class="orax-layout">
 
-    <!-- Animated network SVG -->
+    <!-- Squirtle mascot with speech bubble -->
     <div class="orax-visual reveal">
-      <div class="orax-network-wrap">
+      <div class="squirtle-scene">
         <div class="orax-net-glow"></div>
-        <svg viewBox="0 0 300 300" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="nglow">
-              <feGaussianBlur stdDeviation="2.5" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <g stroke="#4F7EF7" stroke-width="0.8" fill="none">
-            <line x1="150" y1="150" x2="150" y2="48"  opacity="0.3"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.1s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="242" y2="98"  opacity="0.3"><animate attributeName="opacity" values="0.3;0.65;0.3" dur="2.7s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="254" y2="188" opacity="0.3"><animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.4s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="180" y2="258" opacity="0.3"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.9s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="82"  y2="252" opacity="0.3"><animate attributeName="opacity" values="0.3;0.65;0.3" dur="3.6s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="48"  y2="188" opacity="0.3"><animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.8s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="150" x2="58"  y2="98"  opacity="0.3"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.2s" repeatCount="indefinite"/></line>
-            <line x1="150" y1="48"  x2="242" y2="98"  opacity="0.18"><animate attributeName="opacity" values="0.18;0.4;0.18" dur="4s" repeatCount="indefinite"/></line>
-            <line x1="242" y1="98"  x2="254" y2="188" opacity="0.18"><animate attributeName="opacity" values="0.18;0.38;0.18" dur="3.8s" repeatCount="indefinite"/></line>
-            <line x1="254" y1="188" x2="180" y2="258" opacity="0.18"><animate attributeName="opacity" values="0.18;0.4;0.18" dur="4.2s" repeatCount="indefinite"/></line>
-            <line x1="180" y1="258" x2="82"  y2="252" opacity="0.18"><animate attributeName="opacity" values="0.18;0.38;0.18" dur="3.5s" repeatCount="indefinite"/></line>
-            <line x1="82"  y1="252" x2="48"  y2="188" opacity="0.18"><animate attributeName="opacity" values="0.18;0.4;0.18" dur="4.1s" repeatCount="indefinite"/></line>
-            <line x1="48"  y1="188" x2="58"  y2="98"  opacity="0.18"><animate attributeName="opacity" values="0.18;0.38;0.18" dur="3.7s" repeatCount="indefinite"/></line>
-            <line x1="58"  y1="98"  x2="150" y2="48"  opacity="0.18"><animate attributeName="opacity" values="0.18;0.4;0.18" dur="4.3s" repeatCount="indefinite"/></line>
-          </g>
-          <circle cx="150" cy="150" r="8" fill="#4F7EF7" filter="url(#nglow)">
-            <animate attributeName="r" values="8;10;8" dur="3s" repeatCount="indefinite"/>
-          </circle>
-          <g fill="#7aaeff" filter="url(#nglow)">
-            <circle cx="150" cy="48"  r="4.5"><animate attributeName="r" values="4.5;6;4.5" dur="2.9s" repeatCount="indefinite"/></circle>
-            <circle cx="242" cy="98"  r="4"><animate attributeName="r" values="4;5.5;4" dur="3.3s" repeatCount="indefinite"/></circle>
-            <circle cx="254" cy="188" r="4.5"><animate attributeName="r" values="4.5;6;4.5" dur="2.7s" repeatCount="indefinite"/></circle>
-            <circle cx="180" cy="258" r="4"><animate attributeName="r" values="4;5.5;4" dur="3.6s" repeatCount="indefinite"/></circle>
-            <circle cx="82"  cy="252" r="4.5"><animate attributeName="r" values="4.5;6;4.5" dur="3.1s" repeatCount="indefinite"/></circle>
-            <circle cx="48"  cy="188" r="4"><animate attributeName="r" values="4;5.5;4" dur="2.8s" repeatCount="indefinite"/></circle>
-            <circle cx="58"  cy="98"  r="4.5"><animate attributeName="r" values="4.5;6;4.5" dur="3.4s" repeatCount="indefinite"/></circle>
-          </g>
-          <circle r="2.5" fill="#a0c5ff" opacity="0.9">
-            <animateMotion dur="3s" repeatCount="indefinite" path="M150,150 L150,48"/>
-            <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite"/>
-          </circle>
-          <circle r="2.5" fill="#a0c5ff" opacity="0.9">
-            <animateMotion dur="3.8s" repeatCount="indefinite" begin="1.4s" path="M150,150 L254,188"/>
-            <animate attributeName="opacity" values="0;0.9;0" dur="3.8s" repeatCount="indefinite" begin="1.4s"/>
-          </circle>
-          <circle r="2.5" fill="#a0c5ff" opacity="0.9">
-            <animateMotion dur="3.3s" repeatCount="indefinite" begin="0.8s" path="M150,150 L58,98"/>
-            <animate attributeName="opacity" values="0;0.9;0" dur="3.3s" repeatCount="indefinite" begin="0.8s"/>
-          </circle>
-        </svg>
+        <div class="squirtle-speech" id="squirtle-speech">
+          <span id="speech-text"></span><span class="speech-cursor" id="speech-cursor"></span>
+        </div>
+        <img
+          class="squirtle-sprite"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif"
+          alt="Squirtle mascot"
+          onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png';this.style.width='110px';this.style.height='110px';"
+        />
+        <div class="squirtle-ring"></div>
+        <div class="squirtle-id">#007 Squirtle / Water</div>
       </div>
     </div>
 
@@ -1246,6 +1381,80 @@
   document.querySelectorAll('.exp-row').forEach((el, i) => {
     el.style.transitionDelay = `${i * 0.08}s`;
   });
+
+  /* ── HAMBURGER TOGGLE ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  if (hamburger && mobileNav) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+      document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+    });
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileNav.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  /* ── SQUIRTLE TYPEWRITER ── */
+  (function() {
+    const fullText = 'Hello! This is OraxAI \u2014 an AI-powered tool to adjust your resume to a job description to beat ATS.';
+    const speechEl = document.getElementById('speech-text');
+    const cursorEl = document.getElementById('speech-cursor');
+    const bubbleEl = document.getElementById('squirtle-speech');
+    if (!speechEl || !bubbleEl) return;
+
+    let hasTyped = false;
+
+    function typeText() {
+      if (hasTyped) return;
+      hasTyped = true;
+      let i = 0;
+      speechEl.innerHTML = '';
+      const interval = setInterval(() => {
+        if (i < fullText.length) {
+          const char = fullText[i];
+          // Wrap "Hello!" in accent color
+          if (i === 0) {
+            speechEl.innerHTML = '<span class="speech-hello">';
+          }
+          if (i === 6) {
+            speechEl.innerHTML += '</span>';
+          }
+          // Wrap "OraxAI" in brand color
+          if (i === 16) {
+            speechEl.innerHTML += '<span class="speech-brand">';
+          }
+          if (i === 22) {
+            speechEl.innerHTML += '</span>';
+          }
+          speechEl.innerHTML += char === ' ' ? ' ' : char;
+          i++;
+        } else {
+          clearInterval(interval);
+          // Keep cursor blinking for a moment then stop
+          setTimeout(() => {
+            if (cursorEl) cursorEl.style.display = 'none';
+          }, 2400);
+        }
+      }, 35);
+    }
+
+    // Trigger typewriter when Squirtle scrolls into view
+    const squirtleObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(typeText, 1800); // wait for speech bubble to appear
+          squirtleObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    squirtleObs.observe(bubbleEl);
+  })();
 </script>
 
 </body>
