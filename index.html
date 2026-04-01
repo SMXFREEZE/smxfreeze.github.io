@@ -453,23 +453,20 @@
     [data-theme="light"] footer { background: var(--bg-2); }
     [data-theme="light"] .exp-bullets li::before { color: var(--fire); }
 
-    /* ── CUSTOM CURSOR ── */
-    @media (hover: hover) { body, a, button { cursor: none; } }
-    .cursor-dot {
-      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
-      background: var(--fire); border-radius: 50%; pointer-events: none;
-      z-index: 10001; transform: translate(-50%,-50%);
-      transition: width 0.18s, height 0.18s;
+    /* ── CARD TILT / SHINE ── */
+    .proj-card, .orax-m, .stat-cell, .contact-link {
+      transform-style: preserve-3d;
+      will-change: transform;
     }
-    .cursor-dot.hidden { width: 0; height: 0; }
-    .cursor-ring {
-      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
-      border: 1px solid rgba(255,107,53,0.45); border-radius: 50%;
-      pointer-events: none; z-index: 10000; transform: translate(-50%,-50%);
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+    .proj-card::before, .orax-m::before, .stat-cell::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle at var(--sx,50%) var(--sy,50%), rgba(255,255,255,0.07) 0%, transparent 60%);
+      pointer-events: none; z-index: 1; opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    .cursor-ring.expanded { width: 54px; height: 54px; border-color: rgba(255,107,53,0.2); }
-    @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+    .proj-card:hover::before, .orax-m:hover::before, .stat-cell:hover::before { opacity: 1; }
+    .exp-row { transition: transform 0.25s ease, background 0.25s ease; }
+    .exp-row:hover { transform: translateX(5px); }
 
     /* ── EDUCATION LOGOS ── */
     .edu-main { display: flex; align-items: center; gap: 16px; }
@@ -513,11 +510,17 @@
       .stats-band { grid-template-columns: 1fr 1fr; }
       .stat-cell { padding: 26px; }
       .about-body { grid-template-columns: 1fr; gap: 40px; }
-      .exp-row { grid-template-columns: 1fr; gap: 16px; }
+      .exp-row { grid-template-columns: 1fr; gap: 10px; padding: 22px 0; }
       .exp-idx { display: none; }
-      .exp-period { flex-direction: row; align-items: center; gap: 14px; }
-      .exp-logo { height: 18px; }
-      .exp-logo-img { height: 16px; }
+      .exp-period { flex-direction: row; align-items: center; gap: 12px; }
+      .exp-logo { height: 20px; }
+      .exp-logo-img { height: 18px; }
+      .exp-meta { gap: 2px; }
+      .exp-company { font-size: 13px; }
+      .exp-date { font-size: 11px; }
+      .exp-loc { display: none; }
+      .exp-role-title { font-size: 17px; margin-bottom: 10px; }
+      .exp-bullets li { font-size: 13px; }
       .edu-row { grid-template-columns: 1fr; gap: 6px; }
       .edu-note { text-align: left; }
       .orax-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -532,6 +535,13 @@
       .contact-links { flex-direction: column; width: 100%; }
       .contact-link { justify-content: space-between; }
       footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 24px; }
+      .ticker-track { animation-duration: 30s; }
+      .ticker-item { font-size: 11px; padding: 0 20px; }
+      .about-aside { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .orax-m { padding: 16px 18px; }
+      .edu-logo-img { height: 32px; width: 32px; }
+      .stat-cell:hover { transform: none; }
+      .proj-card:hover { transform: none; }
     }
     @media (max-width: 480px) {
       .hero-overline { font-size: 11px; }
@@ -553,8 +563,6 @@
 </head>
 <body>
 
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
 <div class="grain"></div>
 
 <!-- NAV -->
@@ -1079,34 +1087,7 @@
     localStorage.setItem('sef-theme', next);
   });
 
-  /* ── CUSTOM CURSOR ── */
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = -100, my = -100, rx = -100, ry = -100;
   const hasPointer = window.matchMedia('(hover: hover)').matches;
-
-  if (hasPointer) {
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    document.addEventListener('mouseleave', () => dot.classList.add('hidden'));
-    document.addEventListener('mouseenter', () => dot.classList.remove('hidden'));
-
-    const hoverTargets = 'a, button, .proj-card, .exp-row, .orax-m, .about-aside-item';
-    document.querySelectorAll(hoverTargets).forEach(el => {
-      el.addEventListener('mouseenter', () => ring.classList.add('expanded'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('expanded'));
-    });
-
-    (function tickCursor() {
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(tickCursor);
-    })();
-  }
 
   /* ── CHARIZARD PARALLAX ── */
   const heroSection = document.querySelector('.hero');
@@ -1122,8 +1103,8 @@
   }
 
   /* ── ORAXAI NETWORK PARALLAX ── */
-  const oraxSection  = document.getElementById('oraxai');
-  const networkWrap  = document.querySelector('.orax-network-wrap');
+  const oraxSection = document.getElementById('oraxai');
+  const networkWrap = document.querySelector('.orax-network-wrap');
   if (oraxSection && networkWrap && hasPointer) {
     oraxSection.addEventListener('mousemove', e => {
       const r = oraxSection.getBoundingClientRect();
@@ -1132,6 +1113,73 @@
       networkWrap.style.transform = `translate(${dx * 22}px, ${dy * 16}px) rotate(${dx * 3}deg)`;
     });
     oraxSection.addEventListener('mouseleave', () => { networkWrap.style.transform = ''; });
+  }
+
+  /* ── 3D CARD TILT + SPOTLIGHT ── */
+  if (hasPointer) {
+    const tiltCards = document.querySelectorAll('.proj-card, .orax-m, .stat-cell');
+    tiltCards.forEach(el => {
+      el.addEventListener('mouseenter', () => { el.style.transition = 'none'; });
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        const rx = (y - 0.5) * -10;
+        const ry = (x - 0.5) *  10;
+        el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(8px)`;
+        el.style.setProperty('--sx', (x * 100) + '%');
+        el.style.setProperty('--sy', (y * 100) + '%');
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transition = 'transform 0.55s cubic-bezier(0.23,1,0.32,1)';
+        el.style.transform = '';
+      });
+    });
+
+    /* ── CONTACT LINK TILT ── */
+    document.querySelectorAll('.contact-link').forEach(el => {
+      el.addEventListener('mouseenter', () => { el.style.transition = 'none'; });
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        el.style.transform = `perspective(400px) rotateX(${(y-0.5)*-6}deg) rotateY(${(x-0.5)*6}deg) translateZ(4px)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
+        el.style.transform = '';
+      });
+    });
+
+    /* ── MAGNETIC BUTTONS ── */
+    document.querySelectorAll('.cta-primary, .cta-ghost, .orax-cta').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+        const y = (e.clientY - r.top  - r.height / 2) * 0.28;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform 0.45s cubic-bezier(0.23,1,0.32,1)';
+        btn.style.transform = '';
+        setTimeout(() => { btn.style.transition = ''; }, 450);
+      });
+      btn.addEventListener('mouseenter', () => { btn.style.transition = 'none'; });
+    });
+
+    /* ── SECTION TITLE HOVER ── */
+    document.querySelectorAll('.section-title').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        el.style.transform = `skewX(${x * 3}deg)`;
+        el.style.transition = 'none';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transition = 'transform 0.5s ease';
+        el.style.transform = '';
+      });
+    });
   }
 </script>
 </body>

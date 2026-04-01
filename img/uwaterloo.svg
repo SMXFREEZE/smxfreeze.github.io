@@ -1,7 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="48" fill="#1A1614" stroke="#C8A845" stroke-width="1.8"/>
-  <circle cx="50" cy="50" r="42" fill="none" stroke="#C8A845" stroke-width="0.5" opacity="0.4"/>
-  <path d="M32,30 L68,30 L68,56 Q68,72 50,78 Q32,72 32,56 Z" fill="none" stroke="#C8A845" stroke-width="1.4"/>
-  <path d="M38,38 L43,38 L43,56 L50,46 L57,56 L57,38 L62,38" fill="none" stroke="#C8A845" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="50" y="93" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#C8A845" opacity="0.75" letter-spacing="1">WATERLOO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <path id="uw-top" d="M 13,100 A 87,87 0 0,1 100,13 A 87,87 0 0,1 187,100"/>
+    <path id="uw-bot" d="M 13,100 A 87,87 0 0,0 100,187 A 87,87 0 0,0 187,100"/>
+    <clipPath id="sc">
+      <path d="M74,55 L126,55 L126,93 Q126,121 100,133 Q74,121 74,93 Z"/>
+    </clipPath>
+  </defs>
+
+  <circle cx="100" cy="100" r="100" fill="#0E0C0A"/>
+  <circle cx="100" cy="100" r="97.5" fill="none" stroke="#C9A83C" stroke-width="2.2"/>
+  <circle cx="100" cy="100" r="73" fill="none" stroke="#C9A83C" stroke-width="1"/>
+
+  <polygon points="13,96.5 14.4,99.5 17.5,100 14.4,100.5 13,103.5 11.6,100.5 8.5,100 11.6,99.5" fill="#C9A83C"/>
+  <polygon points="187,96.5 188.4,99.5 191.5,100 188.4,100.5 187,103.5 185.6,100.5 182.5,100 185.6,99.5" fill="#C9A83C"/>
+
+  <text fill="#C9A83C" font-family="Georgia,'Times New Roman',serif" font-size="11" font-weight="bold" letter-spacing="2.6">
+    <textPath href="#uw-top" startOffset="6.5%">UNIVERSITY OF WATERLOO</textPath>
+  </text>
+  <text fill="#C9A83C" font-family="Georgia,'Times New Roman',serif" font-size="9.5" font-weight="bold" letter-spacing="2.2">
+    <textPath href="#uw-bot" startOffset="10%">CONCORDIA CUM VERITATE</textPath>
+  </text>
+
+  <path d="M74,55 L126,55 L126,93 Q126,121 100,133 Q74,121 74,93 Z" fill="#003B7A"/>
+  <path d="M100,55 L126,55 L126,93 Q126,121 100,133 Z" fill="#C9A83C"/>
+  <path d="M74,55 L126,55 L126,93 Q126,121 100,133 Q74,121 74,93 Z" fill="none" stroke="#C9A83C" stroke-width="1.8"/>
+  <line x1="100" y1="55" x2="100" y2="133" stroke="#00274C" stroke-width="1.4"/>
+
+  <g fill="#C9A83C" clip-path="url(#sc)">
+    <ellipse cx="86" cy="68" rx="5" ry="6.5"/>
+    <path d="M81,73 Q83,79 86,81 Q89,79 91,73"/>
+    <ellipse cx="86" cy="83" rx="3.5" ry="2"/>
+    <line x1="82" y1="85" x2="82" y2="89" stroke="#C9A83C" stroke-width="1.5"/>
+    <line x1="86" y1="85" x2="86" y2="90" stroke="#C9A83C" stroke-width="1.5"/>
+    <line x1="90" y1="85" x2="90" y2="89" stroke="#C9A83C" stroke-width="1.5"/>
+    <path d="M80,71 Q77,69 78,67 Q81,67 82,69" />
+  </g>
+  <g fill="#C9A83C" clip-path="url(#sc)">
+    <ellipse cx="86" cy="104" rx="5" ry="6.5"/>
+    <path d="M81,109 Q83,115 86,117 Q89,115 91,109"/>
+    <ellipse cx="86" cy="119" rx="3.5" ry="2"/>
+    <line x1="82" y1="121" x2="82" y2="126" stroke="#C9A83C" stroke-width="1.5"/>
+    <line x1="86" y1="121" x2="86" y2="127" stroke="#C9A83C" stroke-width="1.5"/>
+    <line x1="90" y1="121" x2="90" y2="126" stroke="#C9A83C" stroke-width="1.5"/>
+    <path d="M80,107 Q77,105 78,103 Q81,103 82,105"/>
+  </g>
+  <g fill="#003B7A" clip-path="url(#sc)">
+    <ellipse cx="114" cy="68" rx="5" ry="6.5"/>
+    <path d="M109,73 Q111,79 114,81 Q117,79 119,73"/>
+    <ellipse cx="114" cy="83" rx="3.5" ry="2"/>
+    <line x1="110" y1="85" x2="110" y2="89" stroke="#003B7A" stroke-width="1.5"/>
+    <line x1="114" y1="85" x2="114" y2="90" stroke="#003B7A" stroke-width="1.5"/>
+    <line x1="118" y1="85" x2="118" y2="89" stroke="#003B7A" stroke-width="1.5"/>
+    <path d="M108,71 Q105,69 106,67 Q109,67 110,69"/>
+  </g>
+  <g fill="#003B7A" clip-path="url(#sc)">
+    <ellipse cx="114" cy="104" rx="5" ry="6.5"/>
+    <path d="M109,109 Q111,115 114,117 Q117,115 119,109"/>
+    <ellipse cx="114" cy="119" rx="3.5" ry="2"/>
+    <line x1="110" y1="121" x2="110" y2="126" stroke="#003B7A" stroke-width="1.5"/>
+    <line x1="114" y1="121" x2="114" y2="127" stroke="#003B7A" stroke-width="1.5"/>
+    <line x1="118" y1="121" x2="118" y2="126" stroke="#003B7A" stroke-width="1.5"/>
+    <path d="M108,107 Q105,105 106,103 Q109,103 110,105"/>
+  </g>
+
+  <g clip-path="url(#sc)">
+    <path d="M76,92 L100,107 L124,92" fill="none" stroke="#F5F0E8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M76,81 L100,96 L124,81" fill="none" stroke="#F5F0E8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
