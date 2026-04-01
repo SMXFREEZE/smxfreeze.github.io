@@ -108,11 +108,6 @@
     }
     .name-fire { color: var(--fire); display: block; }
     .hero-char { flex-shrink: 0; padding: 0 0 20px 60px; display: flex; flex-direction: column; align-items: center; }
-    .hero-char-sprite {
-      image-rendering: pixelated; width: 148px; height: 148px;
-      filter: drop-shadow(0 10px 32px rgba(255,107,53,0.32));
-      animation: char-float 5s ease-in-out infinite;
-    }
     @keyframes char-float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-13px); } }
     .hero-char-id { margin-top: 12px; font-family: var(--fm); font-size: 9px; color: var(--ink-3); letter-spacing: 1.5px; text-transform: uppercase; }
     .hero-rule { height: 1px; background: var(--border); position: relative; z-index: 2; }
@@ -473,7 +468,7 @@
     .edu-logo-img { height: 38px; width: 38px; object-fit: contain; flex-shrink: 0; border-radius: 4px; opacity: 0.88; }
 
     /* ── PARALLAX / INTERACTIVE ── */
-    .hero-char-sprite { transition: transform 0.12s ease-out; }
+    .hero-char-card { transition: transform 0.3s ease-out; }
     .orax-network-wrap { transition: transform 0.18s ease-out; }
 
     /* ── HAMBURGER ── */
@@ -559,6 +554,87 @@
       #oraxai { padding: 60px 24px; }
       #contact { padding: 80px 24px; }
     }
+    /* ── POKEMON CARD HOLOGRAPHIC ── */
+    .poke-wrap {
+      --pointer-x: 50%; --pointer-y: 50%;
+      --rotate-x: 0deg; --rotate-y: 0deg;
+      --bg-x: 50%;      --bg-y: 50%;
+      --card-op: 0;
+      position: relative;
+      width: 220px;
+      aspect-ratio: 245 / 342;
+      border-radius: 4.55% / 3.5%;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+      box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.08);
+      transition: box-shadow 0.5s ease;
+      cursor: pointer; user-select: none; overflow: hidden;
+    }
+    .poke-wrap:hover {
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 80px rgba(255,180,0,0.18), 0 0 0 1px rgba(255,200,100,0.3);
+    }
+    .poke-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; border-radius: inherit; display: block;
+      pointer-events: none;
+    }
+    .poke-shine {
+      position: absolute; inset: 0; border-radius: inherit;
+      mix-blend-mode: color-dodge;
+      opacity: var(--card-op);
+      background-image:
+        repeating-linear-gradient(0deg, hsla(0,0%,100%,0.07) 0px, transparent 1px, transparent 2px, hsla(0,0%,100%,0.07) 3px),
+        repeating-linear-gradient(133deg,
+          hsl(2,100%,73%) 0%, hsl(53,100%,69%) 10%, hsl(93,100%,69%) 20%,
+          hsl(176,100%,76%) 30%, hsl(228,100%,74%) 40%, hsl(283,100%,73%) 50%,
+          hsl(2,100%,73%) 60%, hsl(53,100%,69%) 70%, hsl(93,100%,69%) 80%,
+          hsl(176,100%,76%) 90%, hsl(228,100%,74%) 100%);
+      background-size: 200% 200%;
+      background-position: var(--bg-x) var(--bg-y);
+      filter: brightness(0.85) contrast(2.75) saturate(0.65);
+      pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .poke-glare {
+      position: absolute; inset: 0; border-radius: inherit;
+      mix-blend-mode: overlay;
+      opacity: calc(var(--card-op) * 0.55);
+      background-image: radial-gradient(
+        farthest-corner ellipse at var(--pointer-x) var(--pointer-y),
+        hsla(0,0%,100%,0.8) 10%, hsla(0,0%,100%,0.65) 20%, hsla(0,0%,0%,0.5) 90%
+      );
+      pointer-events: none; transition: opacity 0.25s ease;
+    }
+    /* Hero card float */
+    .hero-char-card {
+      animation: char-float 5s ease-in-out infinite;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-char-card:hover { animation-play-state: paused; }
+
+    /* Pokémon section */
+    .poke-section { padding: 100px 60px 80px; background: var(--bg-2); }
+    .poke-grid { display: flex; justify-content: center; align-items: flex-start; gap: 36px; flex-wrap: wrap; margin-top: 64px; }
+    .poke-item { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .poke-label {
+      font-family: var(--fm); font-size: 10px; letter-spacing: 2px;
+      color: var(--ink-3); text-transform: uppercase;
+    }
+    .poke-label strong { color: var(--ink-2); display: block; font-size: 11px; margin-bottom: 2px; }
+    .poke-type-badge {
+      font-family: var(--fm); font-size: 9px; letter-spacing: 1.5px;
+      color: var(--fire); text-transform: uppercase; opacity: 0.75;
+    }
+    [data-theme="light"] .poke-section { background: #f0ede6; }
+    @media (max-width: 900px) {
+      .poke-section { padding: 64px 24px 56px; }
+      .poke-grid { gap: 24px; }
+      .poke-wrap { width: 160px; }
+      .hero-char-card .poke-wrap { width: 180px; }
+    }
+    @media (max-width: 480px) {
+      .poke-wrap { width: 140px; }
+      .hero-char-card .poke-wrap { width: 150px; }
+    }
   </style>
 </head>
 <body>
@@ -601,11 +677,17 @@
       <h1 class="hero-name">SAMI<span class="name-fire">EL-FIGHA.</span></h1>
     </div>
     <div class="hero-char">
-      <img class="hero-char-sprite"
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif"
-        alt="Charizard mascot"
-        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png';this.style.width='130px';this.style.height='130px';"
-      />
+      <div class="hero-char-card">
+        <div class="poke-wrap" data-card="hero-charizard">
+          <img class="poke-img"
+            src="https://images.pokemontcg.io/base1/4_hires.png"
+            alt="Charizard Base Set"
+            onerror="this.src='https://assets.tcgdex.net/en/base/base1/4/high.webp';"
+          />
+          <div class="poke-shine"></div>
+          <div class="poke-glare"></div>
+        </div>
+      </div>
       <div class="hero-char-id">#006 Charizard · Fire · Flying</div>
     </div>
   </div>
@@ -1012,6 +1094,76 @@
   </div>
 </section>
 
+<!-- POKEMON CARDS -->
+<section class="poke-section">
+  <div class="section-wrap" style="padding:0;">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">GOTTA BUILD 'EM ALL.</h2>
+      <p class="section-sub">Four projects. Four Pokémon. Same energy.</p>
+    </div>
+    <div class="poke-grid">
+
+      <div class="poke-item reveal">
+        <div class="poke-wrap">
+          <img class="poke-img"
+            src="https://images.pokemontcg.io/base1/1_hires.png"
+            alt="Alakazam"
+            onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';"
+          />
+          <div class="poke-shine"></div>
+          <div class="poke-glare"></div>
+        </div>
+        <div class="poke-label"><strong>PaideAI</strong>Tutoring platform</div>
+        <div class="poke-type-badge">Psychic Type</div>
+      </div>
+
+      <div class="poke-item reveal" style="margin-top:32px;">
+        <div class="poke-wrap">
+          <img class="poke-img"
+            src="https://images.pokemontcg.io/base1/4_hires.png"
+            alt="Charizard"
+            onerror="this.src='https://assets.tcgdex.net/en/base/base1/4/high.webp';"
+          />
+          <div class="poke-shine"></div>
+          <div class="poke-glare"></div>
+        </div>
+        <div class="poke-label"><strong>OraxAI</strong>Co-Founder</div>
+        <div class="poke-type-badge">Fire Type</div>
+      </div>
+
+      <div class="poke-item reveal">
+        <div class="poke-wrap">
+          <img class="poke-img"
+            src="https://images.pokemontcg.io/base1/10_hires.png"
+            alt="Mewtwo"
+            onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';"
+          />
+          <div class="poke-shine"></div>
+          <div class="poke-glare"></div>
+        </div>
+        <div class="poke-label"><strong>Multi-Agent Pipeline</strong>NeuralSeek AI</div>
+        <div class="poke-type-badge">Psychic Type</div>
+      </div>
+
+      <div class="poke-item reveal" style="margin-top:32px;">
+        <div class="poke-wrap">
+          <img class="poke-img"
+            src="https://images.pokemontcg.io/base1/9_hires.png"
+            alt="Magneton"
+            onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';"
+          />
+          <div class="poke-shine"></div>
+          <div class="poke-glare"></div>
+        </div>
+        <div class="poke-label"><strong>FormulaForge</strong>Ingredient optimizer</div>
+        <div class="poke-type-badge">Electric Type</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-glow"></div>
@@ -1089,17 +1241,17 @@
 
   const hasPointer = window.matchMedia('(hover: hover)').matches;
 
-  /* ── CHARIZARD PARALLAX ── */
-  const heroSection = document.querySelector('.hero');
-  const charSprite  = document.querySelector('.hero-char-sprite');
-  if (heroSection && charSprite && hasPointer) {
+  /* ── HERO CARD PARALLAX (floats the whole card within the hero) ── */
+  const heroSection  = document.querySelector('.hero');
+  const heroCharCard = document.querySelector('.hero-char-card');
+  if (heroSection && heroCharCard && hasPointer) {
     heroSection.addEventListener('mousemove', e => {
       const r = heroSection.getBoundingClientRect();
       const dx = (e.clientX - r.left - r.width  / 2) / r.width;
       const dy = (e.clientY - r.top  - r.height / 2) / r.height;
-      charSprite.style.transform = `translate(${dx * 14}px, ${dy * 9}px) rotate(${dx * 4}deg)`;
+      heroCharCard.style.transform = `translate(${dx * 10}px, ${dy * 7}px)`;
     });
-    heroSection.addEventListener('mouseleave', () => { charSprite.style.transform = ''; });
+    heroSection.addEventListener('mouseleave', () => { heroCharCard.style.transform = ''; });
   }
 
   /* ── ORAXAI NETWORK PARALLAX ── */
@@ -1114,6 +1266,55 @@
     });
     oraxSection.addEventListener('mouseleave', () => { networkWrap.style.transform = ''; });
   }
+
+  /* ── POKEMON HOLOGRAPHIC CARD EFFECT ── */
+  document.querySelectorAll('.poke-wrap').forEach(card => {
+    let rafId = null;
+    let tRX = 0, tRY = 0, tBX = 50, tBY = 50;
+    let cRX = 0, cRY = 0, cBX = 50, cBY = 50;
+    let isOver = false;
+
+    card.addEventListener('mouseenter', () => {
+      isOver = true;
+      card.style.transition = 'box-shadow 0.5s ease';
+    });
+
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top)  / r.height;
+      tRX = (x - 0.5) * 32;
+      tRY = -(y - 0.5) * 26;
+      tBX = 37 + x * 26;
+      tBY = 33 + y * 34;
+      card.style.setProperty('--pointer-x', `${x * 100}%`);
+      card.style.setProperty('--pointer-y', `${y * 100}%`);
+      card.style.setProperty('--card-op', '1');
+      if (!rafId) {
+        const tick = () => {
+          if (!isOver && Math.abs(cRX) < 0.05 && Math.abs(cRY) < 0.05) {
+            rafId = null; return;
+          }
+          cRX += (tRX - cRX) * 0.1;
+          cRY += (tRY - cRY) * 0.1;
+          cBX += (tBX - cBX) * 0.1;
+          cBY += (tBY - cBY) * 0.1;
+          card.style.setProperty('--rotate-x', `${cRX}deg`);
+          card.style.setProperty('--rotate-y', `${cRY}deg`);
+          card.style.setProperty('--bg-x', `${cBX}%`);
+          card.style.setProperty('--bg-y', `${cBY}%`);
+          rafId = requestAnimationFrame(tick);
+        };
+        rafId = requestAnimationFrame(tick);
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      isOver = false;
+      tRX = 0; tRY = 0; tBX = 50; tBY = 50;
+      card.style.setProperty('--card-op', '0');
+    });
+  });
 
   /* ── 3D CARD TILT + SPOTLIGHT ── */
   if (hasPointer) {
