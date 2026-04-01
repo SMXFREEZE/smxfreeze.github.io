@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
@@ -32,7 +32,7 @@
       overflow-x: hidden; -webkit-font-smoothing: antialiased;
     }
 
-    /* ── GRAIN (film grain ~2.8% opacity) ── */
+    /* ÔöÇÔöÇ GRAIN (film grain ~2.8% opacity) ÔöÇÔöÇ */
     .grain {
       position: fixed; inset: -50%; z-index: 9998;
       width: 200%; height: 200%; pointer-events: none; opacity: 0.028;
@@ -48,7 +48,7 @@
       80%{ transform: translate(3%,32%) }         90%{ transform: translate(-9%,10%) }
     }
 
-    /* ── NAV ── */
+    /* ÔöÇÔöÇ NAV ÔöÇÔöÇ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       padding: 20px 60px;
@@ -78,7 +78,7 @@
     .nav-cta { color: var(--ink) !important; border: 1px solid var(--border) !important; padding: 7px 18px; border-radius: 2px; }
     .nav-cta:hover { border-color: rgba(255,255,255,0.25) !important; background: rgba(255,255,255,0.04); }
 
-    /* ── HERO ── */
+    /* ÔöÇÔöÇ HERO ÔöÇÔöÇ */
     .hero {
       min-height: 100vh; padding: 0 60px;
       display: flex; flex-direction: column; justify-content: space-between;
@@ -137,7 +137,7 @@
     .cta-ghost { color: var(--ink-2); border-bottom: 1px solid var(--border); padding-bottom: 2px; }
     .cta-ghost:hover { color: var(--ink); border-color: var(--ink-2); }
 
-    /* ── STATS BAND (cream, Mirego-style) ── */
+    /* ÔöÇÔöÇ STATS BAND (cream, Mirego-style) ÔöÇÔöÇ */
     .stats-band { background: var(--cream); display: grid; grid-template-columns: repeat(4,1fr); }
     .stat-cell { padding: 36px 44px; border-right: 1px solid rgba(0,0,0,0.08); }
     .stat-cell:last-child { border-right: none; }
@@ -145,7 +145,7 @@
     .stat-n sup { font-size: 28px; vertical-align: super; letter-spacing: 0; }
     .stat-l { font-family: var(--fm); font-size: 11px; color: #5A5850; letter-spacing: 0.5px; line-height: 1.5; }
 
-    /* ── TICKER ── */
+    /* ÔöÇÔöÇ TICKER ÔöÇÔöÇ */
     .ticker-section {
       background: var(--bg-2); border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border); padding: 15px 0; overflow: hidden;
@@ -159,7 +159,7 @@
     }
     .ticker-dot { width: 3px; height: 3px; background: var(--fire); border-radius: 50%; flex-shrink: 0; }
 
-    /* ── SECTION BASE ── */
+    /* ÔöÇÔöÇ SECTION BASE ÔöÇÔöÇ */
     .section-wrap { padding: 100px 60px; }
     .section-header {
       display: flex; align-items: baseline; gap: 20px;
@@ -169,7 +169,7 @@
     .section-title { font-family: var(--fd); font-size: clamp(36px,5vw,64px); font-weight: 800; letter-spacing: -2px; line-height: 1; }
     .section-sub { margin-left: auto; font-size: 13px; color: var(--ink-3); max-width: 260px; line-height: 1.65; text-align: right; font-family: var(--fm); }
 
-    /* ── GLASS BORDER (1px gradient, spatial light) ──
+    /* ÔöÇÔöÇ GLASS BORDER (1px gradient, spatial light) ÔöÇÔöÇ
        ::after trick: gradient border-box with mask */
     .glass-border { position: relative; }
     .glass-border::after {
@@ -182,7 +182,7 @@
       pointer-events: none;
     }
 
-    /* ── ABOUT ── */
+    /* ÔöÇÔöÇ ABOUT ÔöÇÔöÇ */
     #about { background: var(--bg); }
     .about-body { display: grid; grid-template-columns: 5fr 4fr; gap: 80px; align-items: start; }
     .about-text p { font-size: 16px; line-height: 1.8; color: var(--ink-2); margin-bottom: 20px; }
@@ -206,7 +206,7 @@
     .aside-label { font-family: var(--fm); font-size: 10px; color: var(--ink-3); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
     .aside-val { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
 
-    /* ── EXPERIENCE ── */
+    /* ÔöÇÔöÇ EXPERIENCE ÔöÇÔöÇ */
     #experience { background: var(--bg-2); }
     .exp-list { display: flex; flex-direction: column; }
     .exp-row {
@@ -227,17 +227,17 @@
     .exp-role-title { font-family: var(--fd); font-size: 21px; font-weight: 700; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 14px; }
     .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; }
     .exp-bullets li { font-size: 13px; color: var(--ink-3); line-height: 1.65; padding-left: 16px; position: relative; }
-    .exp-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--fire); }
+    .exp-bullets li::before { content: 'ÔÇô'; position: absolute; left: 0; color: var(--fire); }
     .exp-idx { font-family: var(--fm); font-size: 11px; color: var(--ink-3); padding-top: 5px; }
 
-    /* ── ORAXAI ── */
+    /* ÔöÇÔöÇ ORAXAI ÔöÇÔöÇ */
     #oraxai { background: #07091A; position: relative; overflow: hidden; padding: 100px 60px; }
     #oraxai::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background-image: linear-gradient(rgba(79,126,247,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(79,126,247,0.035) 1px, transparent 1px);
       background-size: 52px 52px;
     }
-    /* Breathing glow that shifts hue blue→teal over 15s */
+    /* Breathing glow that shifts hue blueÔåÆteal over 15s */
     .orax-ambient {
       position: absolute; top: -10%; right: -8%; width: 700px; height: 700px;
       background: radial-gradient(circle, rgba(79,126,247,0.1) 0%, transparent 65%);
@@ -281,7 +281,7 @@
     .orax-cta svg { transition: transform 0.25s ease; }
     .orax-cta:hover svg { transform: translate(3px,-2px); }
 
-    /* ── SQUIRTLE ANIMATION ── */
+    /* ÔöÇÔöÇ SQUIRTLE ANIMATION ÔöÇÔöÇ */
     .squirtle-scene {
       position: absolute; inset: 0;
       pointer-events: none; overflow: hidden; z-index: 10;
@@ -368,77 +368,14 @@
     .water-ring.ring-2.sq-splash { animation-delay: 0.15s; }
     .water-ring.ring-3.sq-splash { animation-delay: 0.32s; }
 
-    /* ── SQUIRTLE SPEECH BUBBLE ── */
-    .squirtle-speech {
-      position: absolute;
-      bottom: calc(50% + 110px);
-      left: 50%;
-      transform: translateX(-50%) translateY(12px) scale(0.92);
-      width: 300px;
-      background: rgba(8,14,32,0.92);
-      border: 1px solid rgba(79,126,247,0.35);
-      border-radius: 14px;
-      padding: 16px 20px;
-      font-family: var(--fm); font-size: 12px;
-      color: #c8d8ff;
-      line-height: 1.65;
-      letter-spacing: 0.2px;
-      -webkit-backdrop-filter: blur(16px);
-      backdrop-filter: blur(16px);
-      box-shadow:
-        0 8px 32px rgba(79,126,247,0.18),
-        0 1px 0 rgba(122,174,255,0.1) inset;
-      z-index: 20;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .squirtle-speech.sq-speech-show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
-    }
-    .squirtle-speech::after {
-      content: '';
-      position: absolute;
-      bottom: -8px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 9px solid transparent;
-      border-right: 9px solid transparent;
-      border-top: 9px solid rgba(79,126,247,0.35);
-    }
-    .squirtle-speech::before {
-      content: '';
-      position: absolute;
-      bottom: -6px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid rgba(8,14,32,0.92);
-      z-index: 1;
-    }
-    .sq-speech-hello { color: #7aaeff; font-weight: 500; }
-    .sq-speech-brand { color: #a0bcff; font-weight: 500; }
-    [data-theme="light"] .squirtle-speech {
-      background: rgba(240,237,230,0.95);
-      border-color: rgba(79,126,247,0.3);
-      color: #2a3a5c;
-      box-shadow: 0 8px 32px rgba(79,126,247,0.12);
-    }
-    [data-theme="light"] .squirtle-speech::before {
-      border-top-color: rgba(240,237,230,0.95);
-    }
-    [data-theme="light"] .sq-speech-hello { color: #4F7EF7; }
-    [data-theme="light"] .sq-speech-brand { color: #3a6ae0; }
-
     @media (max-width: 480px) {
       .squirtle-sprite { width: 140px; height: 140px; }
-      .squirtle-speech { width: 240px; font-size: 11px; padding: 13px 15px; bottom: calc(50% + 80px); }
       .water-ring.ring-1 { width: 100px; height: 100px; }
       .water-ring.ring-2 { width: 200px; height: 200px; }
       .water-ring.ring-3 { width: 320px; height: 320px; }
     }
 
-    /* ── PROJECTS ── */
+    /* ÔöÇÔöÇ PROJECTS ÔöÇÔöÇ */
     #projects { background: var(--bg); }
     .proj-asymm { display: grid; grid-template-columns: 3fr 2fr; grid-template-rows: auto auto; gap: 1px; background: var(--border); border: 1px solid var(--border); }
     .proj-card { background: var(--bg); padding: 38px; transition: background 0.3s ease; position: relative; overflow: hidden; }
@@ -469,7 +406,7 @@
     .proj-link:hover svg { transform: translate(3px,-2px); }
     .proj-logo { height: 26px; width: auto; object-fit: contain; margin-bottom: 16px; opacity: 0.7; display: block; }
 
-    /* ── BROWSER FRAME MOCKUP ── */
+    /* ÔöÇÔöÇ BROWSER FRAME MOCKUP ÔöÇÔöÇ */
     .browser-frame { width: 100%; border-radius: 8px 8px 0 0; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-bottom: none; margin-bottom: 28px; flex-shrink: 0; }
     .browser-bar { background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 9px 14px; display: flex; align-items: center; gap: 10px; }
     .browser-dots { display: flex; gap: 5px; }
@@ -515,7 +452,7 @@
     .mock-dot-run   { background: #FEBC2E; }
     .mock-dot-queue { background: var(--ink-3); }
 
-    /* ── EDUCATION ── */
+    /* ÔöÇÔöÇ EDUCATION ÔöÇÔöÇ */
     #education { background: var(--bg-2); }
     .edu-list { display: flex; flex-direction: column; }
     .edu-row { display: grid; grid-template-columns: 220px 1fr auto; gap: 40px; padding: 30px 0; border-bottom: 1px solid var(--border-2); align-items: baseline; }
@@ -525,7 +462,7 @@
     .edu-school { font-family: var(--fm); font-size: 11px; color: var(--ink-3); }
     .edu-note { font-size: 12px; color: var(--ink-3); line-height: 1.6; max-width: 260px; text-align: right; font-family: var(--fm); }
 
-    /* ── CONTACT ── */
+    /* ÔöÇÔöÇ CONTACT ÔöÇÔöÇ */
     #contact { background: var(--bg-3); padding: 120px 60px; position: relative; overflow: hidden; }
     .contact-glow { position: absolute; top: -20%; right: -8%; width: 560px; height: 560px; background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 65%); pointer-events: none; }
     .contact-inner { position: relative; z-index: 2; }
@@ -556,18 +493,18 @@
     .oraxai-link { color: #7aaeff !important; }
     .oraxai-link:hover { color: #a0c5ff !important; }
 
-    /* ── FOOTER ── */
+    /* ÔöÇÔöÇ FOOTER ÔöÇÔöÇ */
     footer { padding: 22px 60px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
     .foot-l { font-family: var(--fm); font-size: 11px; color: var(--ink-3); }
-    /* ΣΕΦ — fire maker's mark at 30% opacity */
+    /* ╬ú╬ò╬ª ÔÇö fire maker's mark at 30% opacity */
     .foot-sig { font-family: var(--fm); font-size: 13px; color: var(--fire); opacity: 0.3; letter-spacing: 4px; }
     .foot-r { font-family: var(--fm); font-size: 11px; color: var(--ink-3); opacity: 0.35; letter-spacing: 1px; }
 
-    /* ── SCROLL REVEAL ── */
+    /* ÔöÇÔöÇ SCROLL REVEAL ÔöÇÔöÇ */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── THEME TOGGLE ── */
+    /* ÔöÇÔöÇ THEME TOGGLE ÔöÇÔöÇ */
     html, body { transition: background-color 0.35s ease, color 0.2s ease; }
     .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: var(--ink-2); transition: border-color 0.25s, color 0.25s, transform 0.2s; flex-shrink: 0; cursor: none; }
     .theme-toggle:hover { border-color: rgba(255,255,255,0.22); color: var(--ink); transform: rotate(18deg); }
@@ -578,7 +515,7 @@
     [data-theme="light"] .icon-moon { display: none; }
     [data-theme="light"] .theme-toggle:hover { border-color: rgba(0,0,0,0.22); }
 
-    /* ── LIGHT THEME ── */
+    /* ÔöÇÔöÇ LIGHT THEME ÔöÇÔöÇ */
     [data-theme="light"] {
       --ink:      #0D0B09;
       --ink-2:    #3D3830;
@@ -611,7 +548,7 @@
     [data-theme="light"] footer { background: var(--bg-2); }
     [data-theme="light"] .exp-bullets li::before { color: var(--fire); }
 
-    /* ── CARD TILT / SHINE ── */
+    /* ÔöÇÔöÇ CARD TILT / SHINE ÔöÇÔöÇ */
     .proj-card, .orax-m, .stat-cell, .contact-link {
       transform-style: preserve-3d;
       will-change: transform;
@@ -626,22 +563,22 @@
     .exp-row { transition: transform 0.25s ease, background 0.25s ease; }
     .exp-row:hover { transform: translateX(5px); }
 
-    /* ── EDUCATION LOGOS ── */
+    /* ÔöÇÔöÇ EDUCATION LOGOS ÔöÇÔöÇ */
     .edu-main { display: flex; align-items: center; gap: 16px; }
     .edu-logo-img { height: 38px; width: 38px; object-fit: contain; flex-shrink: 0; border-radius: 4px; opacity: 0.88; }
 
-    /* ── PARALLAX / INTERACTIVE ── */
+    /* ÔöÇÔöÇ PARALLAX / INTERACTIVE ÔöÇÔöÇ */
     /* hero-char-card removed, sprite restored */
     .orax-network-wrap { transition: transform 0.18s ease-out; }
 
-    /* ── HAMBURGER ── */
+    /* ÔöÇÔöÇ HAMBURGER ÔöÇÔöÇ */
     .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 1001; }
     .nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
     .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    /* ── RESPONSIVE ── */
+    /* ÔöÇÔöÇ RESPONSIVE ÔöÇÔöÇ */
     @media (max-width: 900px) {
       nav { padding: 18px 24px; }
       .nav-burger { display: flex; }
@@ -747,7 +684,7 @@
       .orax-name { font-size: clamp(44px,13vw,72px); }
       .orax-metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
       .orax-m-n { font-size: 20px; }
-      /* PROJECTS — single column, full width cards */
+      /* PROJECTS ÔÇö single column, full width cards */
       .proj-deck { gap: 20px; flex-direction: column; align-items: center; }
       .proj-item { width: min(280px, 84vw); }
       .proj-flip { width: 100%; }
@@ -763,7 +700,7 @@
       #contact { padding: 72px 16px; }
       .contact-headline { font-size: clamp(36px,11vw,64px); }
     }
-    /* ── POKEMON CARD HOLOGRAPHIC ── */
+    /* ÔöÇÔöÇ POKEMON CARD HOLOGRAPHIC ÔöÇÔöÇ */
     .poke-wrap {
       --pointer-x: 50%; --pointer-y: 50%;
       --rotate-x: 0deg; --rotate-y: 0deg;
@@ -813,7 +750,7 @@
       );
       pointer-events: none; transition: opacity 0.25s ease;
     }
-    /* ── PROJECT FLIP CARDS ── */
+    /* ÔöÇÔöÇ PROJECT FLIP CARDS ÔöÇÔöÇ */
     .proj-deck { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 56px; align-items: flex-start; }
     .proj-item { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
     .proj-flip { width: 268px; aspect-ratio: 245/342; perspective: 1200px; cursor: pointer; flex-shrink: 0; position: relative; }
@@ -864,7 +801,7 @@
     .pfb-back-btn:hover { color: var(--ink); }
     [data-theme="light"] .proj-flip-back { background: #f4f1ec; }
 
-    /* Pokémon section */
+    /* Pok├®mon section */
     .poke-section { padding: 100px 60px 80px; background: var(--bg-2); }
     .poke-grid { display: flex; justify-content: center; align-items: flex-start; gap: 36px; flex-wrap: wrap; margin-top: 64px; }
     .poke-item { display: flex; flex-direction: column; align-items: center; gap: 14px; }
@@ -896,7 +833,7 @@
 <nav id="nav">
   <div class="nav-left">
     <a href="#" class="nav-logo">SEF<em>.</em></a>
-    <span class="nav-sig">ΣΕΦ</span>
+    <span class="nav-sig">╬ú╬ò╬ª</span>
   </div>
   <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
@@ -924,7 +861,7 @@
   <div class="hero-glow-b"></div>
   <div class="hero-upper">
     <div class="hero-text">
-      <div class="hero-overline">Young Builder · Montreal, QC</div>
+      <div class="hero-overline">Young Builder ┬À Montreal, QC</div>
       <h1 class="hero-name">SAMI<span class="name-fire">EL-FIGHA.</span></h1>
     </div>
     <div class="hero-char">
@@ -933,15 +870,15 @@
         alt="Charizard mascot"
         onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png';this.style.width='130px';this.style.height='130px';"
       />
-      <div class="hero-char-id">#006 Charizard · Fire · Flying</div>
+      <div class="hero-char-id">#006 Charizard ┬À Fire ┬À Flying</div>
     </div>
   </div>
   <div class="hero-rule"></div>
   <div class="hero-lower">
     <p class="hero-desc">I build AI systems end to end. From ATS scoring engines and multi-agent pipelines to shipped products with real revenue and real users.</p>
     <div class="hero-lower-meta">
-      <strong>University of Waterloo</strong>BASc Electrical Engineering · Sept 2026<br><br>
-      <strong>Open to internships</strong>2025 – 2026 · Full-stack AI
+      <strong>University of Waterloo</strong>BASc Electrical Engineering ┬À Sept 2026<br><br>
+      <strong>Open to internships</strong>2025 ÔÇô 2026 ┬À Full-stack AI
     </div>
     <div class="hero-ctas">
       <a href="mailto:sami.elfigha@gmail.com" class="cta-primary">
@@ -1009,9 +946,9 @@
         <p>I also run a research project on <strong>calculus pedagogy</strong> and tutor students every week. Turns out helping people actually understand math isn't that different from debugging a bad model. You have to figure out where the thinking breaks, not just the output.</p>
       </div>
       <div class="about-aside">
-        <div class="about-aside-item"><div class="aside-label">Location</div><div class="aside-val">Montreal, QC → Waterloo, ON</div></div>
-        <div class="about-aside-item"><div class="aside-label">Languages</div><div class="aside-val">English · French · Arabic</div></div>
-        <div class="about-aside-item"><div class="aside-label">Availability</div><div class="aside-val">Open to 2025–2026 internships in AI, software, or product engineering</div></div>
+        <div class="about-aside-item"><div class="aside-label">Location</div><div class="aside-val">Montreal, QC ÔåÆ Waterloo, ON</div></div>
+        <div class="about-aside-item"><div class="aside-label">Languages</div><div class="aside-val">English ┬À French ┬À Arabic</div></div>
+        <div class="about-aside-item"><div class="aside-label">Availability</div><div class="aside-val">Open to 2025ÔÇô2026 internships in AI, software, or product engineering</div></div>
         <div class="about-aside-item"><div class="aside-label">Recognition</div><div class="aside-val">Mathematics Olympiad Finalist, Casablanca</div></div>
       </div>
     </div>
@@ -1033,7 +970,7 @@
           <img src="img/oraxai.png" alt="OraxAI" class="exp-logo">
           <div class="exp-meta">
             <span class="exp-company">OraxAI</span>
-            <span class="exp-date">Dec 2025 · Present</span>
+            <span class="exp-date">Dec 2025 ┬À Present</span>
             <span class="exp-loc">Montreal, QC</span>
           </div>
         </div>
@@ -1053,7 +990,7 @@
           <img src="img/neuralseek.png" alt="NeuralSeek AI" class="exp-logo">
           <div class="exp-meta">
             <span class="exp-company">NeuralSeek AI</span>
-            <span class="exp-date">Sept · Dec 2025</span>
+            <span class="exp-date">Sept ┬À Dec 2025</span>
             <span class="exp-loc">Miami, Remote</span>
           </div>
         </div>
@@ -1073,7 +1010,7 @@
           <img src="img/maisonneuve.png" alt="Maisonneuve" class="exp-logo-img">
           <div class="exp-meta">
             <span class="exp-company">Maisonneuve College</span>
-            <span class="exp-date">Aug 2025 · Present</span>
+            <span class="exp-date">Aug 2025 ┬À Present</span>
             <span class="exp-loc">Montreal, QC</span>
           </div>
         </div>
@@ -1153,7 +1090,7 @@
     <div class="reveal">
       <div class="orax-eyebrow"><span class="orax-eyebrow-line"></span>Co-Founder</div>
       <div class="orax-name">OraxAI</div>
-      <div class="orax-badge">Dec 2025 – Present · Product Engineer</div>
+      <div class="orax-badge">Dec 2025 ÔÇô Present ┬À Product Engineer</div>
       <p class="orax-tagline">Resume tailoring that actually beats the ATS. Built from scratch.</p>
       <p class="orax-desc">I co-founded OraxAI and own the full stack: the ATS scoring engine that parses job descriptions and gaps resumes against them, the React frontend, the backend API, and the entire go-to-market. Zero to paying users in weeks.</p>
       <div class="orax-metrics">
@@ -1181,9 +1118,6 @@
       <div class="water-ring ring-1"></div>
       <div class="water-ring ring-2"></div>
       <div class="water-ring ring-3"></div>
-    </div>
-    <div class="squirtle-speech" id="squirtleSpeech">
-      <span class="sq-speech-hello">Hello!</span> This is <span class="sq-speech-brand">OraxAI</span> — an AI-powered tool to adjust your resume to a job description to beat ATS.
     </div>
     <div class="squirtle-sprite-wrap" id="squirtleWrap">
       <img class="squirtle-sprite" id="squirtleImg"
@@ -1217,8 +1151,8 @@
               </div>
             </div>
             <div class="proj-flip-back">
-              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-              <div class="pfb-type">Electric Type · Featured</div>
+              <button class="pfb-back-btn" aria-label="Flip back">Ôå®</button>
+              <div class="pfb-type">Electric Type ┬À Featured</div>
               <div class="pfb-title">FormulaForge</div>
               <p class="pfb-desc">Cosmetic ingredient optimizer built on OpenAI, AWS Bedrock, and PuLP linear programming. Picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the trade-offs in plain language.</p>
               <div class="pfb-tags">
@@ -1253,8 +1187,8 @@
               </div>
             </div>
             <div class="proj-flip-back">
-              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-              <div class="pfb-type">Psychic Type · Active</div>
+              <button class="pfb-back-btn" aria-label="Flip back">Ôå®</button>
+              <div class="pfb-type">Psychic Type ┬À Active</div>
               <div class="pfb-title">PaideAI</div>
               <p class="pfb-desc">Math tutor that adapts to how each student thinks. Generates problems, gives hints in real time, and lets teachers track the whole class. Built around real research on calculus intuition.</p>
               <div class="pfb-tags">
@@ -1288,8 +1222,8 @@
               </div>
             </div>
             <div class="proj-flip-back">
-              <button class="pfb-back-btn" aria-label="Flip back">↩</button>
-              <div class="pfb-type">Psychic Type · Production</div>
+              <button class="pfb-back-btn" aria-label="Flip back">Ôå®</button>
+              <div class="pfb-type">Psychic Type ┬À Production</div>
               <div class="pfb-title">Multi-Agent Pipeline</div>
               <p class="pfb-desc">Triage, execution, and review pipeline running on AWS. Around 40% faster than a single-agent baseline by running agents in parallel with fallback handling built in.</p>
               <div class="pfb-tags">
@@ -1323,7 +1257,7 @@
     </div>
     <div class="edu-list">
       <div class="edu-row reveal">
-        <div class="edu-period">Sept 2026 · Present</div>
+        <div class="edu-period">Sept 2026 ┬À Present</div>
         <div class="edu-main">
           <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/University_of_Waterloo_seal.svg/400px-University_of_Waterloo_seal.svg.png" alt="University of Waterloo" class="edu-logo-img">
           <div>
@@ -1331,18 +1265,18 @@
             <div class="edu-school">University of Waterloo</div>
           </div>
         </div>
-        <div class="edu-note">computer networks · machine learning · digital hardware · computer architecture · embedded software · C · C++ · Rust</div>
+        <div class="edu-note">computer networks ┬À machine learning ┬À digital hardware ┬À computer architecture ┬À embedded software ┬À C ┬À C++ ┬À Rust</div>
       </div>
       <div class="edu-row reveal">
-        <div class="edu-period">Jan 2024 · Dec 2025</div>
+        <div class="edu-period">Jan 2024 ┬À Dec 2025</div>
         <div class="edu-main">
-          <img src="img/maisonneuve-logo.svg" alt="Collège de Maisonneuve" class="edu-logo-img">
+          <img src="img/maisonneuve-logo.svg" alt="Coll├¿ge de Maisonneuve" class="edu-logo-img">
           <div>
             <div class="edu-degree">DEC, Pure &amp; Applied Sciences</div>
-            <div class="edu-school">Collège de Maisonneuve, Montreal</div>
+            <div class="edu-school">Coll├¿ge de Maisonneuve, Montreal</div>
           </div>
         </div>
-        <div class="edu-note">intro to proofs · advanced calculus · linear algebra · modern physics · electricity &amp; magnetism · Python · Java · Unity</div>
+        <div class="edu-note">intro to proofs ┬À advanced calculus ┬À linear algebra ┬À modern physics ┬À electricity &amp; magnetism ┬À Python ┬À Java ┬À Unity</div>
       </div>
     </div>
   </div>
@@ -1379,17 +1313,17 @@
 
 <!-- FOOTER -->
 <footer>
-  <span class="foot-l">© 2025 Sami El-Figha</span>
-  <span class="foot-sig">ΣΕΦ</span>
+  <span class="foot-l">┬® 2025 Sami El-Figha</span>
+  <span class="foot-sig">╬ú╬ò╬ª</span>
   <span class="foot-r">GOTTA SHIP 'EM ALL</span>
 </footer>
 
 <script>
-  /* ── NAV SCROLL ── */
+  /* ÔöÇÔöÇ NAV SCROLL ÔöÇÔöÇ */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
 
-  /* ── SCROLL REVEAL ── */
+  /* ÔöÇÔöÇ SCROLL REVEAL ÔöÇÔöÇ */
   const io = new IntersectionObserver(
     entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
     { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
@@ -1397,7 +1331,7 @@
   document.querySelectorAll('.reveal, .exp-row, .edu-row').forEach(el => io.observe(el));
   document.querySelectorAll('.exp-row').forEach((el, i) => { el.style.transitionDelay = `${i * 0.09}s`; });
 
-  /* ── HAMBURGER MENU ── */
+  /* ÔöÇÔöÇ HAMBURGER MENU ÔöÇÔöÇ */
   const burger = document.getElementById('nav-burger');
   const navLinks = document.getElementById('nav-links');
   burger.addEventListener('click', () => {
@@ -1413,7 +1347,7 @@
     });
   });
 
-  /* ── LIGHT/DARK THEME TOGGLE ── */
+  /* ÔöÇÔöÇ LIGHT/DARK THEME TOGGLE ÔöÇÔöÇ */
   const html = document.documentElement;
   const themeToggle = document.getElementById('theme-toggle');
   const saved = localStorage.getItem('sef-theme');
@@ -1426,7 +1360,7 @@
 
   const hasPointer = window.matchMedia('(hover: hover)').matches;
 
-  /* ── CHARIZARD PARALLAX ── */
+  /* ÔöÇÔöÇ CHARIZARD PARALLAX ÔöÇÔöÇ */
   const heroSection = document.querySelector('.hero');
   const charSprite  = document.querySelector('.hero-char-sprite');
   if (heroSection && charSprite && hasPointer) {
@@ -1439,7 +1373,7 @@
     heroSection.addEventListener('mouseleave', () => { charSprite.style.transform = ''; });
   }
 
-  /* ── PROJECT CARD FLIP ── */
+  /* ÔöÇÔöÇ PROJECT CARD FLIP ÔöÇÔöÇ */
   document.querySelectorAll('.proj-item').forEach(item => {
     const card    = item.querySelector('.proj-flip');
     const btn     = item.querySelector('.proj-reveal-btn');
@@ -1454,7 +1388,7 @@
     card.querySelector('.pfb-back-btn')?.addEventListener('click', flipOff);
   });
 
-  /* ── ORAXAI NETWORK PARALLAX ── */
+  /* ÔöÇÔöÇ ORAXAI NETWORK PARALLAX ÔöÇÔöÇ */
   const oraxSection = document.getElementById('oraxai');
   const networkWrap = document.querySelector('.orax-network-wrap');
   if (oraxSection && networkWrap && hasPointer) {
@@ -1467,7 +1401,7 @@
     oraxSection.addEventListener('mouseleave', () => { networkWrap.style.transform = ''; });
   }
 
-  /* ── POKEMON HOLOGRAPHIC CARD EFFECT ── */
+  /* ÔöÇÔöÇ POKEMON HOLOGRAPHIC CARD EFFECT ÔöÇÔöÇ */
   document.querySelectorAll('.poke-wrap').forEach(card => {
     let rafId = null;
     let tRX = 0, tRY = 0, tBX = 50, tBY = 50;
@@ -1516,7 +1450,7 @@
     });
   });
 
-  /* ── 3D CARD TILT + SPOTLIGHT ── */
+  /* ÔöÇÔöÇ 3D CARD TILT + SPOTLIGHT ÔöÇÔöÇ */
   if (hasPointer) {
     const tiltCards = document.querySelectorAll('.proj-card, .orax-m, .stat-cell');
     tiltCards.forEach(el => {
@@ -1537,7 +1471,7 @@
       });
     });
 
-    /* ── CONTACT LINK TILT ── */
+    /* ÔöÇÔöÇ CONTACT LINK TILT ÔöÇÔöÇ */
     document.querySelectorAll('.contact-link').forEach(el => {
       el.addEventListener('mouseenter', () => { el.style.transition = 'none'; });
       el.addEventListener('mousemove', e => {
@@ -1552,7 +1486,7 @@
       });
     });
 
-    /* ── MAGNETIC BUTTONS ── */
+    /* ÔöÇÔöÇ MAGNETIC BUTTONS ÔöÇÔöÇ */
     document.querySelectorAll('.cta-primary, .cta-ghost, .orax-cta').forEach(btn => {
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
@@ -1568,20 +1502,18 @@
       btn.addEventListener('mouseenter', () => { btn.style.transition = 'none'; });
     });
 
-    /* ── SQUIRTLE SCROLL ANIMATION ── */
+    /* ÔöÇÔöÇ SQUIRTLE SCROLL ANIMATION ÔöÇÔöÇ */
     (function() {
       const section = document.getElementById('oraxai');
       const wrap    = document.getElementById('squirtleWrap');
       const water   = document.getElementById('squirtleWater');
       const glow    = document.getElementById('squirtleGlow');
-      const speech  = document.getElementById('squirtleSpeech');
       if (!section || !wrap) return;
 
       function playSq() {
         // Reset all animation classes
         wrap.className = 'squirtle-sprite-wrap';
         if (glow) glow.className = 'squirtle-glow';
-        if (speech) speech.classList.remove('sq-speech-show');
         water.querySelectorAll('.water-ring').forEach(r => r.classList.remove('sq-splash'));
 
         // Phase 1: run in from right (sprite faces left via scaleX(-1) in keyframes)
@@ -1595,20 +1527,10 @@
           // Glow appears while Squirtle is stopped
           if (glow) glow.classList.add('sq-glow');
 
-          // Speech bubble appears during bounce
-          setTimeout(() => {
-            if (speech) speech.classList.add('sq-speech-show');
-          }, 200);
-
           // Water splash bursts at peak bounce
           setTimeout(() => {
             water.querySelectorAll('.water-ring').forEach(r => r.classList.add('sq-splash'));
           }, 280);
-
-          setTimeout(() => {
-            // Hide speech bubble before running out
-            if (speech) speech.classList.remove('sq-speech-show');
-          }, 750);
 
           setTimeout(() => {
             // Phase 3: flip and run out left
@@ -1630,7 +1552,7 @@
       obs.observe(section);
     })();
 
-    /* ── SECTION TITLE HOVER ── */
+    /* ÔöÇÔöÇ SECTION TITLE HOVER ÔöÇÔöÇ */
     document.querySelectorAll('.section-title').forEach(el => {
       el.addEventListener('mousemove', e => {
         const r = el.getBoundingClientRect();
