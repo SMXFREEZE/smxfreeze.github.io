@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#1A1614" stroke="#C8A845" stroke-width="1.8"/>
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#C8A845" stroke-width="0.5" opacity="0.4"/>
+  <path d="M32,30 L68,30 L68,56 Q68,72 50,78 Q32,72 32,56 Z" fill="none" stroke="#C8A845" stroke-width="1.4"/>
+  <path d="M38,38 L43,38 L43,56 L50,46 L57,56 L57,38 L62,38" fill="none" stroke="#C8A845" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="50" y="93" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#C8A845" opacity="0.75" letter-spacing="1">WATERLOO</text>
+</svg>

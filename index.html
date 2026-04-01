@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -298,7 +298,7 @@
     }
     .proj-card:hover { background: var(--bg-2); }
     .proj-card:hover::before { transform: scaleX(1); }
-    .proj-card-featured { grid-row: 1 / 3; display: flex; flex-direction: column; justify-content: space-between; }
+    .proj-card-featured { grid-row: 1 / 3; display: flex; flex-direction: column; justify-content: flex-start; gap: 0; }
     .proj-kicker { font-family: var(--fm); font-size: 10px; color: var(--ink-3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
     .proj-name { font-family: var(--fd); font-size: clamp(26px,3.2vw,40px); font-weight: 800; letter-spacing: -1.5px; color: var(--ink); line-height: 1; margin-bottom: 14px; }
     .proj-name-sm { font-size: clamp(20px,2.4vw,28px) !important; letter-spacing: -1px !important; }
@@ -409,6 +409,76 @@
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── THEME TOGGLE ── */
+    html, body { transition: background-color 0.35s ease, color 0.2s ease; }
+    .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: var(--ink-2); transition: border-color 0.25s, color 0.25s, transform 0.2s; flex-shrink: 0; cursor: none; }
+    .theme-toggle:hover { border-color: rgba(255,255,255,0.22); color: var(--ink); transform: rotate(18deg); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .icon-sun { display: none; }
+    .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun { display: block; }
+    [data-theme="light"] .icon-moon { display: none; }
+    [data-theme="light"] .theme-toggle:hover { border-color: rgba(0,0,0,0.22); }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] {
+      --ink:      #0D0B09;
+      --ink-2:    #3D3830;
+      --ink-3:    #857E76;
+      --bg:       #F5F2EC;
+      --bg-2:     #EDE9DF;
+      --bg-3:     #E4DFD7;
+      --border:   rgba(0,0,0,0.09);
+      --border-2: rgba(0,0,0,0.05);
+    }
+    [data-theme="light"] .grain { opacity: 0.2; filter: invert(1); }
+    [data-theme="light"] nav.scrolled { background: rgba(245,242,236,0.92); border-bottom-color: rgba(0,0,0,0.07); }
+    [data-theme="light"] .nav-links { background: rgba(245,242,236,0.97); }
+    [data-theme="light"] .hero-rule { background: rgba(0,0,0,0.08); }
+    [data-theme="light"] .stats-band { background: #0D0B09; }
+    [data-theme="light"] .stat-n { color: #EDE9DF; }
+    [data-theme="light"] .stat-l { color: rgba(237,233,223,0.5); }
+    [data-theme="light"] .ticker-section { background: var(--bg-3); border-color: var(--border); }
+    [data-theme="light"] .ticker-item { color: var(--ink-3); }
+    [data-theme="light"] .ticker-dot { background: var(--ink-3); opacity: 0.4; }
+    [data-theme="light"] .proj-card::after { background: linear-gradient(135deg, rgba(0,0,0,0.07) 0%, rgba(0,0,0,0) 55%) border-box; }
+    [data-theme="light"] .browser-frame { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+    [data-theme="light"] .browser-bar { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.07); }
+    [data-theme="light"] .browser-content { background: rgba(235,231,224,0.8); }
+    [data-theme="light"] .browser-url { background: rgba(0,0,0,0.05); color: var(--ink-3); }
+    [data-theme="light"] .mock-ff-bar { background: rgba(0,0,0,0.09); }
+    [data-theme="light"] .mock-node { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+    [data-theme="light"] .mock-stats { border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .contact-link::after { background: linear-gradient(135deg, rgba(0,0,0,0.07), rgba(0,0,0,0)) border-box; }
+    [data-theme="light"] footer { background: var(--bg-2); }
+    [data-theme="light"] .exp-bullets li::before { color: var(--fire); }
+
+    /* ── CUSTOM CURSOR ── */
+    @media (hover: hover) { body, a, button { cursor: none; } }
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--fire); border-radius: 50%; pointer-events: none;
+      z-index: 10001; transform: translate(-50%,-50%);
+      transition: width 0.18s, height 0.18s;
+    }
+    .cursor-dot.hidden { width: 0; height: 0; }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 1px solid rgba(255,107,53,0.45); border-radius: 50%;
+      pointer-events: none; z-index: 10000; transform: translate(-50%,-50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+    }
+    .cursor-ring.expanded { width: 54px; height: 54px; border-color: rgba(255,107,53,0.2); }
+    @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+
+    /* ── EDUCATION LOGOS ── */
+    .edu-main { display: flex; align-items: center; gap: 16px; }
+    .edu-logo-img { height: 38px; width: 38px; object-fit: contain; flex-shrink: 0; border-radius: 4px; opacity: 0.88; }
+
+    /* ── PARALLAX / INTERACTIVE ── */
+    .hero-char-sprite { transition: transform 0.12s ease-out; }
+    .orax-network-wrap { transition: transform 0.18s ease-out; }
+
     /* ── HAMBURGER ── */
     .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 1001; }
     .nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
@@ -483,6 +553,8 @@
 </head>
 <body>
 
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 <div class="grain"></div>
 
 <!-- NAV -->
@@ -498,9 +570,17 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact" class="nav-cta">Contact</a></li>
   </ul>
-  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+      <!-- Moon: dark mode indicator -->
+      <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <!-- Sun: light mode indicator -->
+      <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button type="button" class="nav-burger" id="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -840,8 +920,8 @@
         <div class="proj-name proj-name-sm">PaideAI</div>
         <p class="proj-desc">AI math tutor with adaptive problem generation, live hints, and class management. Built around actual research on how students build calculus intuition.</p>
         <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Claude API</span><span class="proj-tag">FastAPI</span></div>
-        <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="proj-link">
-          GitHub
+        <a href="https://paideai.onrender.com" target="_blank" rel="noopener" class="proj-link">
+          Live Demo
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 10L10 2M4 2h6v6"/></svg>
         </a>
       </div>
@@ -900,17 +980,23 @@
     <div class="edu-list">
       <div class="edu-row reveal">
         <div class="edu-period">Sept 2026 · Present</div>
-        <div>
-          <div class="edu-degree">BASc Electrical Engineering</div>
-          <div class="edu-school">University of Waterloo</div>
+        <div class="edu-main">
+          <img src="img/uwaterloo.svg" alt="University of Waterloo" class="edu-logo-img">
+          <div>
+            <div class="edu-degree">BASc Electrical Engineering</div>
+            <div class="edu-school">University of Waterloo</div>
+          </div>
         </div>
         <div class="edu-note">circuits · signals · embedded systems · mathematics</div>
       </div>
       <div class="edu-row reveal">
         <div class="edu-period">Jan 2024 · Dec 2025</div>
-        <div>
-          <div class="edu-degree">DEC, Pure &amp; Applied Sciences</div>
-          <div class="edu-school">Collège de Maisonneuve, Montreal</div>
+        <div class="edu-main">
+          <img src="img/maisonneuve-logo.svg" alt="Collège de Maisonneuve" class="edu-logo-img">
+          <div>
+            <div class="edu-degree">DEC, Pure &amp; Applied Sciences</div>
+            <div class="edu-school">Collège de Maisonneuve, Montreal</div>
+          </div>
         </div>
         <div class="edu-note">Mathematics Olympiad finalist, Casablanca</div>
       </div>
@@ -954,9 +1040,11 @@
 </footer>
 
 <script>
+  /* ── NAV SCROLL ── */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
 
+  /* ── SCROLL REVEAL ── */
   const io = new IntersectionObserver(
     entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
     { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
@@ -964,7 +1052,7 @@
   document.querySelectorAll('.reveal, .exp-row, .edu-row').forEach(el => io.observe(el));
   document.querySelectorAll('.exp-row').forEach((el, i) => { el.style.transitionDelay = `${i * 0.09}s`; });
 
-  // Hamburger menu toggle
+  /* ── HAMBURGER MENU ── */
   const burger = document.getElementById('nav-burger');
   const navLinks = document.getElementById('nav-links');
   burger.addEventListener('click', () => {
@@ -979,6 +1067,72 @@
       document.body.style.overflow = '';
     });
   });
+
+  /* ── LIGHT/DARK THEME TOGGLE ── */
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const saved = localStorage.getItem('sef-theme');
+  if (saved) html.setAttribute('data-theme', saved);
+  themeToggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('sef-theme', next);
+  });
+
+  /* ── CUSTOM CURSOR ── */
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+  const hasPointer = window.matchMedia('(hover: hover)').matches;
+
+  if (hasPointer) {
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    document.addEventListener('mouseleave', () => dot.classList.add('hidden'));
+    document.addEventListener('mouseenter', () => dot.classList.remove('hidden'));
+
+    const hoverTargets = 'a, button, .proj-card, .exp-row, .orax-m, .about-aside-item';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('expanded'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('expanded'));
+    });
+
+    (function tickCursor() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(tickCursor);
+    })();
+  }
+
+  /* ── CHARIZARD PARALLAX ── */
+  const heroSection = document.querySelector('.hero');
+  const charSprite  = document.querySelector('.hero-char-sprite');
+  if (heroSection && charSprite && hasPointer) {
+    heroSection.addEventListener('mousemove', e => {
+      const r = heroSection.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) / r.width;
+      const dy = (e.clientY - r.top  - r.height / 2) / r.height;
+      charSprite.style.transform = `translate(${dx * 14}px, ${dy * 9}px) rotate(${dx * 4}deg)`;
+    });
+    heroSection.addEventListener('mouseleave', () => { charSprite.style.transform = ''; });
+  }
+
+  /* ── ORAXAI NETWORK PARALLAX ── */
+  const oraxSection  = document.getElementById('oraxai');
+  const networkWrap  = document.querySelector('.orax-network-wrap');
+  if (oraxSection && networkWrap && hasPointer) {
+    oraxSection.addEventListener('mousemove', e => {
+      const r = oraxSection.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) / r.width;
+      const dy = (e.clientY - r.top  - r.height / 2) / r.height;
+      networkWrap.style.transform = `translate(${dx * 22}px, ${dy * 16}px) rotate(${dx * 3}deg)`;
+    });
+    oraxSection.addEventListener('mouseleave', () => { networkWrap.style.transform = ''; });
+  }
 </script>
 </body>
 </html>
