@@ -219,8 +219,10 @@
     .exp-period { display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
     .exp-logo { width: auto; height: 22px; object-fit: contain; object-position: left center; filter: brightness(0.9); opacity: 0.85; }
     .exp-logo-img { width: auto; height: 18px; object-fit: contain; object-position: left center; opacity: 0.65; border-radius: 2px; }
-    .exp-meta { font-family: var(--fm); font-size: 11px; color: var(--ink-3); letter-spacing: 0.5px; line-height: 1.7; }
-    .exp-meta strong { color: var(--ink-2); font-weight: 500; }
+    .exp-meta { font-family: var(--fm); font-size: 11px; color: var(--ink-3); letter-spacing: 0.5px; display: flex; flex-direction: column; gap: 4px; }
+    .exp-company { color: var(--ink-2); font-weight: 500; font-size: 12px; }
+    .exp-date { color: var(--ink-3); }
+    .exp-loc { color: var(--ink-3); opacity: 0.7; }
     .exp-role-title { font-family: var(--fd); font-size: 21px; font-weight: 700; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 14px; }
     .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; }
     .exp-bullets li { font-size: 13px; color: var(--ink-3); line-height: 1.65; padding-left: 16px; position: relative; }
@@ -407,10 +409,28 @@
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── HAMBURGER ── */
+    .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 1001; }
+    .nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 18px 24px; }
-      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .nav-links {
+        display: none; position: fixed; top: 57px; left: 0; right: 0; bottom: 0;
+        background: rgba(6,6,8,0.97); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+        flex-direction: column; padding: 12px 0; z-index: 1000;
+        border-top: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid var(--border-2); }
+      .nav-links li:last-child { border-bottom: none; }
+      .nav-links a { display: block; padding: 18px 28px; font-size: 15px; font-family: var(--fb); color: var(--ink-2); }
+      .nav-links a:hover { color: var(--ink); background: rgba(255,255,255,0.03); }
       .nav-sig { display: none; }
       .hero { padding: 0 24px; }
       .hero-upper { flex-direction: column; gap: 32px; padding-top: 100px; }
@@ -423,16 +443,41 @@
       .stats-band { grid-template-columns: 1fr 1fr; }
       .stat-cell { padding: 26px; }
       .about-body { grid-template-columns: 1fr; gap: 40px; }
-      .exp-row { grid-template-columns: 1fr; gap: 8px; }
+      .exp-row { grid-template-columns: 1fr; gap: 16px; }
+      .exp-idx { display: none; }
+      .exp-period { flex-direction: row; align-items: center; gap: 14px; }
+      .exp-logo { height: 18px; }
+      .exp-logo-img { height: 16px; }
       .edu-row { grid-template-columns: 1fr; gap: 6px; }
       .edu-note { text-align: left; }
       .orax-layout { grid-template-columns: 1fr; gap: 40px; }
+      .orax-visual { display: none; }
       .orax-metrics { grid-template-columns: 1fr 1fr; }
       .proj-asymm { grid-template-columns: 1fr; }
       .proj-card-featured { grid-row: auto; }
+      .proj-card { padding: 24px; }
+      .browser-frame { margin-bottom: 20px; }
       .contact-headline { font-size: clamp(48px,14vw,100px); }
       .contact-row { flex-direction: column; gap: 28px; align-items: flex-start; }
+      .contact-links { flex-direction: column; width: 100%; }
+      .contact-link { justify-content: space-between; }
       footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-overline { font-size: 11px; }
+      .hero-name { font-size: clamp(52px,18vw,96px); }
+      .hero-desc { font-size: 14px; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .stat-n { font-size: 38px; }
+      .section-title { font-size: clamp(32px,10vw,56px); }
+      .exp-role-title { font-size: 18px; }
+      .orax-metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .mock-ma { flex-direction: column; gap: 6px; align-items: stretch; }
+      .mock-arrow { text-align: center; padding: 0; }
+      .browser-content { padding: 12px; }
+      .proj-card { padding: 20px; }
+      #oraxai { padding: 60px 24px; }
+      #contact { padding: 80px 24px; }
     }
   </style>
 </head>
@@ -446,13 +491,16 @@
     <a href="#" class="nav-logo">SEF<em>.</em></a>
     <span class="nav-sig">ΣΕΦ</span>
   </div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Work</a></li>
     <li><a href="#oraxai" class="nav-oraxai">OraxAI</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -461,7 +509,7 @@
   <div class="hero-glow-b"></div>
   <div class="hero-upper">
     <div class="hero-text">
-      <div class="hero-overline">AI Engineer &amp; Builder — Montreal, QC</div>
+      <div class="hero-overline">AI Engineer &amp; Builder · Montreal, QC</div>
       <h1 class="hero-name">SAMI<span class="name-fire">EL-FIGHA.</span></h1>
     </div>
     <div class="hero-char">
@@ -470,14 +518,14 @@
         alt="Charizard mascot"
         onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png';this.style.width='130px';this.style.height='130px';"
       />
-      <div class="hero-char-id">#006 Charizard — Fire · Flying</div>
+      <div class="hero-char-id">#006 Charizard · Fire · Flying</div>
     </div>
   </div>
   <div class="hero-rule"></div>
   <div class="hero-lower">
-    <p class="hero-desc">I build AI systems end-to-end — from ATS scoring engines and multi-agent pipelines to shipped products with real revenue and real users.</p>
+    <p class="hero-desc">I build AI systems end to end. From ATS scoring engines and multi-agent pipelines to shipped products with real revenue and real users.</p>
     <div class="hero-lower-meta">
-      <strong>University of Waterloo</strong>BASc EE · CE · AI — Sept 2026<br><br>
+      <strong>University of Waterloo</strong>BASc Electrical Engineering · Sept 2026<br><br>
       <strong>Open to internships</strong>2025 – 2026 · Full-stack AI
     </div>
     <div class="hero-ctas">
@@ -541,15 +589,15 @@
     </div>
     <div class="about-body reveal">
       <div class="about-text">
-        <p>I'm a <strong>Computer Engineering &amp; AI student at the University of Waterloo</strong>, finishing my DEC in Pure &amp; Applied Sciences at Maisonneuve College in Montreal.</p>
-        <p>I co-founded <strong>OraxAI</strong> and took it from zero to a live product with paying users — owning the full stack from ATS engine to go-to-market. Before that I was at <strong>NeuralSeek AI</strong>, designing multi-agent systems on AWS that cut task resolution time by ~40%.</p>
-        <p>I also do research on <strong>calculus pedagogy</strong> and tutor students weekly — turns out building intuition in AI and in students isn't that different. Both require understanding what's actually breaking beneath the surface.</p>
+        <p>I'm an <strong>Electrical Engineering student heading to the University of Waterloo</strong>, finishing my DEC in Pure &amp; Applied Sciences at Maisonneuve College in Montreal.</p>
+        <p>I co-founded <strong>OraxAI</strong> and built it from scratch into a live product with real paying users. I owned the full stack: ATS engine, frontend, backend, and everything in between. Before that I was at <strong>NeuralSeek AI</strong>, building multi-agent systems on AWS that cut task resolution time by around 40%.</p>
+        <p>I also run a research project on <strong>calculus pedagogy</strong> and tutor students every week. Turns out helping people actually understand math isn't that different from debugging a bad model. You have to figure out where the thinking breaks, not just the output.</p>
       </div>
       <div class="about-aside">
         <div class="about-aside-item"><div class="aside-label">Location</div><div class="aside-val">Montreal, QC → Waterloo, ON</div></div>
         <div class="about-aside-item"><div class="aside-label">Languages</div><div class="aside-val">English · French · Arabic</div></div>
         <div class="about-aside-item"><div class="aside-label">Availability</div><div class="aside-val">Open to 2025–2026 internships in AI, software, or product engineering</div></div>
-        <div class="about-aside-item"><div class="aside-label">Recognition</div><div class="aside-val">Mathematics Olympiad Finalist — Casablanca, Morocco</div></div>
+        <div class="about-aside-item"><div class="aside-label">Recognition</div><div class="aside-val">Mathematics Olympiad Finalist, Casablanca</div></div>
       </div>
     </div>
   </div>
@@ -568,14 +616,18 @@
       <div class="exp-row">
         <div class="exp-period">
           <img src="img/oraxai.png" alt="OraxAI" class="exp-logo">
-          <div class="exp-meta"><strong>OraxAI</strong>Dec 2025 — Present<br>Montreal, QC</div>
+          <div class="exp-meta">
+            <span class="exp-company">OraxAI</span>
+            <span class="exp-date">Dec 2025 · Present</span>
+            <span class="exp-loc">Montreal, QC</span>
+          </div>
         </div>
         <div>
           <div class="exp-role-title">Co-Founder &amp; Product Engineer</div>
           <ul class="exp-bullets">
-            <li>Built the ATS scoring engine, React UI, and backend API — full stack, shipped to real users, iterated on live feedback.</li>
-            <li>Scaled to 100+ MAUs and $2K+ MRR. Owned GTM, SEO, and social to 10K+ followers and 1M+ views without paid ads.</li>
-            <li>Led product strategy and roadmap across the founding team — multiple complete feature cycles from research to deployment.</li>
+            <li>Built the ATS scoring engine, React UI, and backend API. Full stack, no hand-holding, shipped to real users and iterated from real feedback.</li>
+            <li>Grew to 100+ MAUs and $2K+ MRR. Ran all of GTM, SEO, and social in-house to 10K+ followers and 1M+ views with zero paid ads.</li>
+            <li>Led product strategy with the founding team, running multiple complete feature cycles from the first sketch to production.</li>
           </ul>
         </div>
         <div class="exp-idx">01</div>
@@ -584,14 +636,18 @@
       <div class="exp-row">
         <div class="exp-period">
           <img src="img/neuralseek.png" alt="NeuralSeek AI" class="exp-logo">
-          <div class="exp-meta"><strong>NeuralSeek AI</strong>Sept – Dec 2025<br>Miami (Remote)</div>
+          <div class="exp-meta">
+            <span class="exp-company">NeuralSeek AI</span>
+            <span class="exp-date">Sept · Dec 2025</span>
+            <span class="exp-loc">Miami, Remote</span>
+          </div>
         </div>
         <div>
           <div class="exp-role-title">AI Agent Developer Intern</div>
           <ul class="exp-bullets">
-            <li>Deployed a production AI agent on AWS — completed the mAIstro Challenge with 100% on-time delivery.</li>
-            <li>Designed a triage → execution → review pipeline, cutting task resolution time ~40% vs. single-agent baseline.</li>
-            <li>Improved agent accuracy ~30% across benchmarks through 3+ design iterations backed by competitor analysis.</li>
+            <li>Shipped a production AI agent on AWS and finished the mAIstro Challenge without missing a single deadline.</li>
+            <li>Designed a triage, execution, and review pipeline that cut task resolution time by about 40% compared to a single-agent setup.</li>
+            <li>Put the agent through 3+ rounds of redesign using competitor teardowns and benchmark data, ending up ~30% more accurate.</li>
           </ul>
         </div>
         <div class="exp-idx">02</div>
@@ -600,13 +656,17 @@
       <div class="exp-row">
         <div class="exp-period">
           <img src="img/maisonneuve.png" alt="Maisonneuve" class="exp-logo-img">
-          <div class="exp-meta"><strong>Maisonneuve College</strong>Aug 2025 — Present<br>Montreal, QC</div>
+          <div class="exp-meta">
+            <span class="exp-company">Maisonneuve College</span>
+            <span class="exp-date">Aug 2025 · Present</span>
+            <span class="exp-loc">Montreal, QC</span>
+          </div>
         </div>
         <div>
           <div class="exp-role-title">Student Researcher</div>
           <ul class="exp-bullets">
-            <li>Researching calculus intuition development — surveyed 20+ students to map gaps between procedural fluency and real mathematical understanding.</li>
-            <li>Weekly 1:1 and small-group support for 10+ peers, applying research-backed pedagogical strategies.</li>
+            <li>Running a research project on how students actually build calculus intuition. Surveyed 20+ peers and mapped where the real understanding breaks down, not just the procedure.</li>
+            <li>Run weekly 1:1s and small group sessions for 10+ students using what the research says actually works.</li>
           </ul>
         </div>
         <div class="exp-idx">03</div>
@@ -615,12 +675,16 @@
       <div class="exp-row">
         <div class="exp-period">
           <img src="img/kpmg.png" alt="KPMG" class="exp-logo">
-          <div class="exp-meta"><strong>KPMG</strong>Jan 2026<br>Montreal, QC</div>
+          <div class="exp-meta">
+            <span class="exp-company">KPMG</span>
+            <span class="exp-date">Jan 2026</span>
+            <span class="exp-loc">Montreal, QC</span>
+          </div>
         </div>
         <div>
           <div class="exp-role-title">Case Competition Participant</div>
           <ul class="exp-bullets">
-            <li>Analysed a client-style business problem under time constraints and delivered a structured recommendation deck to a panel of KPMG professionals.</li>
+            <li>Worked through a client-style case under real time pressure and presented a clean recommendation deck to a panel of KPMG partners.</li>
           </ul>
         </div>
         <div class="exp-idx">04</div>
@@ -675,7 +739,7 @@
       <div class="orax-eyebrow"><span class="orax-eyebrow-line"></span>Co-Founder</div>
       <div class="orax-name">OraxAI</div>
       <div class="orax-badge">Dec 2025 – Present · Product Engineer</div>
-      <p class="orax-tagline">Resume tailoring that beats the ATS — built from scratch.</p>
+      <p class="orax-tagline">Resume tailoring that actually beats the ATS. Built from scratch.</p>
       <p class="orax-desc">I co-founded OraxAI and own the full stack: the ATS scoring engine that parses job descriptions and gaps resumes against them, the React frontend, the backend API, and the entire go-to-market. Zero to paying users in weeks.</p>
       <div class="orax-metrics">
         <div class="orax-m"><div class="orax-m-n">100+</div><div class="orax-m-l">Monthly active users</div></div>
@@ -684,9 +748,9 @@
         <div class="orax-m"><div class="orax-m-n">1M+</div><div class="orax-m-l">Total views</div></div>
       </div>
       <div class="orax-built">
-        <div class="orax-built-item"><span class="orax-built-num">01</span>ATS scoring engine — parses job descriptions, scores resumes against semantic and keyword gaps, returns actionable fixes.</div>
-        <div class="orax-built-item"><span class="orax-built-num">02</span>React UI + FastAPI backend — full product from auth to PDF export, iterated on live user sessions.</div>
-        <div class="orax-built-item"><span class="orax-built-num">03</span>Go-to-market — SEO and organic content that drove 1M+ views and 10K+ followers, zero paid ads.</div>
+        <div class="orax-built-item"><span class="orax-built-num">01</span>ATS scoring engine that parses job descriptions, scores resumes against semantic and keyword gaps, and returns specific fixes.</div>
+        <div class="orax-built-item"><span class="orax-built-num">02</span>React UI and FastAPI backend, everything from auth to PDF export, iterated directly on live user sessions.</div>
+        <div class="orax-built-item"><span class="orax-built-num">03</span>Go-to-market through SEO and organic content, 1M+ views and 10K+ followers, no paid ads.</div>
       </div>
       <a href="https://www.oraxai.ca/" target="_blank" rel="noopener" class="orax-cta">
         Visit oraxai.ca
@@ -743,9 +807,9 @@
           </div>
         </div>
         <div>
-          <div class="proj-kicker">Featured — Live</div>
+          <div class="proj-kicker">Featured · Live</div>
           <div class="proj-name">FormulaForge</div>
-          <p class="proj-desc">AI cosmetic formulation optimizer integrating OpenAI, Amazon Bedrock, and Hugging Face with PuLP linear programming. Optimizes ingredient selection under regulatory, cost, and efficacy constraints — explains the trade-offs in plain language.</p>
+          <p class="proj-desc">AI cosmetic formulation optimizer built on OpenAI, Amazon Bedrock, Hugging Face, and PuLP linear programming. It picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the reasoning in plain language.</p>
           <div class="proj-tags">
             <span class="proj-tag">Python</span><span class="proj-tag">AWS Bedrock</span>
             <span class="proj-tag">Hugging Face</span><span class="proj-tag">PuLP</span>
@@ -774,7 +838,7 @@
         </div>
         <div class="proj-kicker">AI Tutoring Platform</div>
         <div class="proj-name proj-name-sm">PaideAI</div>
-        <p class="proj-desc">AI math tutor with adaptive problem generation, live hints, and class management — built around real pedagogical research on calculus intuition.</p>
+        <p class="proj-desc">AI math tutor with adaptive problem generation, live hints, and class management. Built around actual research on how students build calculus intuition.</p>
         <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Claude API</span><span class="proj-tag">FastAPI</span></div>
         <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="proj-link">
           GitHub
@@ -835,20 +899,20 @@
     </div>
     <div class="edu-list">
       <div class="edu-row reveal">
-        <div class="edu-period">Sept 2026 — Present</div>
+        <div class="edu-period">Sept 2026 · Present</div>
         <div>
           <div class="edu-degree">BASc Electrical Engineering</div>
-          <div class="edu-school">University of Waterloo — Computer Engineering &amp; AI Options</div>
+          <div class="edu-school">University of Waterloo</div>
         </div>
-        <div class="edu-note">AI/ML systems · computer architecture · distributed computing</div>
+        <div class="edu-note">circuits · signals · embedded systems · mathematics</div>
       </div>
       <div class="edu-row reveal">
-        <div class="edu-period">Jan 2024 — Dec 2025</div>
+        <div class="edu-period">Jan 2024 · Dec 2025</div>
         <div>
           <div class="edu-degree">DEC, Pure &amp; Applied Sciences</div>
           <div class="edu-school">Collège de Maisonneuve, Montreal</div>
         </div>
-        <div class="edu-note">Mathematics Olympiad finalist — Casablanca, Morocco</div>
+        <div class="edu-note">Mathematics Olympiad finalist, Casablanca</div>
       </div>
     </div>
   </div>
@@ -899,6 +963,22 @@
   );
   document.querySelectorAll('.reveal, .exp-row, .edu-row').forEach(el => io.observe(el));
   document.querySelectorAll('.exp-row').forEach((el, i) => { el.style.transitionDelay = `${i * 0.09}s`; });
+
+  // Hamburger menu toggle
+  const burger = document.getElementById('nav-burger');
+  const navLinks = document.getElementById('nav-links');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      navLinks.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
 </script>
 </body>
 </html>
