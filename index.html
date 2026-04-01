@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sami El-Figha | AI Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,7 +21,7 @@
       --fire:     #FF6B35;
       --border:   rgba(255,255,255,0.07);
       --border-2: rgba(255,255,255,0.04);
-      --fd:       'Syne', sans-serif;
+      --fd:       'Inter Tight', sans-serif;
       --fm:       'IBM Plex Mono', monospace;
       --fb:       'Inter', sans-serif;
     }
@@ -308,6 +308,52 @@
     .proj-link:hover { color: var(--ink); gap: 12px; }
     .proj-link:hover svg { transform: translate(3px,-2px); }
     .proj-logo { height: 26px; width: auto; object-fit: contain; margin-bottom: 16px; opacity: 0.7; display: block; }
+
+    /* ── BROWSER FRAME MOCKUP ── */
+    .browser-frame { width: 100%; border-radius: 8px 8px 0 0; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-bottom: none; margin-bottom: 28px; flex-shrink: 0; }
+    .browser-bar { background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 9px 14px; display: flex; align-items: center; gap: 10px; }
+    .browser-dots { display: flex; gap: 5px; }
+    .browser-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .browser-dot:nth-child(1) { background: #FF5F57; }
+    .browser-dot:nth-child(2) { background: #FEBC2E; }
+    .browser-dot:nth-child(3) { background: #28C840; }
+    .browser-url { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 3px 10px; font-family: var(--fm); font-size: 9px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .browser-content { padding: 16px; background: rgba(6,6,8,0.7); }
+    /* FormulaForge mockup */
+    .mock-ff { display: flex; flex-direction: column; gap: 9px; }
+    .mock-ff-row { display: flex; align-items: center; gap: 10px; }
+    .mock-ff-label { font-family: var(--fm); font-size: 9px; color: var(--ink-3); width: 90px; flex-shrink: 0; }
+    .mock-ff-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+    .mock-ff-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #FF6B35, #ff9560); }
+    .mock-ff-val { font-family: var(--fm); font-size: 9px; color: var(--ink-2); width: 32px; text-align: right; flex-shrink: 0; }
+    .mock-ff-badge { display: inline-flex; gap: 6px; margin-top: 4px; }
+    .mock-badge { font-family: var(--fm); font-size: 8px; padding: 2px 7px; border-radius: 2px; border: 1px solid rgba(255,107,53,0.3); color: #FF6B35; }
+    /* PaideAI mockup */
+    .mock-pai { display: flex; flex-direction: column; gap: 8px; }
+    .mock-msg { padding: 8px 12px; border-radius: 6px; font-size: 10px; line-height: 1.5; max-width: 85%; }
+    .mock-msg-q { background: rgba(255,255,255,0.05); color: var(--ink-2); align-self: flex-start; border: 1px solid rgba(255,255,255,0.06); font-family: var(--fm); }
+    .mock-msg-a { background: rgba(94,92,230,0.12); color: #a5a3f0; align-self: flex-end; border: 1px solid rgba(94,92,230,0.2); font-family: var(--fb); }
+    .mock-pai-input { margin-top: 6px; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 6px 10px; font-family: var(--fm); font-size: 9px; color: var(--ink-3); background: rgba(255,255,255,0.03); }
+    /* Multi-agent mockup */
+    .mock-ma { display: flex; align-items: center; gap: 0; }
+    .mock-node { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 8px 10px; text-align: center; }
+    .mock-node-label { font-family: var(--fm); font-size: 8px; color: var(--ink-3); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+    .mock-node-status { display: inline-flex; align-items: center; gap: 4px; font-family: var(--fm); font-size: 9px; }
+    .mock-node-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .mock-arrow { font-size: 10px; color: var(--ink-3); padding: 0 4px; flex-shrink: 0; }
+    .mock-stats { display: flex; gap: 14px; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+    .mock-stat { font-family: var(--fm); font-size: 9px; color: var(--ink-3); }
+    .mock-stat strong { font-size: 14px; color: #28C840; display: block; font-weight: 500; }
+    .mock-ff-fill-82 { width: 82%; }
+    .mock-ff-fill-60 { width: 60%; }
+    .mock-ff-fill-18 { width: 18%; }
+    .mock-ff-fill-48 { width: 48%; }
+    .mock-status-done  { font-family: var(--fm); font-size: 9px; color: #28C840; }
+    .mock-status-run   { font-family: var(--fm); font-size: 9px; color: #FEBC2E; }
+    .mock-status-queue { font-family: var(--fm); font-size: 9px; color: var(--ink-3); }
+    .mock-dot-done  { background: #28C840; }
+    .mock-dot-run   { background: #FEBC2E; }
+    .mock-dot-queue { background: var(--ink-3); }
 
     /* ── EDUCATION ── */
     #education { background: var(--bg-2); }
@@ -661,10 +707,45 @@
     <div class="proj-asymm reveal">
 
       <div class="proj-card proj-card-featured">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+            <div class="browser-url">formula-forge.onrender.com</div>
+          </div>
+          <div class="browser-content">
+            <div class="mock-ff">
+              <div class="mock-ff-row">
+                <div class="mock-ff-label">Hyaluronic Acid</div>
+                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-82"></div></div>
+                <div class="mock-ff-val">2.0%</div>
+              </div>
+              <div class="mock-ff-row">
+                <div class="mock-ff-label">Niacinamide</div>
+                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-60"></div></div>
+                <div class="mock-ff-val">5.0%</div>
+              </div>
+              <div class="mock-ff-row">
+                <div class="mock-ff-label">Retinol</div>
+                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-18"></div></div>
+                <div class="mock-ff-val">0.3%</div>
+              </div>
+              <div class="mock-ff-row">
+                <div class="mock-ff-label">Ceramide NP</div>
+                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-48"></div></div>
+                <div class="mock-ff-val">1.2%</div>
+              </div>
+              <div class="mock-ff-badge">
+                <span class="mock-badge">Cost ✓</span>
+                <span class="mock-badge">Regulatory ✓</span>
+                <span class="mock-badge">Efficacy 94%</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div>
           <div class="proj-kicker">Featured — Live</div>
           <div class="proj-name">FormulaForge</div>
-          <p class="proj-desc">AI cosmetic formulation optimizer integrating OpenAI, Amazon Bedrock, and Hugging Face with PuLP linear programming. Optimizes ingredient selection under regulatory, cost, and efficacy constraints — explains the trade-offs in plain language.<br><br>Designed end-to-end: constraint satisfaction engine → Streamlit UI → production on Render.</p>
+          <p class="proj-desc">AI cosmetic formulation optimizer integrating OpenAI, Amazon Bedrock, and Hugging Face with PuLP linear programming. Optimizes ingredient selection under regulatory, cost, and efficacy constraints — explains the trade-offs in plain language.</p>
           <div class="proj-tags">
             <span class="proj-tag">Python</span><span class="proj-tag">AWS Bedrock</span>
             <span class="proj-tag">Hugging Face</span><span class="proj-tag">PuLP</span>
@@ -678,7 +759,19 @@
       </div>
 
       <div class="proj-card">
-        <img src="img/paideai.png" alt="PaideAI" class="proj-logo">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+            <div class="browser-url">paideai.app — Calculus I</div>
+          </div>
+          <div class="browser-content">
+            <div class="mock-pai">
+              <div class="mock-msg mock-msg-q">Find lim(x→0) sin(x)/x</div>
+              <div class="mock-msg mock-msg-a">Think about the unit circle — as x shrinks, sin(x) ≈ x. The ratio approaches 1.</div>
+              <div class="mock-pai-input">Type your answer or ask a hint…</div>
+            </div>
+          </div>
+        </div>
         <div class="proj-kicker">AI Tutoring Platform</div>
         <div class="proj-name proj-name-sm">PaideAI</div>
         <p class="proj-desc">AI math tutor with adaptive problem generation, live hints, and class management — built around real pedagogical research on calculus intuition.</p>
@@ -690,6 +783,35 @@
       </div>
 
       <div class="proj-card">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+            <div class="browser-url">neuralseek · pipeline monitor</div>
+          </div>
+          <div class="browser-content">
+            <div class="mock-ma">
+              <div class="mock-node">
+                <div class="mock-node-label">Triage</div>
+                <div class="mock-node-status"><span class="mock-node-dot mock-dot-done"></span><span class="mock-status-done">Done</span></div>
+              </div>
+              <div class="mock-arrow">→</div>
+              <div class="mock-node">
+                <div class="mock-node-label">Execution</div>
+                <div class="mock-node-status"><span class="mock-node-dot mock-dot-run"></span><span class="mock-status-run">Running</span></div>
+              </div>
+              <div class="mock-arrow">→</div>
+              <div class="mock-node">
+                <div class="mock-node-label">Review</div>
+                <div class="mock-node-status"><span class="mock-node-dot mock-dot-queue"></span><span class="mock-status-queue">Queued</span></div>
+              </div>
+            </div>
+            <div class="mock-stats">
+              <div class="mock-stat"><strong>−40%</strong>resolution time</div>
+              <div class="mock-stat"><strong>3</strong>parallel agents</div>
+              <div class="mock-stat"><strong>AWS</strong>Lambda</div>
+            </div>
+          </div>
+        </div>
         <div class="proj-kicker">Production · NeuralSeek AI</div>
         <div class="proj-name proj-name-sm">Multi-Agent Pipeline</div>
         <p class="proj-desc">Triage → execution → review pipeline on AWS. ~40% faster resolution than single-agent baseline via parallelized reasoning and fallback handling.</p>
