@@ -804,7 +804,7 @@
       background-size: 200% 200%;
       background-position: var(--bg-x) var(--bg-y);
       filter: brightness(0.85) contrast(2.75) saturate(0.65);
-      pointer-events: none; transition: opacity 0.25s ease;
+      pointer-events: none;
     }
     .poke-glare {
       position: absolute; inset: 0; border-radius: inherit;
@@ -814,7 +814,7 @@
         farthest-corner ellipse at var(--pointer-x) var(--pointer-y),
         hsla(0,0%,100%,0.8) 10%, hsla(0,0%,100%,0.65) 20%, hsla(0,0%,0%,0.5) 90%
       );
-      pointer-events: none; transition: opacity 0.25s ease;
+      pointer-events: none;
     }
     /* ── PROJECT FLIP CARDS ── */
     .proj-deck { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 56px; align-items: flex-start; }
@@ -1434,11 +1434,11 @@
   }
 
   /* ── POKEMON HOLOGRAPHIC CARD EFFECT ── */
-  document.querySelectorAll('.poke-wrap').forEach(card => {
-    let rafId = null;
-    let tRX = 0, tRY = 0, tBX = 50, tBY = 50;
-    let cRX = 0, cRY = 0, cBX = 50, cBY = 50;
+  document.querySelectorAll('.poke-wrap').forEach((card, i) => {
+    let tRX = 0, tRY = 0, tBX = 50, tBY = 50, tOP = 0;
+    let cRX = 0, cRY = 0, cBX = 50, cBY = 50, cOP = 0;
     let isOver = false;
+    const tOffset = i * 2000;
 
     card.addEventListener('mouseenter', () => {
       isOver = true;
@@ -1455,31 +1455,44 @@
       tBY = 33 + y * 34;
       card.style.setProperty('--pointer-x', `${x * 100}%`);
       card.style.setProperty('--pointer-y', `${y * 100}%`);
-      card.style.setProperty('--card-op', '1');
-      if (!rafId) {
-        const tick = () => {
-          if (!isOver && Math.abs(cRX) < 0.05 && Math.abs(cRY) < 0.05) {
-            rafId = null; return;
-          }
-          cRX += (tRX - cRX) * 0.1;
-          cRY += (tRY - cRY) * 0.1;
-          cBX += (tBX - cBX) * 0.1;
-          cBY += (tBY - cBY) * 0.1;
-          card.style.setProperty('--rotate-x', `${cRX}deg`);
-          card.style.setProperty('--rotate-y', `${cRY}deg`);
-          card.style.setProperty('--bg-x', `${cBX}%`);
-          card.style.setProperty('--bg-y', `${cBY}%`);
-          rafId = requestAnimationFrame(tick);
-        };
-        rafId = requestAnimationFrame(tick);
-      }
+      tOP = 1;
     });
 
     card.addEventListener('mouseleave', () => {
       isOver = false;
-      tRX = 0; tRY = 0; tBX = 50; tBY = 50;
-      card.style.setProperty('--card-op', '0');
     });
+
+    const tick = () => {
+      if (!isOver) {
+        // Idle shining and floating animation
+        const t = (Date.now() + tOffset) / 2000;
+        tRX = Math.sin(t) * 5;
+        tRY = Math.cos(t * 1.2) * 4;
+        tBX = 50 + Math.sin(t) * 40;
+        tBY = 50 + Math.cos(t) * 40;
+        tOP = 0.45 + Math.sin(t * 1.5) * 0.15; // gentle opacity pulse
+        
+        card.style.setProperty('--pointer-x', `${50 + Math.sin(t) * 30}%`);
+        card.style.setProperty('--pointer-y', `${50 + Math.cos(t) * 30}%`);
+      }
+
+      // Smooth lerping
+      cRX += (tRX - cRX) * 0.1;
+      cRY += (tRY - cRY) * 0.1;
+      cBX += (tBX - cBX) * 0.1;
+      cBY += (tBY - cBY) * 0.1;
+      cOP += (tOP - cOP) * 0.1;
+
+      card.style.setProperty('--rotate-x', `${cRX}deg`);
+      card.style.setProperty('--rotate-y', `${cRY}deg`);
+      card.style.setProperty('--bg-x', `${cBX}%`);
+      card.style.setProperty('--bg-y', `${cBY}%`);
+      card.style.setProperty('--card-op', cOP.toFixed(3));
+
+      requestAnimationFrame(tick);
+    };
+    
+    requestAnimationFrame(tick);
   });
 
   /* ── 3D CARD TILT + SPOTLIGHT ── */
