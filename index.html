@@ -374,8 +374,8 @@
     /* ── SQUIRTLE SPEECH BUBBLE ── */
     .squirtle-speech {
       position: absolute;
-      bottom: calc(50% + 90px);
-      left: 50%;
+      bottom: calc(50% + 105px);
+      left: calc(50% + 15px);
       transform: translateX(-50%) translateY(12px) scale(0.92);
       width: 300px;
       /* Using !important for backdrop-filter to ensure Safari compat */
@@ -1455,7 +1455,7 @@
       tBY = 33 + y * 34;
       card.style.setProperty('--pointer-x', `${x * 100}%`);
       card.style.setProperty('--pointer-y', `${y * 100}%`);
-      tOP = 1;
+      tOP = 0;
     });
 
     card.addEventListener('mouseleave', () => {
