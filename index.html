@@ -281,6 +281,71 @@
     .orax-cta svg { transition: transform 0.25s ease; }
     .orax-cta:hover svg { transform: translate(3px,-2px); }
 
+    /* ── SQUIRTLE ANIMATION ── */
+    .squirtle-scene {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 140px;
+      pointer-events: none; overflow: hidden; z-index: 10;
+    }
+    .squirtle-sprite-wrap {
+      position: absolute; bottom: 18px;
+      transform: translateX(110vw) scaleX(-1);
+      transition: none;
+    }
+    .squirtle-sprite {
+      width: 96px; height: 96px; image-rendering: pixelated;
+    }
+    .squirtle-water {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .water-ring {
+      position: absolute; left: 50%; top: 50%;
+      border: 2px solid rgba(100,200,255,0.7);
+      border-radius: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      opacity: 0;
+    }
+    /* Running in */
+    @keyframes sq-run-in {
+      0%   { transform: translateX(110vw) scaleX(-1); }
+      100% { transform: translateX(calc(50vw - 48px)) scaleX(-1); }
+    }
+    /* Bounce look-around */
+    @keyframes sq-bounce {
+      0%,100% { transform: translateX(calc(50vw - 48px)) scaleX(-1) translateY(0); }
+      30%     { transform: translateX(calc(50vw - 48px)) scaleX(-1) translateY(-10px); }
+      60%     { transform: translateX(calc(50vw - 48px)) scaleX(-1) translateY(-4px); }
+    }
+    /* Run out to left */
+    @keyframes sq-run-out {
+      0%   { transform: translateX(calc(50vw - 48px)) scaleX(1); }
+      100% { transform: translateX(-120px) scaleX(1); }
+    }
+    /* Water ring expand */
+    @keyframes ring-expand {
+      0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.8; }
+      100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+    }
+
+    .squirtle-scene .squirtle-sprite-wrap.sq-in {
+      animation: sq-run-in 0.7s cubic-bezier(0.25,0,0.5,1) forwards;
+    }
+    .squirtle-scene .squirtle-sprite-wrap.sq-bounce {
+      animation: sq-bounce 0.8s ease-in-out forwards;
+    }
+    .squirtle-scene .squirtle-sprite-wrap.sq-out {
+      animation: sq-run-out 0.55s cubic-bezier(0.5,0,0.75,0) forwards;
+    }
+    .water-ring.ring-1 { width: 60px; height: 30px; }
+    .water-ring.ring-2 { width: 100px; height: 50px; }
+    .water-ring.ring-3 { width: 148px; height: 74px; }
+    .water-ring.sq-splash {
+      animation: ring-expand 0.9s ease-out forwards;
+    }
+    .water-ring.ring-2.sq-splash { animation-delay: 0.12s; }
+    .water-ring.ring-3.sq-splash { animation-delay: 0.25s; }
+
     /* ── PROJECTS ── */
     #projects { background: var(--bg); }
     .proj-asymm { display: grid; grid-template-columns: 3fr 2fr; grid-template-rows: auto auto; gap: 1px; background: var(--border); border: 1px solid var(--border); }
@@ -982,6 +1047,21 @@
       </a>
     </div>
   </div>
+
+  <!-- Squirtle scene -->
+  <div class="squirtle-scene" id="squirtleScene">
+    <div class="squirtle-water" id="squirtleWater">
+      <div class="water-ring ring-1"></div>
+      <div class="water-ring ring-2"></div>
+      <div class="water-ring ring-3"></div>
+    </div>
+    <div class="squirtle-sprite-wrap" id="squirtleWrap">
+      <img class="squirtle-sprite" id="squirtleImg"
+           src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif"
+           alt="Squirtle"
+           onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/7.png'"/>
+    </div>
+  </div>
 </section>
 
 <!-- PROJECTS -->
@@ -1357,6 +1437,51 @@
       });
       btn.addEventListener('mouseenter', () => { btn.style.transition = 'none'; });
     });
+
+    /* ── SQUIRTLE SCROLL ANIMATION ── */
+    (function() {
+      const section = document.getElementById('oraxai');
+      const wrap    = document.getElementById('squirtleWrap');
+      const water   = document.getElementById('squirtleWater');
+      if (!section || !wrap) return;
+
+      function playSq() {
+        // Reset
+        wrap.className = 'squirtle-sprite-wrap';
+        water.querySelectorAll('.water-ring').forEach(r => r.classList.remove('sq-splash'));
+
+        // Phase 1: run in from right (facing left via scaleX(-1) in CSS)
+        wrap.classList.add('sq-in');
+
+        setTimeout(() => {
+          // Phase 2: bounce / look around
+          wrap.classList.remove('sq-in');
+          wrap.classList.add('sq-bounce');
+
+          // Trigger water splash at peak of bounce
+          setTimeout(() => {
+            water.querySelectorAll('.water-ring').forEach(r => r.classList.add('sq-splash'));
+          }, 300);
+
+          setTimeout(() => {
+            // Phase 3: flip direction and run out to left
+            wrap.classList.remove('sq-bounce');
+            wrap.classList.add('sq-out');
+          }, 800);
+        }, 700);
+      }
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            playSq();
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      obs.observe(section);
+    })();
 
     /* ── SECTION TITLE HOVER ── */
     document.querySelectorAll('.section-title').forEach(el => {
