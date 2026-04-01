@@ -108,6 +108,12 @@
     }
     .name-fire { color: var(--fire); display: block; }
     .hero-char { flex-shrink: 0; padding: 0 0 20px 60px; display: flex; flex-direction: column; align-items: center; }
+    .hero-char-sprite {
+      image-rendering: pixelated; width: 148px; height: 148px;
+      filter: drop-shadow(0 10px 32px rgba(255,107,53,0.35));
+      animation: char-float 5s ease-in-out infinite;
+      transition: transform 0.12s ease-out;
+    }
     @keyframes char-float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-13px); } }
     .hero-char-id { margin-top: 12px; font-family: var(--fm); font-size: 9px; color: var(--ink-3); letter-spacing: 1.5px; text-transform: uppercase; }
     .hero-rule { height: 1px; background: var(--border); position: relative; z-index: 2; }
@@ -468,7 +474,7 @@
     .edu-logo-img { height: 38px; width: 38px; object-fit: contain; flex-shrink: 0; border-radius: 4px; opacity: 0.88; }
 
     /* ── PARALLAX / INTERACTIVE ── */
-    .hero-char-card { transition: transform 0.3s ease-out; }
+    /* hero-char-card removed, sprite restored */
     .orax-network-wrap { transition: transform 0.18s ease-out; }
 
     /* ── HAMBURGER ── */
@@ -525,6 +531,9 @@
       .proj-card-featured { grid-row: auto; }
       .proj-card { padding: 24px; }
       .browser-frame { margin-bottom: 20px; }
+      .proj-deck { gap: 20px; }
+      .proj-flip { width: 210px; }
+      .pfb-title { font-size: 20px; }
       .contact-headline { font-size: clamp(48px,14vw,100px); }
       .contact-row { flex-direction: column; gap: 28px; align-items: flex-start; }
       .contact-links { flex-direction: column; width: 100%; }
@@ -547,6 +556,11 @@
       .section-title { font-size: clamp(32px,10vw,56px); }
       .exp-role-title { font-size: 18px; }
       .orax-metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .proj-deck { gap: 14px; justify-content: center; }
+      .proj-flip { width: calc(50vw - 36px); max-width: 180px; }
+      .proj-flip-back { padding: 18px 14px 16px; gap: 7px; }
+      .pfb-title { font-size: 17px; }
+      .pfb-desc { font-size: 11px; -webkit-line-clamp: 5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
       .mock-ma { flex-direction: column; gap: 6px; align-items: stretch; }
       .mock-arrow { text-align: center; padding: 0; }
       .browser-content { padding: 12px; }
@@ -604,12 +618,47 @@
       );
       pointer-events: none; transition: opacity 0.25s ease;
     }
-    /* Hero card float */
-    .hero-char-card {
-      animation: char-float 5s ease-in-out infinite;
-      display: flex; align-items: center; justify-content: center;
+    /* ── PROJECT FLIP CARDS ── */
+    .proj-deck { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 56px; }
+    .proj-flip { width: 268px; aspect-ratio: 245/342; perspective: 1200px; cursor: pointer; flex-shrink: 0; position: relative; }
+    .proj-flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.4,0,0.2,1);
+      border-radius: 4.55% / 3.5%;
     }
-    .hero-char-card:hover { animation-play-state: paused; }
+    .proj-flip.flipped .proj-flip-inner { transform: rotateY(180deg); }
+    .proj-flip-front, .proj-flip-back {
+      position: absolute; inset: 0; border-radius: inherit; overflow: hidden;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    }
+    .proj-flip-front .poke-wrap { width: 100%; height: 100%; border-radius: inherit; }
+    .proj-flip-hint {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 12px 10px; text-align: center;
+      font-family: var(--fm); font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.7);
+      text-transform: uppercase; pointer-events: none;
+      background: linear-gradient(transparent, rgba(0,0,0,0.55));
+      transition: opacity 0.3s;
+    }
+    .proj-flip.flipped .proj-flip-hint { opacity: 0; }
+    .proj-flip-back {
+      transform: rotateY(180deg);
+      background: var(--bg-3); border: 1px solid var(--border);
+      padding: 26px 22px 22px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .pfb-type { font-family: var(--fm); font-size: 9px; letter-spacing: 2px; color: var(--fire); text-transform: uppercase; }
+    .pfb-title { font-family: var(--fd); font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.05; color: var(--ink); }
+    .pfb-desc { font-size: 12px; color: var(--ink-3); line-height: 1.62; flex-grow: 1; }
+    .pfb-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pfb-tag { font-family: var(--fm); font-size: 9px; padding: 3px 7px; border: 1px solid var(--border); border-radius: 2px; color: var(--ink-3); }
+    .pfb-links { display: flex; gap: 14px; margin-top: auto; padding-top: 6px; }
+    .pfb-link { font-family: var(--fm); font-size: 10px; letter-spacing: 1.5px; color: var(--fire); text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
+    .pfb-link:hover { color: var(--ink); }
+    .pfb-back-btn { position: absolute; top: 10px; right: 14px; font-family: var(--fm); font-size: 10px; color: var(--ink-3); background: none; border: none; cursor: pointer; letter-spacing: 1px; padding: 2px 4px; }
+    .pfb-back-btn:hover { color: var(--ink); }
+    [data-theme="light"] .proj-flip-back { background: #f4f1ec; }
 
     /* Pokémon section */
     .poke-section { padding: 100px 60px 80px; background: var(--bg-2); }
@@ -629,11 +678,11 @@
       .poke-section { padding: 64px 24px 56px; }
       .poke-grid { gap: 24px; }
       .poke-wrap { width: 160px; }
-      .hero-char-card .poke-wrap { width: 180px; }
+      .hero-char-sprite { width: 120px; height: 120px; }
     }
     @media (max-width: 480px) {
       .poke-wrap { width: 140px; }
-      .hero-char-card .poke-wrap { width: 150px; }
+      .hero-char-sprite { width: 100px; height: 100px; }
     }
   </style>
 </head>
@@ -673,21 +722,15 @@
   <div class="hero-glow-b"></div>
   <div class="hero-upper">
     <div class="hero-text">
-      <div class="hero-overline">AI Engineer &amp; Builder · Montreal, QC</div>
+      <div class="hero-overline">Young Builder · Montreal, QC</div>
       <h1 class="hero-name">SAMI<span class="name-fire">EL-FIGHA.</span></h1>
     </div>
     <div class="hero-char">
-      <div class="hero-char-card">
-        <div class="poke-wrap" data-card="hero-charizard">
-          <img class="poke-img"
-            src="https://images.pokemontcg.io/base1/4_hires.png"
-            alt="Charizard Base Set"
-            onerror="this.src='https://assets.tcgdex.net/en/base/base1/4/high.webp';"
-          />
-          <div class="poke-shine"></div>
-          <div class="poke-glare"></div>
-        </div>
-      </div>
+      <img class="hero-char-sprite"
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif"
+        alt="Charizard mascot"
+        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png';this.style.width='130px';this.style.height='130px';"
+      />
       <div class="hero-char-id">#006 Charizard · Fire · Flying</div>
     </div>
   </div>
@@ -938,122 +981,97 @@
       <h2 class="section-title">Projects</h2>
       <p class="section-sub">Side work where I own every layer.</p>
     </div>
-    <div class="proj-asymm reveal">
+    <div class="proj-deck">
 
-      <div class="proj-card proj-card-featured">
-        <div class="browser-frame">
-          <div class="browser-bar">
-            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
-            <div class="browser-url">formula-forge.onrender.com</div>
+      <!-- FormulaForge / Magneton -->
+      <div class="proj-flip reveal">
+        <div class="proj-flip-inner">
+          <div class="proj-flip-front">
+            <div class="poke-wrap">
+              <img class="poke-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton"
+                onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';" />
+              <div class="poke-shine"></div>
+              <div class="poke-glare"></div>
+            </div>
+            <div class="proj-flip-hint">tap to reveal</div>
           </div>
-          <div class="browser-content">
-            <div class="mock-ff">
-              <div class="mock-ff-row">
-                <div class="mock-ff-label">Hyaluronic Acid</div>
-                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-82"></div></div>
-                <div class="mock-ff-val">2.0%</div>
-              </div>
-              <div class="mock-ff-row">
-                <div class="mock-ff-label">Niacinamide</div>
-                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-60"></div></div>
-                <div class="mock-ff-val">5.0%</div>
-              </div>
-              <div class="mock-ff-row">
-                <div class="mock-ff-label">Retinol</div>
-                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-18"></div></div>
-                <div class="mock-ff-val">0.3%</div>
-              </div>
-              <div class="mock-ff-row">
-                <div class="mock-ff-label">Ceramide NP</div>
-                <div class="mock-ff-bar"><div class="mock-ff-fill mock-ff-fill-48"></div></div>
-                <div class="mock-ff-val">1.2%</div>
-              </div>
-              <div class="mock-ff-badge">
-                <span class="mock-badge">Cost ✓</span>
-                <span class="mock-badge">Regulatory ✓</span>
-                <span class="mock-badge">Efficacy 94%</span>
-              </div>
+          <div class="proj-flip-back">
+            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+            <div class="pfb-type">Electric Type · Featured</div>
+            <div class="pfb-title">FormulaForge</div>
+            <p class="pfb-desc">Cosmetic ingredient optimizer built on OpenAI, AWS Bedrock, and PuLP linear programming. Picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the trade-offs in plain language.</p>
+            <div class="pfb-tags">
+              <span class="pfb-tag">Python</span><span class="pfb-tag">AWS Bedrock</span>
+              <span class="pfb-tag">Hugging Face</span><span class="pfb-tag">PuLP</span><span class="pfb-tag">Streamlit</span>
+            </div>
+            <div class="pfb-links">
+              <a href="https://formula-forge.onrender.com" target="_blank" rel="noopener" class="pfb-link">
+                Live Demo
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+              </a>
             </div>
           </div>
         </div>
-        <div>
-          <div class="proj-kicker">Featured · Live</div>
-          <div class="proj-name">FormulaForge</div>
-          <p class="proj-desc">AI cosmetic formulation optimizer built on OpenAI, Amazon Bedrock, Hugging Face, and PuLP linear programming. It picks ingredients that satisfy cost, efficacy, and regulatory constraints, then explains the reasoning in plain language.</p>
-          <div class="proj-tags">
-            <span class="proj-tag">Python</span><span class="proj-tag">AWS Bedrock</span>
-            <span class="proj-tag">Hugging Face</span><span class="proj-tag">PuLP</span>
-            <span class="proj-tag">Streamlit</span><span class="proj-tag">Render</span>
-          </div>
-        </div>
-        <a href="https://formula-forge.onrender.com" target="_blank" rel="noopener" class="proj-link">
-          Live demo
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 10L10 2M4 2h6v6"/></svg>
-        </a>
       </div>
 
-      <div class="proj-card">
-        <div class="browser-frame">
-          <div class="browser-bar">
-            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
-            <div class="browser-url">paideai.app — Calculus I</div>
+      <!-- PaideAI / Alakazam -->
+      <div class="proj-flip reveal">
+        <div class="proj-flip-inner">
+          <div class="proj-flip-front">
+            <div class="poke-wrap">
+              <img class="poke-img" src="https://images.pokemontcg.io/base1/1_hires.png" alt="Alakazam"
+                onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';" />
+              <div class="poke-shine"></div>
+              <div class="poke-glare"></div>
+            </div>
+            <div class="proj-flip-hint">tap to reveal</div>
           </div>
-          <div class="browser-content">
-            <div class="mock-pai">
-              <div class="mock-msg mock-msg-q">Find lim(x→0) sin(x)/x</div>
-              <div class="mock-msg mock-msg-a">Think about the unit circle — as x shrinks, sin(x) ≈ x. The ratio approaches 1.</div>
-              <div class="mock-pai-input">Type your answer or ask a hint…</div>
+          <div class="proj-flip-back">
+            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+            <div class="pfb-type">Psychic Type · Active</div>
+            <div class="pfb-title">PaideAI</div>
+            <p class="pfb-desc">Math tutor that adapts to how each student thinks. Generates problems, gives hints in real time, and lets teachers track the whole class. Built around real research on calculus intuition.</p>
+            <div class="pfb-tags">
+              <span class="pfb-tag">React</span><span class="pfb-tag">Claude API</span><span class="pfb-tag">FastAPI</span>
+            </div>
+            <div class="pfb-links">
+              <a href="https://paideai.onrender.com" target="_blank" rel="noopener" class="pfb-link">
+                Live Demo
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+              </a>
             </div>
           </div>
         </div>
-        <div class="proj-kicker">AI Tutoring Platform</div>
-        <div class="proj-name proj-name-sm">PaideAI</div>
-        <p class="proj-desc">AI math tutor with adaptive problem generation, live hints, and class management. Built around actual research on how students build calculus intuition.</p>
-        <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Claude API</span><span class="proj-tag">FastAPI</span></div>
-        <a href="https://paideai.onrender.com" target="_blank" rel="noopener" class="proj-link">
-          Live Demo
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 10L10 2M4 2h6v6"/></svg>
-        </a>
       </div>
 
-      <div class="proj-card">
-        <div class="browser-frame">
-          <div class="browser-bar">
-            <div class="browser-dots"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
-            <div class="browser-url">neuralseek · pipeline monitor</div>
-          </div>
-          <div class="browser-content">
-            <div class="mock-ma">
-              <div class="mock-node">
-                <div class="mock-node-label">Triage</div>
-                <div class="mock-node-status"><span class="mock-node-dot mock-dot-done"></span><span class="mock-status-done">Done</span></div>
-              </div>
-              <div class="mock-arrow">→</div>
-              <div class="mock-node">
-                <div class="mock-node-label">Execution</div>
-                <div class="mock-node-status"><span class="mock-node-dot mock-dot-run"></span><span class="mock-status-run">Running</span></div>
-              </div>
-              <div class="mock-arrow">→</div>
-              <div class="mock-node">
-                <div class="mock-node-label">Review</div>
-                <div class="mock-node-status"><span class="mock-node-dot mock-dot-queue"></span><span class="mock-status-queue">Queued</span></div>
-              </div>
+      <!-- Multi-Agent Pipeline / Mewtwo -->
+      <div class="proj-flip reveal">
+        <div class="proj-flip-inner">
+          <div class="proj-flip-front">
+            <div class="poke-wrap">
+              <img class="poke-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo"
+                onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';" />
+              <div class="poke-shine"></div>
+              <div class="poke-glare"></div>
             </div>
-            <div class="mock-stats">
-              <div class="mock-stat"><strong>−40%</strong>resolution time</div>
-              <div class="mock-stat"><strong>3</strong>parallel agents</div>
-              <div class="mock-stat"><strong>AWS</strong>Lambda</div>
+            <div class="proj-flip-hint">tap to reveal</div>
+          </div>
+          <div class="proj-flip-back">
+            <button class="pfb-back-btn" aria-label="Flip back">↩</button>
+            <div class="pfb-type">Psychic Type · Production</div>
+            <div class="pfb-title">Multi-Agent Pipeline</div>
+            <p class="pfb-desc">Triage, execution, and review pipeline running on AWS. Around 40% faster than a single-agent baseline by running agents in parallel with fallback handling built in.</p>
+            <div class="pfb-tags">
+              <span class="pfb-tag">AWS</span><span class="pfb-tag">NeuralSeek</span><span class="pfb-tag">Python</span>
+            </div>
+            <div class="pfb-links">
+              <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="pfb-link">
+                GitHub
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 8L8 2M3 2h5v5"/></svg>
+              </a>
             </div>
           </div>
         </div>
-        <div class="proj-kicker">Production · NeuralSeek AI</div>
-        <div class="proj-name proj-name-sm">Multi-Agent Pipeline</div>
-        <p class="proj-desc">Triage → execution → review pipeline on AWS. ~40% faster resolution than single-agent baseline via parallelized reasoning and fallback handling.</p>
-        <div class="proj-tags"><span class="proj-tag">AWS</span><span class="proj-tag">NeuralSeek</span><span class="proj-tag">Python</span></div>
-        <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener" class="proj-link">
-          GitHub
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2 10L10 2M4 2h6v6"/></svg>
-        </a>
       </div>
 
     </div>
@@ -1071,13 +1089,13 @@
       <div class="edu-row reveal">
         <div class="edu-period">Sept 2026 · Present</div>
         <div class="edu-main">
-          <img src="img/uwaterloo.svg" alt="University of Waterloo" class="edu-logo-img">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/University_of_Waterloo_seal.svg/400px-University_of_Waterloo_seal.svg.png" alt="University of Waterloo" class="edu-logo-img">
           <div>
             <div class="edu-degree">BASc Electrical Engineering</div>
             <div class="edu-school">University of Waterloo</div>
           </div>
         </div>
-        <div class="edu-note">circuits · signals · embedded systems · mathematics</div>
+        <div class="edu-note">computer networks · machine learning · digital hardware · computer architecture · embedded software · C · C++ · Rust</div>
       </div>
       <div class="edu-row reveal">
         <div class="edu-period">Jan 2024 · Dec 2025</div>
@@ -1088,81 +1106,12 @@
             <div class="edu-school">Collège de Maisonneuve, Montreal</div>
           </div>
         </div>
-        <div class="edu-note">Mathematics Olympiad finalist, Casablanca</div>
+        <div class="edu-note">intro to proofs · advanced calculus · linear algebra · modern physics · electricity &amp; magnetism · Python · Java · Unity</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- POKEMON CARDS -->
-<section class="poke-section">
-  <div class="section-wrap" style="padding:0;">
-    <div class="section-header reveal">
-      <span class="section-num">05</span>
-      <h2 class="section-title">GOTTA BUILD 'EM ALL.</h2>
-      <p class="section-sub">Four projects. Four Pokémon. Same energy.</p>
-    </div>
-    <div class="poke-grid">
-
-      <div class="poke-item reveal">
-        <div class="poke-wrap">
-          <img class="poke-img"
-            src="https://images.pokemontcg.io/base1/1_hires.png"
-            alt="Alakazam"
-            onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';"
-          />
-          <div class="poke-shine"></div>
-          <div class="poke-glare"></div>
-        </div>
-        <div class="poke-label"><strong>PaideAI</strong>Tutoring platform</div>
-        <div class="poke-type-badge">Psychic Type</div>
-      </div>
-
-      <div class="poke-item reveal" style="margin-top:32px;">
-        <div class="poke-wrap">
-          <img class="poke-img"
-            src="https://images.pokemontcg.io/base1/4_hires.png"
-            alt="Charizard"
-            onerror="this.src='https://assets.tcgdex.net/en/base/base1/4/high.webp';"
-          />
-          <div class="poke-shine"></div>
-          <div class="poke-glare"></div>
-        </div>
-        <div class="poke-label"><strong>OraxAI</strong>Co-Founder</div>
-        <div class="poke-type-badge">Fire Type</div>
-      </div>
-
-      <div class="poke-item reveal">
-        <div class="poke-wrap">
-          <img class="poke-img"
-            src="https://images.pokemontcg.io/base1/10_hires.png"
-            alt="Mewtwo"
-            onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';"
-          />
-          <div class="poke-shine"></div>
-          <div class="poke-glare"></div>
-        </div>
-        <div class="poke-label"><strong>Multi-Agent Pipeline</strong>NeuralSeek AI</div>
-        <div class="poke-type-badge">Psychic Type</div>
-      </div>
-
-      <div class="poke-item reveal" style="margin-top:32px;">
-        <div class="poke-wrap">
-          <img class="poke-img"
-            src="https://images.pokemontcg.io/base1/9_hires.png"
-            alt="Magneton"
-            onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';"
-          />
-          <div class="poke-shine"></div>
-          <div class="poke-glare"></div>
-        </div>
-        <div class="poke-label"><strong>FormulaForge</strong>Ingredient optimizer</div>
-        <div class="poke-type-badge">Electric Type</div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1241,18 +1190,29 @@
 
   const hasPointer = window.matchMedia('(hover: hover)').matches;
 
-  /* ── HERO CARD PARALLAX (floats the whole card within the hero) ── */
-  const heroSection  = document.querySelector('.hero');
-  const heroCharCard = document.querySelector('.hero-char-card');
-  if (heroSection && heroCharCard && hasPointer) {
+  /* ── CHARIZARD PARALLAX ── */
+  const heroSection = document.querySelector('.hero');
+  const charSprite  = document.querySelector('.hero-char-sprite');
+  if (heroSection && charSprite && hasPointer) {
     heroSection.addEventListener('mousemove', e => {
       const r = heroSection.getBoundingClientRect();
       const dx = (e.clientX - r.left - r.width  / 2) / r.width;
       const dy = (e.clientY - r.top  - r.height / 2) / r.height;
-      heroCharCard.style.transform = `translate(${dx * 10}px, ${dy * 7}px)`;
+      charSprite.style.transform = `translate(${dx * 14}px, ${dy * 9}px) rotate(${dx * 4}deg)`;
     });
-    heroSection.addEventListener('mouseleave', () => { heroCharCard.style.transform = ''; });
+    heroSection.addEventListener('mouseleave', () => { charSprite.style.transform = ''; });
   }
+
+  /* ── PROJECT CARD FLIP ── */
+  document.querySelectorAll('.proj-flip').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      card.classList.toggle('flipped');
+    });
+    card.querySelector('.pfb-back-btn')?.addEventListener('click', () => {
+      card.classList.remove('flipped');
+    });
+  });
 
   /* ── ORAXAI NETWORK PARALLAX ── */
   const oraxSection = document.getElementById('oraxai');
