@@ -763,9 +763,9 @@
     .poke-shine {
       position: absolute; inset: 0; border-radius: inherit;
       mix-blend-mode: color-dodge;
-      opacity: 0.88;
+      opacity: 0.18;
       background-image:
-        repeating-linear-gradient(0deg, hsla(0,0%,100%,0.07) 0px, transparent 1px, transparent 2px, hsla(0,0%,100%,0.07) 3px),
+        repeating-linear-gradient(0deg, hsla(0,0%,100%,0.05) 0px, transparent 1px, transparent 2px, hsla(0,0%,100%,0.05) 3px),
         repeating-linear-gradient(133deg,
           hsl(2,100%,73%) 0%, hsl(53,100%,69%) 10%, hsl(93,100%,69%) 20%,
           hsl(176,100%,76%) 30%, hsl(228,100%,74%) 40%, hsl(283,100%,73%) 50%,
@@ -773,23 +773,23 @@
           hsl(176,100%,76%) 90%, hsl(228,100%,74%) 100%);
       background-size: 200% 200%;
       background-position: var(--bg-x) var(--bg-y);
-      filter: brightness(0.85) contrast(2.75) saturate(0.65);
+      filter: brightness(0.9) contrast(1.5) saturate(0.55);
       pointer-events: none;
-      animation: holo-shimmer 5s ease-in-out infinite;
+      animation: holo-shimmer 6s ease-in-out infinite;
       transition: opacity 0.35s ease;
     }
-    /* On hover: freeze the shimmer, let tilt/glare take over */
+    /* On hover: pause ambient cycle, shine follows mouse position via --bg-x/--bg-y (set by JS) */
     .poke-wrap:hover .poke-shine {
       animation-play-state: paused;
-      opacity: 0;
+      opacity: calc(var(--card-op) * 0.38);
     }
     .poke-glare {
       position: absolute; inset: 0; border-radius: inherit;
       mix-blend-mode: overlay;
-      opacity: calc(var(--card-op) * 0.65);
+      opacity: calc(var(--card-op) * 0.45);
       background-image: radial-gradient(
         farthest-corner ellipse at var(--pointer-x) var(--pointer-y),
-        hsla(0,0%,100%,0.9) 10%, hsla(0,0%,100%,0.7) 20%, hsla(0,0%,0%,0.5) 90%
+        hsla(0,0%,100%,0.8) 10%, hsla(0,0%,100%,0.6) 20%, hsla(0,0%,0%,0.5) 90%
       );
       pointer-events: none; transition: opacity 0.25s ease;
     }
