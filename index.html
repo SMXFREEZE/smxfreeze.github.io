@@ -364,20 +364,21 @@
       .sq-bubble { width: 180px; font-size: 10px; padding: 10px 12px; bottom: calc(100% + 8px); }
     }
 
-    /* ── DESKTOP: Squirtle lands in left column, network SVG removed ── */
+    /* ── DESKTOP: Squirtle lands in left column, network SVG hidden ── */
     @media (min-width: 901px) {
-      .orax-visual { display: none; }
+      /* visibility:hidden keeps the grid column space; display:none would collapse it */
+      .orax-visual { visibility: hidden; }
       @keyframes sq-run-in {
         0%   { transform: translate(calc(100vw + 260px), -50%) scaleX(-1); }
-        100% { transform: translate(calc(25vw - 100px), -50%) scaleX(-1); }
+        100% { transform: translate(calc(25vw - 90px), -50%) scaleX(-1); }
       }
       @keyframes sq-idle {
-        0%,100% { transform: translate(calc(25vw - 100px), -50%) scaleX(-1); }
-        40%     { transform: translate(calc(25vw - 100px), calc(-50% - 14px)) scaleX(-1); }
-        80%     { transform: translate(calc(25vw - 100px), calc(-50% - 6px)) scaleX(-1); }
+        0%,100% { transform: translate(calc(25vw - 90px), -50%) scaleX(-1); }
+        40%     { transform: translate(calc(25vw - 90px), calc(-50% - 14px)) scaleX(-1); }
+        80%     { transform: translate(calc(25vw - 90px), calc(-50% - 6px)) scaleX(-1); }
       }
       .squirtle-scene .squirtle-sprite-wrap.sq-bounce {
-        transform: translate(calc(25vw - 100px), -50%) scaleX(-1);
+        transform: translate(calc(25vw - 90px), -50%) scaleX(-1);
       }
     }
 
