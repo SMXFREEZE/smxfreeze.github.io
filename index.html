@@ -570,11 +570,14 @@
       .nav-burger { display: flex; }
       .nav-links {
         display: none; position: fixed; top: 57px; left: 0; right: 0; bottom: 0;
-        background: rgba(6,6,8,0.97); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
-        flex-direction: column; padding: 12px 0; z-index: 1000;
+        background: #060608;
+        flex-direction: column; padding: 12px 0; z-index: 9999;
         border-top: 1px solid var(--border);
+        animation: none;
       }
-      .nav-links.open { display: flex; }
+      .nav-links.open { display: flex; animation: nav-slide-in 0.22s ease; }
+      @keyframes nav-slide-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      [data-theme="light"] .nav-links { background: #F5F2EC; }
       .nav-links li { border-bottom: 1px solid var(--border-2); }
       .nav-links li:last-child { border-bottom: none; }
       .nav-links a { display: block; padding: 18px 28px; font-size: 15px; font-family: var(--fb); color: var(--ink-2); }
@@ -583,7 +586,7 @@
       /* HERO */
       .hero { padding: 0 20px; }
       .hero-upper { flex-direction: column-reverse; gap: 24px; padding-top: 90px; align-items: flex-start; }
-      .hero-char { padding: 0; align-self: flex-end; }
+      .hero-char { padding: 0; align-self: center; width: 100%; display: flex; flex-direction: column; align-items: center; }
       .hero-lower { grid-template-columns: 1fr; gap: 20px; padding-bottom: 40px; }
       .hero-ctas { align-items: flex-start; flex-direction: row; gap: 12px; }
       /* SECTIONS */
@@ -661,7 +664,7 @@
       /* HERO */
       .hero { padding: 0 16px; }
       .hero-upper { padding-top: 80px; gap: 16px; }
-      .hero-char-sprite { width: 110px !important; height: 110px !important; }
+      .hero-char-sprite { width: 150px !important; height: 150px !important; }
       .hero-overline { font-size: 10px; letter-spacing: 2px; }
       .hero-name { font-size: clamp(48px,16vw,88px); letter-spacing: -3px; }
       .hero-desc { font-size: 13px; }
