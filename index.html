@@ -361,7 +361,7 @@
 
     @media (max-width: 480px) {
       .squirtle-sprite { width: 130px; height: 130px; }
-      .sq-bubble { width: 180px; font-size: 10px; padding: 10px 12px; bottom: calc(100% + 8px); }
+      .sq-bubble { width: 220px; font-size: 12px; padding: 13px 15px; bottom: calc(100% + 10px); line-height: 1.65; }
     }
 
     /* ── DESKTOP: Squirtle lands in left column, network SVG hidden ── */
@@ -554,6 +554,11 @@
     [data-theme="light"] .contact-link::after { background: linear-gradient(135deg, rgba(0,0,0,0.07), rgba(0,0,0,0)) border-box; }
     [data-theme="light"] footer { background: var(--bg-2); }
     [data-theme="light"] .exp-bullets li::before { color: var(--fire); }
+    [data-theme="light"] .proj-reveal-btn { background: #b0a99f; color: #0D0B09; border: none; }
+    [data-theme="light"] .proj-reveal-btn:hover { background: var(--fire); color: #fff; }
+    [data-theme="light"] .proj-item.flipped .proj-reveal-btn { background: rgba(0,0,0,0.1); color: var(--ink-2); }
+    [data-theme="light"] .proj-item.flipped .proj-reveal-btn:hover { background: var(--fire); color: #fff; }
+    [data-theme="light"] .cta-primary { background: var(--ink); color: var(--bg-2); }
 
     /* ── CARD TILT / SHINE ── */
     .proj-card, .orax-m, .stat-cell, .contact-link {
@@ -641,7 +646,7 @@
       /* Squirtle: dedicated block above content on mobile, centered */
       .squirtle-scene {
         position: relative; inset: auto;
-        height: 240px; width: 100%;
+        height: 290px; width: 100%;
       }
       .squirtle-sprite-wrap { left: 50%; }
       @keyframes sq-run-in {
@@ -749,10 +754,16 @@
       object-fit: cover; border-radius: inherit; display: block;
       pointer-events: none;
     }
+    /* Holographic shimmer: always on, pauses when you hover */
+    @keyframes holo-shimmer {
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
     .poke-shine {
       position: absolute; inset: 0; border-radius: inherit;
       mix-blend-mode: color-dodge;
-      opacity: var(--card-op);
+      opacity: 0.88;
       background-image:
         repeating-linear-gradient(0deg, hsla(0,0%,100%,0.07) 0px, transparent 1px, transparent 2px, hsla(0,0%,100%,0.07) 3px),
         repeating-linear-gradient(133deg,
@@ -763,15 +774,22 @@
       background-size: 200% 200%;
       background-position: var(--bg-x) var(--bg-y);
       filter: brightness(0.85) contrast(2.75) saturate(0.65);
-      pointer-events: none; transition: opacity 0.25s ease;
+      pointer-events: none;
+      animation: holo-shimmer 5s ease-in-out infinite;
+      transition: opacity 0.35s ease;
+    }
+    /* On hover: freeze the shimmer, let tilt/glare take over */
+    .poke-wrap:hover .poke-shine {
+      animation-play-state: paused;
+      opacity: 0;
     }
     .poke-glare {
       position: absolute; inset: 0; border-radius: inherit;
       mix-blend-mode: overlay;
-      opacity: calc(var(--card-op) * 0.55);
+      opacity: calc(var(--card-op) * 0.65);
       background-image: radial-gradient(
         farthest-corner ellipse at var(--pointer-x) var(--pointer-y),
-        hsla(0,0%,100%,0.8) 10%, hsla(0,0%,100%,0.65) 20%, hsla(0,0%,0%,0.5) 90%
+        hsla(0,0%,100%,0.9) 10%, hsla(0,0%,100%,0.7) 20%, hsla(0,0%,0%,0.5) 90%
       );
       pointer-events: none; transition: opacity 0.25s ease;
     }
