@@ -326,6 +326,7 @@
       border-top-color: #EDE9DF;
     }
     .sq-bubble.sq-show { opacity: 1; }
+    .sq-bubble-hi { color: #4F7EF7; font-weight: 500; }
 
     /* Running in from right, facing left */
     @keyframes sq-run-in {
@@ -615,6 +616,11 @@
       .orax-visual { display: none; }
       .orax-metrics { grid-template-columns: 1fr 1fr; gap: 10px; }
       .orax-m { padding: 14px 16px; }
+      /* Squirtle: dedicated block above content on mobile */
+      .squirtle-scene {
+        position: relative; inset: auto;
+        height: 210px; width: 100%;
+      }
       /* PROJECTS */
       .proj-asymm { grid-template-columns: 1fr; }
       .proj-card-featured { grid-row: auto; }
@@ -1033,6 +1039,22 @@
 <!-- ORAXAI FEATURE -->
 <section id="oraxai">
   <div class="orax-ambient"></div>
+  <!-- Squirtle scene -->
+  <div class="squirtle-scene" id="squirtleScene">
+    <div class="squirtle-glow" id="squirtleGlow"></div>
+    <div class="squirtle-water" id="squirtleWater">
+      <div class="water-ring ring-1"></div>
+      <div class="water-ring ring-2"></div>
+      <div class="water-ring ring-3"></div>
+    </div>
+    <div class="squirtle-sprite-wrap" id="squirtleWrap">
+      <div class="sq-bubble" id="squirtleBubble"><span class="sq-bubble-hi">Hello!</span> OraxAI is an AI-powered tool to tailor your resume and beat the ATS.</div>
+      <img class="squirtle-sprite" id="squirtleImg"
+           src="./squirtle.gif"
+           alt="Squirtle"
+           onerror="this.src='./squirtle.png'"/>
+    </div>
+  </div>
   <div class="orax-layout">
     <div class="orax-visual reveal">
       <div class="orax-network-wrap">
@@ -1095,21 +1117,6 @@
     </div>
   </div>
 
-  <!-- Squirtle scene -->
-  <div class="squirtle-scene" id="squirtleScene">
-    <div class="squirtle-glow" id="squirtleGlow"></div>
-    <div class="squirtle-water" id="squirtleWater">
-      <div class="water-ring ring-1"></div>
-      <div class="water-ring ring-2"></div>
-      <div class="water-ring ring-3"></div>
-    </div>
-    <div class="squirtle-sprite-wrap" id="squirtleWrap">
-      <img class="squirtle-sprite" id="squirtleImg"
-           src="./squirtle.gif"
-           alt="Squirtle"
-           onerror="this.src='./squirtle.png'"/>
-    </div>
-  </div>
 </section>
 
 <!-- PROJECTS -->
@@ -1440,36 +1447,41 @@
     const wrap    = document.getElementById('squirtleWrap');
     const water   = document.getElementById('squirtleWater');
     const glow    = document.getElementById('squirtleGlow');
+    const bubble  = document.getElementById('squirtleBubble');
     if (!section || !wrap) return;
 
     function playSq() {
       // Reset all animation classes
       wrap.className = 'squirtle-sprite-wrap';
       if (glow) glow.className = 'squirtle-glow';
+      if (bubble) bubble.classList.remove('sq-show');
       water.querySelectorAll('.water-ring').forEach(r => r.classList.remove('sq-splash'));
 
-      // Phase 1: run in from right (sprite faces left via scaleX(-1) in keyframes)
+      // Phase 1: run in from right
       wrap.classList.add('sq-in');
 
       setTimeout(() => {
-        // Phase 2: bounce & look around
+        // Phase 2: bounce
         wrap.classList.remove('sq-in');
         wrap.classList.add('sq-bounce');
-
-        // Glow appears while Squirtle is stopped
         if (glow) glow.classList.add('sq-glow');
 
-        // Water splash bursts at peak bounce
+        // Water splash at peak bounce
         setTimeout(() => {
           water.querySelectorAll('.water-ring').forEach(r => r.classList.add('sq-splash'));
         }, 280);
 
+        // Speech bubble appears
         setTimeout(() => {
-          // Phase 3: flip and run out left
+          if (bubble) bubble.classList.add('sq-show');
+        }, 400);
+
+        setTimeout(() => {
+          // Phase 3: float idle indefinitely
           wrap.classList.remove('sq-bounce');
-          wrap.classList.add('sq-out');
+          wrap.classList.add('sq-idle');
         }, 900);
-      }, 650);
+      }, 1200);
     }
 
     const obs = new IntersectionObserver((entries) => {
@@ -1479,7 +1491,7 @@
           obs.disconnect();
         }
       });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.1 });
 
     obs.observe(section);
   })();
