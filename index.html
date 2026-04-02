@@ -569,15 +569,15 @@
       nav { padding: 18px 24px; }
       .nav-burger { display: flex; }
       .nav-links {
-        display: none; position: fixed; top: 57px; left: 0; right: 0; bottom: 0;
-        background: #060608;
+        display: none; position: fixed; top: 57px; left: 0; right: 0; height: 100vh;
+        background: var(--bg) !important;
         flex-direction: column; padding: 12px 0; z-index: 9999;
         border-top: 1px solid var(--border);
         animation: none;
       }
       .nav-links.open { display: flex; animation: nav-slide-in 0.22s ease; }
       @keyframes nav-slide-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-      [data-theme="light"] .nav-links { background: #F5F2EC; }
+      [data-theme="light"] .nav-links { background: var(--bg) !important; }
       .nav-links li { border-bottom: 1px solid var(--border-2); }
       .nav-links li:last-child { border-bottom: none; }
       .nav-links a { display: block; padding: 18px 28px; font-size: 15px; font-family: var(--fb); color: var(--ink-2); }
@@ -886,9 +886,9 @@
     </div>
     <div class="hero-char">
       <img class="hero-char-sprite"
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/6.gif"
+        src="./charizard.gif"
         alt="Charizard mascot"
-        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png';this.style.width='130px';this.style.height='130px';"
+        onerror="this.src='./charizard.png';this.style.width='150px';this.style.height='150px';"
       />
       <div class="hero-char-id">#006 Charizard · Fire · Flying</div>
     </div>
