@@ -50,7 +50,7 @@
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10000;
       padding: 20px 60px;
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid transparent;
@@ -585,7 +585,7 @@
       .nav-sig { display: none; }
       /* HERO */
       .hero { padding: 0 20px; }
-      .hero-upper { flex-direction: column-reverse; gap: 24px; padding-top: 90px; align-items: flex-start; }
+      .hero-upper { flex-direction: column-reverse; gap: 16px; padding-top: 70px; align-items: center; }
       .hero-char { padding: 0; align-self: center; width: 100%; display: flex; flex-direction: column; align-items: center; }
       .hero-lower { grid-template-columns: 1fr; gap: 20px; padding-bottom: 40px; }
       .hero-ctas { align-items: flex-start; flex-direction: row; gap: 12px; }
@@ -663,8 +663,8 @@
     @media (max-width: 480px) {
       /* HERO */
       .hero { padding: 0 16px; }
-      .hero-upper { padding-top: 80px; gap: 16px; }
-      .hero-char-sprite { width: 150px !important; height: 150px !important; }
+      .hero-upper { padding-top: 64px; gap: 12px; }
+      .hero-char-sprite { width: 140px !important; height: 140px !important; }
       .hero-overline { font-size: 10px; letter-spacing: 2px; }
       .hero-name { font-size: clamp(48px,16vw,88px); letter-spacing: -3px; }
       .hero-desc { font-size: 13px; }
