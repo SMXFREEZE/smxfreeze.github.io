@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Top teal triangle (V pointing down) -->
+  <polygon points="0,0 200,0 100,108" fill="#8DCECB"/>
+  <!-- Left dark navy section -->
+  <polygon points="0,0 100,108 100,200 0,200" fill="#0C2161"/>
+  <!-- Right medium blue section -->
+  <polygon points="200,0 200,200 100,200 100,108" fill="#1669BE"/>
+</svg>
