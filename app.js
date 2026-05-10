@@ -1,7 +1,7 @@
 const screenItems = [
   {
     id: "about",
-    title: "Player Profile",
+    title: "About Sami",
     cart: "SAMI",
     body: "Electrical Engineering builder heading to Waterloo. I co-founded OraxAI, ship full-stack AI products, and research how students actually build calculus intuition.",
     meta: ["Waterloo EE", "Montreal", "English/French/Arabic", "Math Olympiad"],
@@ -14,7 +14,7 @@ const screenItems = [
   },
   {
     id: "experience",
-    title: "Campaign Log",
+    title: "Experience",
     cart: "WORK",
     body: "Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
     meta: ["Python", "React", "Azure", "Agents"],
@@ -27,7 +27,7 @@ const screenItems = [
   },
   {
     id: "oraxai",
-    title: "Boss Level: OraxAI",
+    title: "OraxAI Product",
     cart: "ORAX",
     body: "Resume tailoring that beats ATS filters. Built the scoring engine, React UI, backend API, and GTM loops from scratch.",
     meta: ["100+ MAU", "$2K+ MRR", "10K+ followers", "1M+ views"],
@@ -40,7 +40,7 @@ const screenItems = [
   },
   {
     id: "projects",
-    title: "Cartridge Shelf",
+    title: "Projects",
     cart: "LABS",
     body: "Lyric Engine, PaideAI, and NeuralForge: ML generation, adaptive tutoring, and hardware acceleration with a full build story.",
     meta: ["LoRA", "FastAPI", "FPGA", "PyTorch"],
@@ -53,7 +53,7 @@ const screenItems = [
   },
   {
     id: "education",
-    title: "Training Grounds",
+    title: "Education",
     cart: "EDU",
     body: "Waterloo Electrical Engineering after Pure and Applied Sciences at Maisonneuve, with networks, ML, digital hardware, and embedded systems ahead.",
     meta: ["C/C++", "Rust", "Calculus", "Physics"],
@@ -66,7 +66,7 @@ const screenItems = [
   },
   {
     id: "contact",
-    title: "Link Cable",
+    title: "Contact",
     cart: "LINK",
     body: "Interested in machine learning, hardware engineering, or software engineering internships. If you are building something interesting, my inbox is open.",
     meta: ["Email", "GitHub", "OraxAI", "Internships"],
@@ -132,20 +132,20 @@ const questState = new Set();
 
 const quests = {
   scan: {
-    title: "Scan signal",
-    detail: "Role fit packet unlocked."
+    title: "Role fit checked",
+    detail: "Role-fit summary unlocked."
   },
   cart: {
-    title: "Cartridge loaded",
-    detail: "A portfolio screen is live."
+    title: "Section opened",
+    detail: "A portfolio section is open."
   },
   builds: {
-    title: "Builds inspected",
+    title: "Projects reviewed",
     detail: "Projects and product proof opened."
   },
   contact: {
-    title: "Link cable ready",
-    detail: "The next move is easy."
+    title: "Contact options ready",
+    detail: "Email, LinkedIn, GitHub, and resume are ready."
   }
 };
 const recruiterRoutes = {
@@ -177,11 +177,11 @@ const recruiterRoutes = {
     title: "Hardware engineering packet",
     cart: "LABS",
     cartIndex: 3,
-    pitch: "Electrical engineering builder with ML hardware signal: FPGA inference, Verilog RTL, Python simulation, and embedded systems direction.",
+    pitch: "Electrical engineering builder with ML hardware proof: FPGA inference, Verilog RTL, Python simulation, and embedded systems direction.",
     clipboard: "Sami El-Figha is a strong hardware engineering call: he is heading to Waterloo Electrical Engineering and built NeuralForge, an FPGA INT8 CNN inference accelerator with Verilog RTL, Python simulation, and PyTorch baselines.",
     proof: [
       "NeuralForge: INT8 CNN inference on a 4x4 weight-stationary systolic array.",
-      "Stack signal: Verilog, PyTorch, Python simulation, C/C++, and Rust direction.",
+      "Technical proof: Verilog, PyTorch, Python simulation, C/C++, and Rust direction.",
       "Waterloo EE path: digital hardware, architecture, networks, and embedded software."
     ]
   }
@@ -202,7 +202,7 @@ const consolePages = {
       url: "./Sami-El-Figha-Resume.pdf"
     },
     {
-      kicker: "Signal",
+      kicker: "Role fit",
       title: "What to call about",
       body: "Best fits: machine learning, hardware engineering, or software engineering internships where shipping and learning speed matter.",
       lines: [
@@ -286,8 +286,8 @@ const consolePages = {
     },
     {
       kicker: "Why it matters",
-      title: "Recruiter read",
-      body: "The strongest signal is ownership: scoring logic, frontend, backend, PDFs, analytics, user feedback, and growth all connect.",
+      title: "Recruiter summary",
+      body: "The strongest proof is ownership: scoring logic, frontend, backend, PDFs, analytics, user feedback, and growth all connect.",
       lines: [
         "Full-stack system thinking under real users.",
         "ML product judgment around scoring and feedback loops.",
@@ -363,7 +363,7 @@ const consolePages = {
   ],
   contact: [
     {
-      kicker: "Link cable",
+      kicker: "Contact",
       title: "LinkedIn",
       body: "Fastest recruiter context: role history, education, and professional updates.",
       lines: [
@@ -524,7 +524,7 @@ function updateQuestProgress() {
   });
 
   if (questProgress) {
-    questProgress.textContent = `${questState.size} / ${Object.keys(quests).length} unlocked`;
+    questProgress.textContent = `${questState.size} / ${Object.keys(quests).length} completed`;
   }
 }
 
@@ -559,7 +559,7 @@ function renderRecruiterRoute() {
     tab.setAttribute("aria-pressed", String(isActive));
   });
 
-  if (roleBadge) roleBadge.textContent = `Best first cart: ${route.cart}`;
+  if (roleBadge) roleBadge.textContent = `Recommended section: ${route.cart}`;
   if (roleTitle) roleTitle.textContent = route.title;
   if (rolePitch) rolePitch.textContent = route.pitch;
   if (roleProofList) {
@@ -634,7 +634,7 @@ function updateTabletop() {
   });
 
   if (tableSlot) {
-    tableSlot.textContent = item ? `${item.cart} CART LOADED` : "INSERT CART";
+    tableSlot.textContent = item ? `${item.cart} SECTION OPEN` : "OPEN SECTION";
     tableSlot.classList.toggle("has-cart", !!item);
   }
 
@@ -645,8 +645,8 @@ function updateTabletop() {
   if (tableScreen) {
     if (!item) {
       tableScreen.innerHTML = `
-        <strong>Pick a cart</strong>
-        <span>Tap a cartridge card on the table.</span>
+        <strong>Pick a section</strong>
+        <span>Tap a section card on the table.</span>
       `;
       return;
     }
@@ -845,7 +845,7 @@ function renderScreen() {
     body.innerHTML = `
       <div class="power-off-screen">
         <h2 class="screen-title">Power Off</h2>
-        <p class="screen-copy">Press START to power the Pocket Lab back on.</p>
+        <p class="screen-copy">Press START to power the portfolio console back on.</p>
       </div>
     `;
     body.scrollTop = 0;
@@ -856,8 +856,8 @@ function renderScreen() {
   if (!state.booted) {
     const item = loadedItem();
     body.innerHTML = `
-      <h2 class="screen-title">SEF Pocket Lab</h2>
-      <p class="screen-copy">${item ? `Loading ${item.cart} cartridge...` : "Booting portfolio OS..."}</p>
+      <h2 class="screen-title">SEF Portfolio</h2>
+      <p class="screen-copy">${item ? `Opening ${item.cart} section...` : "Booting portfolio OS..."}</p>
       <div class="screen-meta"><span>RAM OK</span><span>AI CORE OK</span><span>SHIP MODE</span><span>READY</span></div>
       <div class="screen-footer">Please wait.</div>
     `;
@@ -917,7 +917,7 @@ function renderConsoleDetail(item, { loaded = false } = {}) {
   body.innerHTML = `
     <div class="cart-screen">
       <div class="console-page-top">
-        <div class="loaded-chip">${loaded ? `${escapeHtml(item.cart)} CART LOADED` : `${escapeHtml(item.cart)} SCREEN`}</div>
+        <div class="loaded-chip">${loaded ? `${escapeHtml(item.cart)} SECTION OPEN` : `${escapeHtml(item.cart)} SECTION`}</div>
         <div class="console-page-count">${counter}</div>
       </div>
       <p class="console-kicker">${escapeHtml(page.kicker || item.cart)}</p>
@@ -948,7 +948,7 @@ function updateConsoleChrome() {
 
   if (cartSlot) {
     const item = loadedItem();
-    cartSlot.textContent = item ? `${item.cart} CART` : "DROP CART HERE";
+    cartSlot.textContent = item ? `${item.cart} SECTION` : "DROP CARD HERE";
     cartSlot.classList.toggle("has-cart", !!item);
   }
 
@@ -958,7 +958,7 @@ function updateConsoleChrome() {
     cart.classList.toggle("is-loaded", isLoaded);
     cart.classList.toggle("is-dimmed", state.loaded !== null && !isLoaded);
     cart.setAttribute("aria-pressed", String(isLoaded));
-    cart.setAttribute("aria-label", `${screenItems[index].cart} cartridge: ${isLoaded ? "loaded, tap to eject" : "tap or drag to insert"}`);
+    cart.setAttribute("aria-label", `${screenItems[index].title} section card: ${isLoaded ? "open, tap to close" : "tap or drag to open"}`);
   });
 
   updateTabletop();
@@ -1078,7 +1078,7 @@ function animateCardFlightWithGsap(index, sourceElement) {
   flightCard.style.width = `${width}px`;
   flightCard.style.height = `${height}px`;
   flightCard.style.setProperty("--flight-bg", getCartColor(index, sourceElement));
-  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Cart</small>`;
+  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Section</small>`;
   document.body.appendChild(flightCard);
   animateCardFlight.activeCard = flightCard;
 
@@ -1179,7 +1179,7 @@ function animateCardFlight(index, sourceElement) {
   flightCard.style.width = `${width}px`;
   flightCard.style.height = `${height}px`;
   flightCard.style.setProperty("--flight-bg", getCartColor(index, sourceElement));
-  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Cart</small>`;
+  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Section</small>`;
   document.body.appendChild(flightCard);
   animateCardFlight.activeCard = flightCard;
 

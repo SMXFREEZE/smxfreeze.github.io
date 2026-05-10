@@ -21,7 +21,7 @@
   <header class="site-header" id="top">
     <a class="brand-lockup" href="#home" aria-label="Sami El-Figha home">
       <span class="brand-chip">SEF</span>
-      <span class="brand-copy">Pocket Lab</span>
+      <span class="brand-copy">Portfolio</span>
     </a>
     <nav class="primary-nav" aria-label="Primary navigation">
       <a href="#about">About</a>
@@ -31,36 +31,36 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="header-actions">
-      <button class="header-table-button" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Table mode</button>
+      <button class="header-table-button" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
     </div>
   </header>
 
   <main>
     <section class="hero" id="home">
       <div class="hero-copy">
-        <p class="hero-kicker">AI systems, shipped like playable products.</p>
+        <p class="hero-kicker">AI, software, and hardware systems with real users.</p>
         <h1>Sami El-Figha</h1>
         <p class="hero-lede">I build AI systems end to end: ATS scoring engines, multi-agent pipelines, full-stack products, and hardware ML experiments with real users on the other side.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" type="button" id="recruiterScanButton" data-open-scan>Run recruiter scan</button>
+          <button class="btn btn-primary" type="button" id="recruiterScanButton" data-open-scan>Check recruiter fit</button>
           <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com">Start co-op conversation</a>
           <a class="btn btn-ghost" href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">Open GitHub</a>
         </div>
-        <section class="mobile-pocket-deck" aria-label="Phone portfolio routes">
+        <section class="mobile-pocket-deck" aria-label="Phone portfolio navigation">
           <div class="mobile-pocket-head">
-            <span>Phone mode</span>
-            <strong>Full portfolio map</strong>
+            <span>Quick navigation</span>
+            <strong>Key sections</strong>
           </div>
           <div class="mobile-pocket-actions">
-            <button type="button" data-open-scan>Recruiter scan</button>
-            <button type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Table mode</button>
+            <button type="button" data-open-scan>Recruiter fit</button>
+            <button type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
           </div>
           <div class="mobile-route-grid">
             <button type="button" class="mobile-route-card" data-mobile-cart-index="0" style="--route-bg:#ffd166;">
-              <strong>SAMI</strong><small>Profile</small>
+              <strong>SAMI</strong><small>About</small>
             </button>
             <button type="button" class="mobile-route-card" data-mobile-cart-index="1" style="--route-bg:#60c7ff;">
-              <strong>WORK</strong><small>Campaign</small>
+              <strong>WORK</strong><small>Experience</small>
             </button>
             <button type="button" class="mobile-route-card" data-mobile-cart-index="2" style="--route-bg:#ff7d6e;">
               <strong>ORAX</strong><small>OraxAI</small>
@@ -93,17 +93,17 @@
       </div>
 
       <div class="console-stage" aria-label="Interactive portfolio console">
-        <button class="tabletop-launch" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Table mode</button>
-        <div class="cartridge-dock" aria-label="Portfolio cartridges. Tap one or drag it into the slot.">
+        <button class="tabletop-launch" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
+        <div class="cartridge-dock" aria-label="Portfolio section cards. Tap one or drag it into the slot.">
           <button type="button" class="mini-cart cart-red" data-cart-index="2" style="--cart-bg:#ff7d6e;">
             <span class="cart-pin"></span>
             <strong>ORAX</strong>
-            <small>Boss cart</small>
+            <small>OraxAI product</small>
           </button>
           <button type="button" class="mini-cart cart-blue" data-cart-index="1" style="--cart-bg:#60c7ff;">
             <span class="cart-pin"></span>
             <strong>WORK</strong>
-            <small>Campaign</small>
+            <small>Experience</small>
           </button>
           <button type="button" class="mini-cart cart-green" data-cart-index="3" style="--cart-bg:#84f0bd;">
             <span class="cart-pin"></span>
@@ -113,16 +113,16 @@
           <button type="button" class="mini-cart cart-gold" data-cart-index="0" style="--cart-bg:#ffd166;">
             <span class="cart-pin"></span>
             <strong>SAMI</strong>
-            <small>Profile</small>
+            <small>About</small>
           </button>
         </div>
         <article class="handheld" id="portfolioConsole">
           <div class="shell-top">
             <span class="power-pill"><span></span>ON</span>
-            <span class="shell-title">SEF POCKET LAB</span>
-            <span class="cart-slot-wrap" aria-label="Cartridge slot">
-              <span class="slot-label">Insert cart</span>
-              <span class="cart-slot" id="cartSlot" aria-live="polite">DROP CART HERE</span>
+            <span class="shell-title">SEF PORTFOLIO</span>
+            <span class="cart-slot-wrap" aria-label="Section card slot">
+              <span class="slot-label">Open section</span>
+              <span class="cart-slot" id="cartSlot" aria-live="polite">DROP CARD HERE</span>
             </span>
           </div>
           <div class="screen-bezel">
@@ -162,30 +162,30 @@
       </div>
     </section>
 
-    <section class="quest-strip" aria-label="Recruiter quest progress">
+    <section class="quest-strip" aria-label="Recruiter checklist progress">
       <div class="quest-header">
-        <span>Recruiter quest</span>
-        <strong id="questProgress">0 / 4 unlocked</strong>
+        <span>Recruiter checklist</span>
+        <strong id="questProgress">0 / 4 completed</strong>
       </div>
       <div class="quest-grid">
         <button type="button" class="quest-card" data-quest-card="scan">
           <span>01</span>
-          <strong>Scan signal</strong>
+          <strong>Check role fit</strong>
           <small>Role fit, proof, and best next click</small>
         </button>
         <button type="button" class="quest-card" data-quest-card="cart">
           <span>02</span>
-          <strong>Load cartridge</strong>
-          <small>Open a playable screen</small>
+          <strong>Open section</strong>
+          <small>Review one portfolio area</small>
         </button>
         <button type="button" class="quest-card" data-quest-card="builds">
           <span>03</span>
-          <strong>Inspect builds</strong>
+          <strong>Review projects</strong>
           <small>Projects, product, or systems work</small>
         </button>
         <button type="button" class="quest-card" data-quest-card="contact">
           <span>04</span>
-          <strong>Link up</strong>
+          <strong>Contact Sami</strong>
           <small>Email, GitHub, or OraxAI</small>
         </button>
       </div>
@@ -218,10 +218,10 @@
     </section>
 
     <section class="content-section about-section" id="about">
-      <div class="section-label">01 / Player Profile</div>
+      <div class="section-label">01 / About</div>
       <div class="section-grid">
         <div>
-          <h2>Builder, researcher, co-founder.</h2>
+          <h2>Sami El-Figha: engineering student, AI builder, co-founder.</h2>
           <div class="story-card large-text">
             <p>I am an Electrical Engineering student heading to the University of Waterloo, finishing my DEC in Pure and Applied Sciences at Maisonneuve College in Montreal.</p>
             <p>I co-founded OraxAI and built it from scratch into a live product with paying users. I owned the full stack: ATS engine, frontend, backend API, and the product loops in between.</p>
@@ -242,10 +242,10 @@
     </section>
 
     <section class="content-section work-section" id="experience">
-      <div class="section-label">02 / Campaign Log</div>
+      <div class="section-label">02 / Experience</div>
       <div class="section-heading-row">
-        <h2>Work that made it into the world.</h2>
-        <p>Five save files, each with a different kind of shipping pressure.</p>
+        <h2>Experience with shipped AI products and technical work.</h2>
+        <p>Internships, startup work, research, and case work with real delivery pressure.</p>
       </div>
 
       <div class="timeline">
@@ -300,7 +300,7 @@
     </section>
 
     <section class="orax-feature" id="oraxai">
-      <div class="section-label">03 / Boss Level</div>
+      <div class="section-label">03 / OraxAI</div>
       <div class="orax-layout">
         <div class="orax-screen reveal-card">
           <div class="orax-terminal">
@@ -345,10 +345,10 @@
     </section>
 
     <section class="content-section projects-section" id="projects">
-      <div class="section-label">04 / Cartridge Shelf</div>
+      <div class="section-label">04 / Projects</div>
       <div class="section-heading-row">
-        <h2>Projects with their own mechanics.</h2>
-        <p>Each cart opens into what was actually built, not just what looked nice in a screenshot.</p>
+        <h2>Projects recruiters can review quickly.</h2>
+        <p>Each project shows the system built, tools used, and a link to demo or code.</p>
       </div>
 
       <div class="project-grid">
@@ -406,7 +406,7 @@
     </section>
 
     <section class="content-section education-section" id="education">
-      <div class="section-label">05 / Training Grounds</div>
+      <div class="section-label">05 / Education</div>
       <div class="education-grid">
         <article class="edu-card reveal-card">
           <img src="./img/uwaterloo-seal.png" alt="University of Waterloo seal">
@@ -431,7 +431,7 @@
 
     <section class="contact-section" id="contact">
       <div class="contact-panel reveal-card">
-        <p class="section-label">06 / Link Cable</p>
+        <p class="section-label">06 / Contact</p>
         <h2>Hiring for ML, hardware, or software? Pick the fastest next step.</h2>
         <p>Use the resume for a quick scan, GitHub for build proof, LinkedIn for background, OraxAI for product traction, or email me to start the co-op conversation.</p>
         <div class="contact-links">
@@ -449,8 +449,8 @@
     <button class="panel-backdrop" type="button" data-close-panel aria-label="Close recruiter scan"></button>
     <aside class="scan-card-panel" role="dialog" aria-modal="true" aria-labelledby="scanTitle">
       <button class="panel-close" type="button" data-close-panel aria-label="Close">Close</button>
-      <p class="section-label">Recruiter scan</p>
-      <h2 id="scanTitle">High-signal match for machine learning, hardware, or software engineering.</h2>
+      <p class="section-label">Recruiter fit</p>
+      <h2 id="scanTitle">Clear match for machine learning, hardware, or software engineering.</h2>
       <div class="role-match-panel" aria-label="Recruiter role paths">
         <div class="role-tabs" role="tablist" aria-label="Choose a hiring lane">
           <button type="button" class="role-tab is-active" data-role-route="software" aria-pressed="true">Software</button>
@@ -458,12 +458,12 @@
           <button type="button" class="role-tab" data-role-route="hardware" aria-pressed="false">Hardware</button>
         </div>
         <div class="role-output">
-          <span class="role-badge" id="roleBadge">Best first cart: ORAX</span>
+          <span class="role-badge" id="roleBadge">Recommended section: ORAX</span>
           <h3 id="roleTitle">Software engineering packet</h3>
           <p id="rolePitch">Production AI product builder with React, FastAPI, AWS agents, Django, Azure, and real user traction.</p>
           <ul class="role-proof-list" id="roleProofList"></ul>
           <div class="role-actions">
-            <button class="btn btn-primary" type="button" data-load-route-cart>Load recommended cart</button>
+            <button class="btn btn-primary" type="button" data-load-route-cart>Open recommended section</button>
             <button class="btn btn-ghost" type="button" data-copy-pitch>Copy 20-sec pitch</button>
           </div>
           <p class="copy-status" id="copyStatus" aria-live="polite"></p>
@@ -476,20 +476,20 @@
           <p>Built ATS scoring, React UI, backend API, PDF workflows, and GTM loops for paying users.</p>
         </article>
         <article>
-          <span>Hardware signal</span>
+          <span>Hardware proof</span>
           <strong>NeuralForge</strong>
           <p>FPGA accelerator for INT8 CNN inference with Verilog RTL, Python simulation, and PyTorch baselines.</p>
         </article>
         <article>
-          <span>Internship signal</span>
+          <span>Internship experience</span>
           <strong>Venu AI + YC</strong>
           <p>Conference automation and sales workflows using Python, React, Django, and Azure.</p>
         </article>
       </div>
       <ol class="scan-route">
-        <li>Open LABS for hardware and ML projects.</li>
-        <li>Open ORAX for product traction and full-stack ownership.</li>
-        <li>Use Link Cable when the signal is strong.</li>
+        <li>Open Projects for hardware and ML work.</li>
+        <li>Open OraxAI for product traction and full-stack ownership.</li>
+        <li>Use Contact when ready to reach out.</li>
       </ol>
       <div class="scan-actions">
         <a class="btn btn-primary" href="#projects" data-scan-jump="builds">View projects</a>
@@ -504,26 +504,26 @@
     <section class="tabletop-dialog" role="dialog" aria-modal="true" aria-labelledby="tabletopTitle">
       <header class="tabletop-header">
         <div>
-          <p class="section-label">Table mode</p>
-          <h2 id="tabletopTitle">Load the portfolio like a cartridge deck.</h2>
+          <p class="section-label">Quick view</p>
+          <h2 id="tabletopTitle">Open portfolio sections from the table.</h2>
         </div>
         <button class="panel-close" type="button" data-close-table aria-label="Close tabletop mode">Close</button>
       </header>
       <div class="tabletop-surface">
         <div class="desk-prop desk-note">
-          <span>Recruiter path</span>
-          <strong>ORAX -> LABS -> LINK</strong>
+          <span>Recommended order</span>
+          <strong>OraxAI -> Projects -> Contact</strong>
         </div>
         <div class="desk-prop desk-badge">SEF</div>
         <article class="table-console" aria-live="polite">
           <div class="table-console-top">
-            <span>SEF POCKET LAB</span>
+            <span>SEF PORTFOLIO</span>
             <span id="tableStatus">READY</span>
           </div>
           <div class="table-slot" id="tableSlot">INSERT CART</div>
           <div class="table-screen" id="tableScreen">
-            <strong>Pick a cart</strong>
-            <span>Tap a cartridge card on the table.</span>
+            <strong>Pick a section</strong>
+            <span>Tap a section card on the table.</span>
           </div>
           <div class="table-controls" aria-hidden="true">
             <span></span>
@@ -531,21 +531,21 @@
             <span></span>
           </div>
         </article>
-        <div class="table-card-grid" aria-label="Tabletop cartridge cards">
+        <div class="table-card-grid" aria-label="Tabletop section cards">
           <button class="table-card table-card-sami" type="button" data-table-cart-index="0" style="--cart-bg:#ffd166;">
-            <span>01</span><strong>SAMI</strong><small>Profile</small>
+            <span>01</span><strong>SAMI</strong><small>About</small>
           </button>
           <button class="table-card table-card-work" type="button" data-table-cart-index="1" style="--cart-bg:#60c7ff;">
-            <span>02</span><strong>WORK</strong><small>Campaign</small>
+            <span>02</span><strong>WORK</strong><small>Experience</small>
           </button>
           <button class="table-card table-card-orax" type="button" data-table-cart-index="2" style="--cart-bg:#ff7d6e;">
-            <span>03</span><strong>ORAX</strong><small>Boss cart</small>
+            <span>03</span><strong>ORAX</strong><small>OraxAI</small>
           </button>
           <button class="table-card table-card-labs" type="button" data-table-cart-index="3" style="--cart-bg:#84f0bd;">
             <span>04</span><strong>LABS</strong><small>Projects</small>
           </button>
           <button class="table-card table-card-edu" type="button" data-table-cart-index="4" style="--cart-bg:#c7b8ff;">
-            <span>05</span><strong>EDU</strong><small>Training</small>
+            <span>05</span><strong>EDU</strong><small>Education</small>
           </button>
           <button class="table-card table-card-link" type="button" data-table-cart-index="5" style="--cart-bg:#f4a261;">
             <span>06</span><strong>LINK</strong><small>Contact</small>
@@ -560,7 +560,7 @@
   </div>
 
   <div class="quest-toast" id="questToast" role="status" aria-live="polite">
-    <span>Quest unlocked</span>
+    <span>Progress updated</span>
     <strong></strong>
     <small></small>
   </div>
