@@ -6,10 +6,11 @@
   <meta name="description" content="Sami El-Figha is interested in machine learning, hardware engineering, and software engineering, with work across OraxAI, agent pipelines, and hardware ML projects.">
   <meta name="theme-color" content="#f1ecd8">
   <title>Sami El-Figha | AI Engineer Portfolio</title>
+  <link rel="icon" href="./charizard.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=20260510-ux6">
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -41,7 +42,7 @@
         <h1>Sami El-Figha</h1>
         <p class="hero-lede">I build AI systems end to end: ATS scoring engines, multi-agent pipelines, full-stack products, and hardware ML experiments with real users on the other side.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" type="button" id="recruiterScanButton">Recruiter scan</button>
+          <button class="btn btn-primary" type="button" id="recruiterScanButton">Run recruiter scan</button>
           <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com">Start co-op conversation</a>
           <a class="btn btn-ghost" href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">Open GitHub</a>
         </div>
@@ -394,6 +395,24 @@
       <button class="panel-close" type="button" data-close-panel aria-label="Close">Close</button>
       <p class="section-label">Recruiter scan</p>
       <h2 id="scanTitle">High-signal match for machine learning, hardware, or software engineering.</h2>
+      <div class="role-match-panel" aria-label="Recruiter role paths">
+        <div class="role-tabs" role="tablist" aria-label="Choose a hiring lane">
+          <button type="button" class="role-tab is-active" data-role-route="software" aria-pressed="true">Software</button>
+          <button type="button" class="role-tab" data-role-route="machine" aria-pressed="false">ML</button>
+          <button type="button" class="role-tab" data-role-route="hardware" aria-pressed="false">Hardware</button>
+        </div>
+        <div class="role-output">
+          <span class="role-badge" id="roleBadge">Best first cart: ORAX</span>
+          <h3 id="roleTitle">Software engineering packet</h3>
+          <p id="rolePitch">Production AI product builder with React, FastAPI, AWS agents, Django, Azure, and real user traction.</p>
+          <ul class="role-proof-list" id="roleProofList"></ul>
+          <div class="role-actions">
+            <button class="btn btn-primary" type="button" data-load-route-cart>Load recommended cart</button>
+            <button class="btn btn-ghost" type="button" data-copy-pitch>Copy 20-sec pitch</button>
+          </div>
+          <p class="copy-status" id="copyStatus" aria-live="polite"></p>
+        </div>
+      </div>
       <div class="scan-grid">
         <article>
           <span>Product proof</span>
@@ -495,6 +514,6 @@
     <span>Gotta ship them all.</span>
   </footer>
 
-  <script src="./app.js" defer></script>
+  <script src="./app.js?v=20260510-ux6" defer></script>
 </body>
 </html>

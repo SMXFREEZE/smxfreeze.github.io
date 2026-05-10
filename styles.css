@@ -11,27 +11,27 @@ section[id] {
 }
 
 :root {
-  color-scheme: dark;
-  --bg: #0a0e18;
-  --bg-soft: #101622;
-  --bg-card: #162030;
-  --ink: #f9f2dd;
-  --ink-soft: #c7bfaa;
-  --muted: #7c8497;
-  --line: rgba(249, 242, 221, 0.16);
-  --line-strong: rgba(249, 242, 221, 0.32);
+  color-scheme: light;
+  --bg: #ebe7d7;
+  --bg-soft: #f7f2df;
+  --bg-card: #fff9e7;
+  --ink: #151926;
+  --ink-soft: #394052;
+  --muted: #6f735e;
+  --line: rgba(21, 25, 38, 0.16);
+  --line-strong: rgba(21, 25, 38, 0.32);
   --orange: #ff8a4c;
   --yellow: #ffd166;
   --blue: #55d6ff;
   --mint: #84f0bd;
   --pink: #ef5da8;
-  --shell: #d9d3bb;
-  --shell-dark: #938b75;
-  --shell-light: #f6efd7;
-  --rubber: #202536;
-  --lcd: #a7be63;
+  --shell: #f3c84b;
+  --shell-dark: #b78327;
+  --shell-light: #ffe483;
+  --rubber: #1d2632;
+  --lcd: #b5c46b;
   --lcd-dark: #39471b;
-  --lcd-mid: #65792f;
+  --lcd-mid: #62732c;
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
   --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
@@ -1934,6 +1934,126 @@ img {
   text-transform: uppercase;
 }
 
+.role-match-panel {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.34fr) minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 0.85rem;
+  background: #f5efd9;
+  border: 3px solid #101520;
+  border-radius: 8px;
+  box-shadow: 7px 7px 0 rgba(16, 21, 32, 0.18);
+}
+
+.role-tabs {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.role-tab {
+  min-height: 46px;
+  padding: 0.65rem 0.72rem;
+  color: #101520;
+  background: #fff9e7;
+  border: 2px solid #101520;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #101520;
+  font: 900 0.64rem var(--font-mono);
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.role-tab:hover,
+.role-tab:focus-visible,
+.role-tab.is-active {
+  outline: none;
+  background: var(--yellow);
+  transform: translateY(-2px);
+  box-shadow: 4px 5px 0 #101520;
+}
+
+.role-output {
+  display: grid;
+  gap: 0.72rem;
+  min-width: 0;
+  padding: 1rem;
+  color: var(--lcd-dark);
+  background: var(--lcd);
+  border: 3px solid #101520;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,0.16);
+}
+
+.role-badge {
+  justify-self: start;
+  padding: 0.32rem 0.45rem;
+  color: #11180d;
+  background: rgba(57, 71, 27, 0.14);
+  border: 2px solid rgba(57, 71, 27, 0.26);
+  font: 900 0.5rem var(--font-pixel);
+  text-transform: uppercase;
+}
+
+.role-output h3 {
+  margin: 0;
+  color: var(--lcd-dark);
+  font: 900 clamp(1.2rem, 3vw, 2rem)/1.08 var(--font-display);
+  text-transform: uppercase;
+}
+
+.role-output > p:not(.copy-status) {
+  margin: 0;
+  color: #39471b;
+  font: 800 0.78rem/1.55 var(--font-mono);
+}
+
+.role-proof-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.role-proof-list li {
+  position: relative;
+  padding-left: 1.05rem;
+  color: #39471b;
+  font: 800 0.66rem/1.48 var(--font-mono);
+}
+
+.role-proof-list li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: #11180d;
+}
+
+.role-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.role-actions .btn {
+  min-height: 40px;
+  padding-block: 0.62rem;
+  font-size: 0.64rem;
+}
+
+.copy-status {
+  margin: 0;
+  min-height: 1.1rem;
+  color: var(--lcd-mid);
+  font: 900 0.56rem var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .scan-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2454,6 +2574,18 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .role-match-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .role-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .role-tab {
+    text-align: center;
+  }
+
   .save-strip {
     box-shadow: 6px 6px 0 #101520;
   }
@@ -2916,6 +3048,17 @@ img {
 
   .scan-actions {
     display: grid;
+  }
+
+  .role-tabs,
+  .role-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .role-match-panel,
+  .role-output {
+    padding: 0.75rem;
   }
 
   .quest-toast {

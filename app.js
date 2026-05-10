@@ -100,6 +100,14 @@ const recruiterPanel = document.getElementById("recruiterPanel");
 const questProgress = document.getElementById("questProgress");
 const questToast = document.getElementById("questToast");
 const questCards = [...document.querySelectorAll("[data-quest-card]")];
+const roleTabs = [...document.querySelectorAll("[data-role-route]")];
+const roleBadge = document.getElementById("roleBadge");
+const roleTitle = document.getElementById("roleTitle");
+const rolePitch = document.getElementById("rolePitch");
+const roleProofList = document.getElementById("roleProofList");
+const copyStatus = document.getElementById("copyStatus");
+const loadRouteButtons = [...document.querySelectorAll("[data-load-route-cart]")];
+const copyPitchButtons = [...document.querySelectorAll("[data-copy-pitch]")];
 const tabletopPanel = document.getElementById("tabletopPanel");
 const tableSlot = document.getElementById("tableSlot");
 const tableScreen = document.getElementById("tableScreen");
@@ -111,7 +119,9 @@ const closeTableButtons = [...document.querySelectorAll("[data-close-table]")];
 const tableFocusButtons = [...document.querySelectorAll("[data-table-focus-console]")];
 let suppressNextCartClick = false;
 let lastTableOpenAt = 0;
+let selectedRecruiterRoute = "software";
 const questState = new Set();
+
 const quests = {
   scan: {
     title: "Scan signal",
@@ -128,6 +138,44 @@ const quests = {
   contact: {
     title: "Link cable ready",
     detail: "The next move is easy."
+  }
+};
+const recruiterRoutes = {
+  software: {
+    title: "Software engineering packet",
+    cart: "ORAX",
+    cartIndex: 2,
+    pitch: "Production AI product builder with React, FastAPI, Django, Azure, AWS agents, and real user traction.",
+    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, plus shipped AI automation work with Venu AI and NeuralSeek.",
+    proof: [
+      "OraxAI: built the full-stack product from scratch for paying users.",
+      "Venu AI: Python, React, Django, and Azure on conference automation.",
+      "NeuralSeek: production AWS agent pipeline that cut task resolution about 40%."
+    ]
+  },
+  machine: {
+    title: "Machine learning packet",
+    cart: "LABS",
+    cartIndex: 3,
+    pitch: "Applied ML builder with product context: resume scoring, phonetic generation, adaptive tutoring, and agent evaluation loops.",
+    clipboard: "Sami El-Figha is a strong machine learning call: he shipped OraxAI's ATS scoring and keyword gap system, built Lyric Engine with phonetic constraints and LoRA adapters, and designed adaptive tutoring workflows in PaideAI.",
+    proof: [
+      "OraxAI: semantic and keyword gap scoring for resumes and job descriptions.",
+      "Lyric Engine: dual tokenizer, LoRA adapters, and constrained beam search.",
+      "PaideAI: adaptive math tutoring with real-time hints and progress visibility."
+    ]
+  },
+  hardware: {
+    title: "Hardware engineering packet",
+    cart: "LABS",
+    cartIndex: 3,
+    pitch: "Electrical engineering builder with ML hardware signal: FPGA inference, Verilog RTL, Python simulation, and embedded systems direction.",
+    clipboard: "Sami El-Figha is a strong hardware engineering call: he is heading to Waterloo Electrical Engineering and built NeuralForge, an FPGA INT8 CNN inference accelerator with Verilog RTL, Python simulation, and PyTorch baselines.",
+    proof: [
+      "NeuralForge: INT8 CNN inference on a 4x4 weight-stationary systolic array.",
+      "Stack signal: Verilog, PyTorch, Python simulation, C/C++, and Rust direction.",
+      "Waterloo EE path: digital hardware, architecture, networks, and embedded software."
+    ]
   }
 };
 
@@ -205,7 +253,66 @@ function unlockQuest(id) {
   renderScreen();
 }
 
+function renderRecruiterRoute() {
+  const route = recruiterRoutes[selectedRecruiterRoute] || recruiterRoutes.software;
+  roleTabs.forEach((tab) => {
+    const isActive = tab.dataset.roleRoute === selectedRecruiterRoute;
+    tab.classList.toggle("is-active", isActive);
+    tab.setAttribute("aria-pressed", String(isActive));
+  });
+
+  if (roleBadge) roleBadge.textContent = `Best first cart: ${route.cart}`;
+  if (roleTitle) roleTitle.textContent = route.title;
+  if (rolePitch) rolePitch.textContent = route.pitch;
+  if (roleProofList) {
+    roleProofList.innerHTML = route.proof.map((line) => `<li>${line}</li>`).join("");
+  }
+  if (copyStatus) copyStatus.textContent = "";
+}
+
+function selectRecruiterRoute(routeId) {
+  if (!recruiterRoutes[routeId]) return;
+  selectedRecruiterRoute = routeId;
+  renderRecruiterRoute();
+  playBlip("tap");
+}
+
+function loadRecruiterRouteCart() {
+  const route = recruiterRoutes[selectedRecruiterRoute] || recruiterRoutes.software;
+  closeRecruiterPanel();
+  insertCart(route.cartIndex, "tap");
+  unlockQuest("builds");
+}
+
+async function copyRecruiterPitch() {
+  const route = recruiterRoutes[selectedRecruiterRoute] || recruiterRoutes.software;
+  const text = route.clipboard;
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const fallback = document.createElement("textarea");
+      fallback.value = text;
+      fallback.setAttribute("readonly", "");
+      fallback.style.position = "fixed";
+      fallback.style.left = "-9999px";
+      document.body.appendChild(fallback);
+      fallback.select();
+      document.execCommand("copy");
+      fallback.remove();
+    }
+    if (copyStatus) copyStatus.textContent = "Pitch copied.";
+    unlockQuest("contact");
+    playBlip("open");
+  } catch (error) {
+    if (copyStatus) copyStatus.textContent = "Copy blocked. Email link is ready.";
+    playBlip("back");
+  }
+}
+
 function openRecruiterPanel() {
+  renderRecruiterRoute();
   recruiterPanel?.classList.add("is-open");
   recruiterPanel?.setAttribute("aria-hidden", "false");
   document.body.classList.add("no-scroll");
@@ -289,12 +396,69 @@ function openTabletopFromEvent(event) {
   openTabletop();
 }
 
+function openRecruiterScanFromEvent(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  openRecruiterPanel();
+}
+
+function selectRecruiterRouteFromEvent(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  selectRecruiterRoute(event.currentTarget?.dataset.roleRoute);
+}
+
+function loadRecruiterRouteFromEvent(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  loadRecruiterRouteCart();
+}
+
+function copyRecruiterPitchFromEvent(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  copyRecruiterPitch();
+}
+
+document.addEventListener("pointerdown", (event) => {
+  if (event.target.closest("[data-load-route-cart]")) {
+    loadRecruiterRouteFromEvent(event);
+  }
+
+  if (event.target.closest("[data-copy-pitch]")) {
+    copyRecruiterPitchFromEvent(event);
+  }
+}, true);
+
 openTableButtons.forEach((button) => {
   button.addEventListener("pointerdown", openTabletopFromEvent);
   button.addEventListener("click", openTabletopFromEvent);
   button.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") openTabletopFromEvent(event);
   });
+});
+
+recruiterScanButton?.addEventListener("pointerdown", openRecruiterScanFromEvent);
+recruiterScanButton?.addEventListener("click", openRecruiterScanFromEvent);
+recruiterScanButton?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") openRecruiterScanFromEvent(event);
+});
+
+roleTabs.forEach((button) => {
+  button.addEventListener("click", selectRecruiterRouteFromEvent);
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") selectRecruiterRouteFromEvent(event);
+  });
+});
+
+loadRouteButtons.forEach((button) => {
+  button.addEventListener("pointerdown", loadRecruiterRouteFromEvent);
+  button.addEventListener("click", loadRecruiterRouteFromEvent);
+});
+
+copyPitchButtons.forEach((button) => {
+  button.addEventListener("pointerdown", copyRecruiterPitchFromEvent);
+  button.addEventListener("click", copyRecruiterPitchFromEvent);
 });
 
 closeTableButtons.forEach((button) => {
@@ -584,6 +748,22 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("#recruiterScanButton")) {
     openRecruiterPanel();
+    return;
+  }
+
+  const roleTab = event.target.closest("[data-role-route]");
+  if (roleTab) {
+    selectRecruiterRoute(roleTab.dataset.roleRoute);
+    return;
+  }
+
+  if (event.target.closest("[data-load-route-cart]")) {
+    loadRecruiterRouteCart();
+    return;
+  }
+
+  if (event.target.closest("[data-copy-pitch]")) {
+    copyRecruiterPitch();
     return;
   }
 
@@ -892,5 +1072,6 @@ document.querySelectorAll(".reveal-card").forEach((card, index) => {
 
 setupCartridgeDrag();
 updateQuestProgress();
+renderRecruiterRoute();
 renderScreen();
 window.setTimeout(() => bootConsole({ silent: true }), 420);
