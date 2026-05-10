@@ -124,6 +124,9 @@ const mobileCartButtons = [...document.querySelectorAll("[data-mobile-cart-index
 const projectCards = [...document.querySelectorAll("[data-project-card]")];
 let suppressNextCartClick = false;
 let lastTableOpenAt = 0;
+let lastRouteLoadAt = 0;
+let bootTimer = null;
+let bootToken = 0;
 let selectedRecruiterRoute = "software";
 const questState = new Set();
 
@@ -543,10 +546,10 @@ function selectRecruiterRoute(routeId) {
   playBlip("tap");
 }
 
-function loadRecruiterRouteCart() {
+function loadRecruiterRouteCart(sourceElement = null) {
   const route = recruiterRoutes[selectedRecruiterRoute] || recruiterRoutes.software;
   closeRecruiterPanel();
-  insertCart(route.cartIndex, "tap");
+  insertCart(route.cartIndex, "tap", sourceElement);
   unlockQuest("builds");
 }
 
@@ -653,6 +656,10 @@ function flashControl(control) {
   }, 220);
 }
 
+function focusConsole() {
+  lcd?.focus({ preventScroll: true });
+}
+
 function openTabletopFromEvent(event) {
   event?.preventDefault();
   event?.stopPropagation();
@@ -677,7 +684,11 @@ function selectRecruiterRouteFromEvent(event) {
 function loadRecruiterRouteFromEvent(event) {
   event?.preventDefault();
   event?.stopPropagation();
-  loadRecruiterRouteCart();
+  const now = performance.now();
+  if (now - lastRouteLoadAt < 260) return;
+  lastRouteLoadAt = now;
+  const source = event?.target?.closest?.("[data-load-route-cart]") || event?.currentTarget || null;
+  loadRecruiterRouteCart(source);
 }
 
 function copyRecruiterPitchFromEvent(event) {
@@ -758,6 +769,7 @@ tableFocusButtons.forEach((button) => {
     event.stopPropagation();
     closeTabletop();
     consoleEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => focusConsole(), 180);
   });
 });
 
@@ -774,6 +786,7 @@ consoleControls.forEach((control) => {
   control.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
+    focusConsole();
     flashControl(control);
     handleAction(control.dataset.consoleAction);
   });
@@ -839,7 +852,7 @@ function renderMenu() {
     <div class="screen-meta">
       ${item.meta.map((tag) => `<span>${tag}</span>`).join("")}
     </div>
-    <div class="screen-footer">Up/down choose. A opens inside screen. Select returns here.</div>
+    <div class="screen-footer">Up/down choose. Tap active row or A to open. Select returns here.</div>
   `;
   body.scrollTop = 0;
 }
@@ -871,7 +884,9 @@ function renderConsoleDetail(item, { loaded = false } = {}) {
         ${escapedMeta}
       </div>
       ${page.url ? `<div class="console-link-pill">${escapeHtml(actionText)}</div>` : ""}
-      <div class="screen-footer">Up/down browse pages. A: ${escapeHtml(actionText)}. B: ${loaded ? "eject" : "back"}.</div>
+      <div class="screen-footer">${loaded
+        ? `Up/down browse pages. A: ${escapeHtml(actionText)}. B ejects. Select page 1.`
+        : `Up/down browse pages. A: ${escapeHtml(actionText)}. B/Select menu.`}</div>
     </div>
   `;
   body.scrollTop = 0;
@@ -942,6 +957,8 @@ function openExternalFromConsole(page) {
 
 function bootConsole({ silent = false } = {}) {
   if (!lcd || !body) return;
+  if (bootTimer !== null) window.clearTimeout(bootTimer);
+  const token = ++bootToken;
   state.powered = true;
   state.booted = false;
   state.score = Math.min(999, state.score + 20);
@@ -949,7 +966,9 @@ function bootConsole({ silent = false } = {}) {
   if (!silent) playBlip("boot");
   renderScreen();
 
-  window.setTimeout(() => {
+  bootTimer = window.setTimeout(() => {
+    if (token !== bootToken || !state.powered) return;
+    bootTimer = null;
     state.booted = true;
     state.score = Math.min(999, state.score + 30);
     lcd.classList.remove("is-booting");
@@ -958,6 +977,9 @@ function bootConsole({ silent = false } = {}) {
 }
 
 function powerOff() {
+  if (bootTimer !== null) window.clearTimeout(bootTimer);
+  bootTimer = null;
+  bootToken += 1;
   state.powered = false;
   state.booted = false;
   lcd?.classList.remove("is-booting");
@@ -1150,11 +1172,12 @@ function handleAction(action) {
   }
 
   if (action === "top") {
+    playBlip("tap");
     if (state.loaded !== null) {
-      ejectCart();
+      resetConsoleDetail();
+      renderScreen();
       return;
     }
-    playBlip("tap");
     state.view = "menu";
     resetConsoleDetail();
     renderScreen();
@@ -1180,6 +1203,7 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("[data-table-focus-console]")) {
     closeTabletop();
     consoleEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => focusConsole(), 180);
     return;
   }
 
@@ -1207,8 +1231,9 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (event.target.closest("[data-load-route-cart]")) {
-    loadRecruiterRouteCart();
+  const loadRouteButton = event.target.closest("[data-load-route-cart]");
+  if (loadRouteButton) {
+    loadRecruiterRouteCart(loadRouteButton);
     return;
   }
 
@@ -1233,7 +1258,7 @@ document.addEventListener("click", (event) => {
       return;
     }
     if (quest === "cart") {
-      insertCart(3, "tap");
+      insertCart(3, "tap", questCard);
       return;
     }
     if (quest === "builds") {
@@ -1262,6 +1287,7 @@ document.addEventListener("click", (event) => {
 
   const control = event.target.closest("[data-console-action]");
   if (control) {
+    focusConsole();
     flashControl(control);
     handleAction(control.dataset.consoleAction);
     return;
@@ -1270,6 +1296,7 @@ document.addEventListener("click", (event) => {
   if (consoleEl?.contains(event.target)) {
     const fallbackAction = getConsoleActionFromPoint(event);
     if (fallbackAction) {
+      focusConsole();
       flashControl(document.querySelector(`[data-console-action="${fallbackAction}"]`));
       handleAction(fallbackAction);
       return;
@@ -1278,8 +1305,16 @@ document.addEventListener("click", (event) => {
 
   const menuButton = event.target.closest("[data-screen-index]");
   if (menuButton) {
-    playBlip("tap");
-    setSelected(Number(menuButton.dataset.screenIndex));
+    const index = Number(menuButton.dataset.screenIndex);
+    if (!Number.isInteger(index)) return;
+    if (state.selected === index) {
+      playBlip("open");
+      openCurrent();
+    } else {
+      playBlip("tap");
+      setSelected(index);
+    }
+    return;
   }
 
   const contactLink = event.target.closest('a[href^="mailto:"], a[href*="linkedin.com/in/samielfigha"], a[href*="github.com/SMXFREEZE"], a[href*="oraxai.ca"], a[href$="Sami-El-Figha-Resume.pdf"]');
@@ -1290,11 +1325,7 @@ document.addEventListener("click", (event) => {
 
 lcd?.addEventListener("click", (event) => {
   if (event.target.closest("[data-screen-index]")) return;
-  if (!state.powered || !state.booted) return;
-  if (state.loaded !== null) {
-    playBlip("open");
-    openCurrent();
-  }
+  focusConsole();
 });
 
 function containsPoint(element, event) {
@@ -1342,26 +1373,38 @@ function getConsoleActionFromPoint(event) {
 document.querySelector(".dpad")?.addEventListener("click", (event) => {
   if (event.target.closest("[data-console-action]")) return;
   const action = getConsoleActionFromPoint(event);
-  if (action) handleAction(action);
+  if (action) {
+    focusConsole();
+    handleAction(action);
+  }
   event.stopPropagation();
 });
 
 document.querySelector(".face-buttons")?.addEventListener("click", (event) => {
   if (event.target.closest("[data-console-action]")) return;
   const action = getConsoleActionFromPoint(event);
-  if (action) handleAction(action);
+  if (action) {
+    focusConsole();
+    handleAction(action);
+  }
   event.stopPropagation();
 });
 
 document.querySelector(".meta-buttons")?.addEventListener("click", (event) => {
   if (event.target.closest("[data-console-action]")) return;
   const action = getConsoleActionFromPoint(event);
-  if (action) handleAction(action);
+  if (action) {
+    focusConsole();
+    handleAction(action);
+  }
   event.stopPropagation();
 });
 
 consoleControls.forEach((control) => {
-  control.addEventListener("pointerdown", () => flashControl(control));
+  control.addEventListener("pointerdown", () => {
+    focusConsole();
+    flashControl(control);
+  });
   control.addEventListener("pointerup", () => control.classList.remove("is-pressing"));
   control.addEventListener("pointerleave", () => control.classList.remove("is-pressing"));
 });
