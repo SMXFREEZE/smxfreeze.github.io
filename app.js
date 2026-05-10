@@ -489,6 +489,35 @@ function resetConsoleDetail() {
   state.detailIndex = 0;
 }
 
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getGsap() {
+  return prefersReducedMotion() ? null : window.gsap;
+}
+
+function animateScreenContent() {
+  const gsap = getGsap();
+  if (!gsap || !body || !state.powered) return;
+  const targets = [...body.children];
+  if (!targets.length) return;
+
+  gsap.killTweensOf(targets);
+  gsap.fromTo(
+    targets,
+    { autoAlpha: 0, y: 8 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.24,
+      ease: "power2.out",
+      stagger: 0.025,
+      overwrite: "auto"
+    }
+  );
+}
+
 function updateQuestProgress() {
   questCards.forEach((card) => {
     card.classList.toggle("is-unlocked", questState.has(card.dataset.questCard));
@@ -585,6 +614,7 @@ function openRecruiterPanel() {
   recruiterPanel?.classList.add("is-open");
   recruiterPanel?.setAttribute("aria-hidden", "false");
   document.body.classList.add("no-scroll");
+  animateDialogIn(".scan-card-panel");
   unlockQuest("scan");
   playBlip("open");
 }
@@ -636,6 +666,7 @@ function openTabletop() {
   tabletopPanel?.classList.add("is-open");
   tabletopPanel?.setAttribute("aria-hidden", "false");
   document.body.classList.add("no-scroll");
+  animateDialogIn(".tabletop-dialog");
   playBlip("open");
 }
 
@@ -658,6 +689,18 @@ function flashControl(control) {
 
 function focusConsole() {
   lcd?.focus({ preventScroll: true });
+}
+
+function animateDialogIn(dialogSelector) {
+  const gsap = getGsap();
+  const dialog = document.querySelector(dialogSelector);
+  if (!gsap || !dialog) return;
+
+  gsap.fromTo(
+    dialog,
+    { autoAlpha: 0, y: 18, scale: 0.985 },
+    { autoAlpha: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out", overwrite: "auto" }
+  );
 }
 
 function openTabletopFromEvent(event) {
@@ -806,6 +849,7 @@ function renderScreen() {
       </div>
     `;
     body.scrollTop = 0;
+    animateScreenContent();
     return;
   }
 
@@ -818,6 +862,7 @@ function renderScreen() {
       <div class="screen-footer">Please wait.</div>
     `;
     body.scrollTop = 0;
+    animateScreenContent();
     return;
   }
 
@@ -855,6 +900,7 @@ function renderMenu() {
     <div class="screen-footer">Up/down choose. Tap active row or A to open. Select returns here.</div>
   `;
   body.scrollTop = 0;
+  animateScreenContent();
 }
 
 function renderLoadedCart(item) {
@@ -890,6 +936,7 @@ function renderConsoleDetail(item, { loaded = false } = {}) {
     </div>
   `;
   body.scrollTop = 0;
+  animateScreenContent();
 }
 
 function updateConsoleChrome() {
@@ -1004,9 +1051,112 @@ function getCartColor(index, sourceElement) {
   ).trim();
 }
 
+function animateCardFlightWithGsap(index, sourceElement) {
+  const gsap = getGsap();
+  if (!gsap || !sourceElement || !cartSlot) return false;
+
+  animateCardFlight.activeTimeline?.kill();
+  window.cancelAnimationFrame(animateCardFlight.frame);
+  animateCardFlight.activeCard?.remove();
+
+  const sourceRect = sourceElement.getBoundingClientRect();
+  const slotRect = cartSlot.getBoundingClientRect();
+  if (!sourceRect.width || !sourceRect.height || !slotRect.width || !slotRect.height) return false;
+
+  const width = Math.min(Math.max(sourceRect.width, 72), 104);
+  const height = Math.min(Math.max(sourceRect.height, 82), 132);
+  const startLeft = sourceRect.left + sourceRect.width / 2 - width / 2;
+  const startTop = sourceRect.top + sourceRect.height / 2 - height / 2;
+  const targetLeft = slotRect.left + slotRect.width / 2 - width / 2;
+  const targetTop = slotRect.top - height * 0.62;
+  const flightCard = document.createElement("div");
+  const item = screenItems[index];
+
+  flightCard.className = "insert-flight-card";
+  flightCard.style.left = `${startLeft}px`;
+  flightCard.style.top = `${startTop}px`;
+  flightCard.style.width = `${width}px`;
+  flightCard.style.height = `${height}px`;
+  flightCard.style.setProperty("--flight-bg", getCartColor(index, sourceElement));
+  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Cart</small>`;
+  document.body.appendChild(flightCard);
+  animateCardFlight.activeCard = flightCard;
+
+  const dx = targetLeft - startLeft;
+  const dy = targetTop - startTop;
+  const lift = Math.min(92, Math.max(36, Math.abs(dy) * 0.18));
+  const startTilt = sourceRect.left < slotRect.left ? -7 : 7;
+  const sinkDistance = Math.min(height * 0.64, 74);
+  const removeFlightCard = () => {
+    flightCard.remove();
+    if (animateCardFlight.activeCard === flightCard) animateCardFlight.activeCard = null;
+    if (animateCardFlight.activeTimeline === timeline) animateCardFlight.activeTimeline = null;
+  };
+  const timeline = gsap.timeline({
+    defaults: { overwrite: "auto" },
+    onComplete: removeFlightCard
+  });
+
+  animateCardFlight.activeTimeline = timeline;
+  timeline
+    .set(flightCard, {
+      x: 0,
+      y: 0,
+      rotation: startTilt,
+      rotationX: 16,
+      scale: 1,
+      autoAlpha: 1,
+      clipPath: "inset(0 0 0% 0 round 10px 10px 4px 4px)",
+      transformPerspective: 650,
+      transformOrigin: "50% 88%"
+    })
+    .to(flightCard, {
+      x: dx * 0.7,
+      y: dy * 0.62 - lift,
+      rotation: startTilt * 0.28,
+      rotationX: 8,
+      scale: 0.96,
+      duration: 0.38,
+      ease: "power2.out"
+    })
+    .to(flightCard, {
+      x: dx,
+      y: dy - 8,
+      rotation: 0,
+      rotationX: 2,
+      scale: 0.9,
+      duration: 0.24,
+      ease: "power2.inOut"
+    }, ">-0.03")
+    .addLabel("plug")
+    .to(flightCard, {
+      y: dy + sinkDistance,
+      rotationX: -10,
+      scale: 0.84,
+      duration: 0.2,
+      ease: "back.in(1.25)"
+    }, "plug")
+    .to(flightCard, {
+      clipPath: "inset(0 0 78% 0 round 10px 10px 4px 4px)",
+      autoAlpha: 0.2,
+      duration: 0.2,
+      ease: "power2.in"
+    }, "plug")
+    .fromTo(cartSlot, { scale: 1.04 }, {
+      scale: 1,
+      duration: 0.32,
+      ease: "elastic.out(1, 0.45)",
+      clearProps: "transform"
+    }, "plug+=0.08");
+
+  return true;
+}
+
 function animateCardFlight(index, sourceElement) {
   if (!sourceElement || !cartSlot || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (animateCardFlightWithGsap(index, sourceElement)) return;
 
+  animateCardFlight.activeTimeline?.kill();
   window.cancelAnimationFrame(animateCardFlight.frame);
   animateCardFlight.activeCard?.remove();
 
@@ -1558,7 +1708,83 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-const revealObserver = "IntersectionObserver" in window
+function setupGsapEnhancements() {
+  const gsap = getGsap();
+  if (!gsap) return;
+
+  document.documentElement.classList.add("gsap-enhanced");
+  gsap.defaults({ duration: 0.45, ease: "power2.out" });
+
+  if (window.ScrollTrigger) {
+    gsap.registerPlugin(window.ScrollTrigger);
+    gsap.set(".reveal-card", { autoAlpha: 0, y: 24 });
+    window.ScrollTrigger.batch(".reveal-card", {
+      start: "top 86%",
+      once: true,
+      onEnter: (batch) => gsap.to(batch, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.58,
+        ease: "power3.out",
+        stagger: { each: 0.055, from: "start" },
+        overwrite: "auto"
+      })
+    });
+  }
+
+  const heroTargets = gsap.utils.toArray(".hero-kicker, .hero h1, .hero-lede, .hero-actions, .quick-facts");
+  gsap.timeline({ defaults: { ease: "power3.out" } })
+    .from(heroTargets, {
+      autoAlpha: 0,
+      y: 18,
+      duration: 0.54,
+      stagger: 0.06,
+      clearProps: "opacity,visibility,transform"
+    })
+    .from(".mini-cart", {
+      autoAlpha: 0,
+      y: -18,
+      scale: 0.94,
+      rotation: (index) => [-10, 9, 6, -7][index] || 0,
+      duration: 0.46,
+      stagger: { each: 0.055, from: "random" },
+      clearProps: "opacity,visibility,transform"
+    }, "<0.08")
+    .from("#portfolioConsole", {
+      autoAlpha: 0,
+      y: 24,
+      scale: 0.965,
+      duration: 0.58,
+      clearProps: "opacity,visibility,transform"
+    }, "<0.08");
+
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const bezel = document.querySelector(".screen-bezel");
+  if (!canHover || !consoleEl || !bezel) return;
+
+  const xTo = gsap.quickTo(bezel, "x", { duration: 0.35, ease: "power3" });
+  const yTo = gsap.quickTo(bezel, "y", { duration: 0.35, ease: "power3" });
+  const rotationTo = gsap.quickTo(bezel, "rotation", { duration: 0.35, ease: "power3" });
+
+  consoleEl.addEventListener("pointermove", (event) => {
+    if (state.isDragging) return;
+    const rect = consoleEl.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    xTo(x * 5);
+    yTo(y * 4);
+    rotationTo(x * 1.2);
+  });
+
+  consoleEl.addEventListener("pointerleave", () => {
+    xTo(0);
+    yTo(0);
+    rotationTo(0);
+  });
+}
+
+const useGsapReveal = !!(getGsap() && window.ScrollTrigger);
+const revealObserver = !useGsapReveal && "IntersectionObserver" in window
   ? new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -1571,7 +1797,9 @@ const revealObserver = "IntersectionObserver" in window
 
 document.querySelectorAll(".reveal-card").forEach((card, index) => {
   card.style.transitionDelay = `${Math.min(index * 0.045, 0.22)}s`;
-  if (revealObserver) {
+  if (useGsapReveal) {
+    card.classList.add("is-visible");
+  } else if (revealObserver) {
     revealObserver.observe(card);
   } else {
     card.classList.add("is-visible");
@@ -1623,6 +1851,7 @@ function setupProjectCards() {
 
 setupProjectCards();
 setupCartridgeDrag();
+setupGsapEnhancements();
 updateQuestProgress();
 renderRecruiterRoute();
 renderScreen();
