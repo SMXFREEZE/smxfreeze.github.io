@@ -96,6 +96,7 @@ const cartSlot = document.getElementById("cartSlot");
 const powerLabel = document.querySelector(".power-pill");
 const carts = [...document.querySelectorAll(".mini-cart[data-cart-index]")];
 const recruiterScanButton = document.getElementById("recruiterScanButton");
+const openScanButtons = [...document.querySelectorAll("[data-open-scan]")];
 const recruiterPanel = document.getElementById("recruiterPanel");
 const questProgress = document.getElementById("questProgress");
 const questToast = document.getElementById("questToast");
@@ -117,6 +118,7 @@ const consoleControls = [...document.querySelectorAll("[data-console-action]")];
 const openTableButtons = [...document.querySelectorAll("[data-open-table]")];
 const closeTableButtons = [...document.querySelectorAll("[data-close-table]")];
 const tableFocusButtons = [...document.querySelectorAll("[data-table-focus-console]")];
+const mobileCartButtons = [...document.querySelectorAll("[data-mobile-cart-index]")];
 let suppressNextCartClick = false;
 let lastTableOpenAt = 0;
 let selectedRecruiterRoute = "software";
@@ -420,6 +422,14 @@ function copyRecruiterPitchFromEvent(event) {
   copyRecruiterPitch();
 }
 
+function loadMobileCartFromEvent(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  const index = Number(event.currentTarget?.dataset.mobileCartIndex);
+  if (!Number.isInteger(index)) return;
+  insertCart(index, "tap");
+}
+
 document.addEventListener("pointerdown", (event) => {
   if (event.target.closest("[data-load-route-cart]")) {
     loadRecruiterRouteFromEvent(event);
@@ -438,10 +448,12 @@ openTableButtons.forEach((button) => {
   });
 });
 
-recruiterScanButton?.addEventListener("pointerdown", openRecruiterScanFromEvent);
-recruiterScanButton?.addEventListener("click", openRecruiterScanFromEvent);
-recruiterScanButton?.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" || event.key === " ") openRecruiterScanFromEvent(event);
+openScanButtons.forEach((button) => {
+  button.addEventListener("pointerdown", openRecruiterScanFromEvent);
+  button.addEventListener("click", openRecruiterScanFromEvent);
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") openRecruiterScanFromEvent(event);
+  });
 });
 
 roleTabs.forEach((button) => {
@@ -459,6 +471,13 @@ loadRouteButtons.forEach((button) => {
 copyPitchButtons.forEach((button) => {
   button.addEventListener("pointerdown", copyRecruiterPitchFromEvent);
   button.addEventListener("click", copyRecruiterPitchFromEvent);
+});
+
+mobileCartButtons.forEach((button) => {
+  button.addEventListener("click", loadMobileCartFromEvent);
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") loadMobileCartFromEvent(event);
+  });
 });
 
 closeTableButtons.forEach((button) => {
@@ -746,8 +765,14 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (event.target.closest("#recruiterScanButton")) {
+  if (event.target.closest("[data-open-scan]")) {
     openRecruiterPanel();
+    return;
+  }
+
+  const mobileCart = event.target.closest("[data-mobile-cart-index]");
+  if (mobileCart) {
+    insertCart(Number(mobileCart.dataset.mobileCartIndex), "tap");
     return;
   }
 

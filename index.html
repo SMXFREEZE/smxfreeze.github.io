@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20260510-ux6">
+  <link rel="stylesheet" href="./styles.css?v=20260510-phone2">
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -42,10 +42,40 @@
         <h1>Sami El-Figha</h1>
         <p class="hero-lede">I build AI systems end to end: ATS scoring engines, multi-agent pipelines, full-stack products, and hardware ML experiments with real users on the other side.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" type="button" id="recruiterScanButton">Run recruiter scan</button>
+          <button class="btn btn-primary" type="button" id="recruiterScanButton" data-open-scan>Run recruiter scan</button>
           <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com">Start co-op conversation</a>
           <a class="btn btn-ghost" href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">Open GitHub</a>
         </div>
+        <section class="mobile-pocket-deck" aria-label="Phone portfolio routes">
+          <div class="mobile-pocket-head">
+            <span>Phone mode</span>
+            <strong>Full portfolio map</strong>
+          </div>
+          <div class="mobile-pocket-actions">
+            <button type="button" data-open-scan>Recruiter scan</button>
+            <button type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Table mode</button>
+          </div>
+          <div class="mobile-route-grid">
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="0" style="--route-bg:#ffd166;">
+              <strong>SAMI</strong><small>Profile</small>
+            </button>
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="1" style="--route-bg:#60c7ff;">
+              <strong>WORK</strong><small>Campaign</small>
+            </button>
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="2" style="--route-bg:#ff7d6e;">
+              <strong>ORAX</strong><small>OraxAI</small>
+            </button>
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="3" style="--route-bg:#84f0bd;">
+              <strong>LABS</strong><small>Projects</small>
+            </button>
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="4" style="--route-bg:#c7b8ff;">
+              <strong>EDU</strong><small>Education</small>
+            </button>
+            <button type="button" class="mobile-route-card" data-mobile-cart-index="5" style="--route-bg:#f4a261;">
+              <strong>LINK</strong><small>Contact</small>
+            </button>
+          </div>
+        </section>
         <dl class="quick-facts" aria-label="Quick facts">
           <div>
             <dt>Base</dt>
@@ -514,6 +544,6 @@
     <span>Gotta ship them all.</span>
   </footer>
 
-  <script src="./app.js?v=20260510-ux6" defer></script>
+  <script src="./app.js?v=20260510-phone2" defer></script>
 </body>
 </html>
