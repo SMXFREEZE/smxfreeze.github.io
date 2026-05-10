@@ -586,7 +586,10 @@ img {
   font: 900 0.58rem var(--font-mono);
   letter-spacing: 0.05em;
   pointer-events: none;
+  transform-origin: center 88%;
+  transform-style: preserve-3d;
   text-transform: uppercase;
+  will-change: transform, opacity, clip-path;
 }
 
 .insert-flight-card::before {
@@ -598,6 +601,17 @@ img {
   height: 18px;
   background: rgba(16, 21, 32, 0.2);
   border: 2px solid rgba(16, 21, 32, 0.34);
+}
+
+.insert-flight-card::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  height: 5px;
+  background: rgba(16, 21, 32, 0.16);
+  border-radius: 999px;
 }
 
 .insert-flight-card strong,
@@ -758,22 +772,22 @@ img {
 .cart-slot.is-plugging {
   background: var(--insert-bg, var(--yellow));
   border-color: #101520;
-  box-shadow: 4px 4px 0 #101520;
+  box-shadow: 4px 4px 0 #101520, inset 0 -7px 0 rgba(16, 21, 32, 0.18);
 }
 
 .cart-slot.is-plugging::after {
   content: "";
   position: absolute;
-  left: 22px;
-  right: 22px;
-  top: -54px;
-  height: 58px;
+  left: 26px;
+  right: 26px;
+  top: -74px;
+  height: 82px;
   background: var(--insert-bg, var(--yellow));
   border: 3px solid #101520;
   border-radius: 8px 8px 3px 3px;
   box-shadow: 5px 5px 0 rgba(16, 21, 32, 0.2);
   transform-origin: center bottom;
-  animation: cart-plug 0.78s cubic-bezier(.2,.8,.2,1) forwards;
+  animation: cart-plug 0.82s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 .handheld.is-inserting {
@@ -790,17 +804,21 @@ img {
 @keyframes cart-plug {
   0% {
     opacity: 0;
-    transform: translateY(-36px) rotate(-6deg) scale(1.05);
+    clip-path: inset(0 0 0 0 round 8px 8px 3px 3px);
+    transform: translateY(-26px) rotate(-4deg) scale(0.98);
   }
-  16% {
+  28% {
     opacity: 1;
+    transform: translateY(-12px) rotate(-1deg) scale(0.98);
   }
   72% {
-    transform: translateY(8px) rotate(0deg) scale(0.78);
+    clip-path: inset(0 0 0 0 round 8px 8px 3px 3px);
+    transform: translateY(28px) rotate(0deg) scale(0.9);
   }
   100% {
-    opacity: 0;
-    transform: translateY(24px) rotate(0deg) scale(0.5);
+    opacity: 0.18;
+    clip-path: inset(0 0 76% 0 round 8px 8px 3px 3px);
+    transform: translateY(54px) rotate(0deg) scale(0.88);
   }
 }
 
@@ -912,6 +930,7 @@ img {
 }
 
 .lcd-hud,
+.lcd-body,
 .screen-title,
 .screen-menu,
 .screen-copy,
@@ -928,6 +947,23 @@ img {
   margin-bottom: 1rem;
   color: var(--lcd-mid);
   font: 700 0.5rem/1.4 var(--font-pixel);
+}
+
+.lcd-body {
+  height: calc(100% - 2.25rem);
+  overflow-y: auto;
+  padding-right: 0.2rem;
+  scrollbar-color: rgba(57, 71, 27, 0.46) transparent;
+  scrollbar-width: thin;
+}
+
+.lcd-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lcd-body::-webkit-scrollbar-thumb {
+  background: rgba(57, 71, 27, 0.42);
+  border: 1px solid rgba(57, 71, 27, 0.24);
 }
 
 .screen-title {
@@ -1004,12 +1040,48 @@ img {
   position: relative;
   z-index: 3;
   display: inline-flex;
-  margin-bottom: 0.75rem;
   padding: 0.32rem 0.45rem;
   color: #11180d;
   background: rgba(57, 71, 27, 0.14);
   border: 2px solid rgba(57, 71, 27, 0.28);
   font: 900 0.52rem var(--font-pixel);
+}
+
+.console-page-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.console-page-count,
+.console-kicker,
+.console-link-pill {
+  position: relative;
+  z-index: 3;
+  color: var(--lcd-mid);
+  font: 900 0.52rem/1.45 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.console-kicker {
+  margin: 0 0 0.36rem;
+  color: #11180d;
+}
+
+.console-link-pill {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 0.2rem;
+  padding: 0.35rem 0.5rem;
+  color: #11180d;
+  background: rgba(255, 209, 102, 0.42);
+  border: 2px solid rgba(57, 71, 27, 0.34);
 }
 
 .cart-lines {

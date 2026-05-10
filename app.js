@@ -17,9 +17,9 @@ const screenItems = [
     title: "Campaign Log",
     cart: "WORK",
     body: "Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
-    meta: ["Python", "React", "AWS", "Agents"],
+    meta: ["Python", "React", "Azure", "Agents"],
     lines: [
-      "Venu AI: conference automation and sales workflows.",
+      "Venu AI (YC W'21): conference automation and sales workflows.",
       "NeuralSeek: multi-agent AWS pipeline, about 40% faster.",
       "Research and case work sharpen the product muscle."
     ],
@@ -84,6 +84,8 @@ const state = {
   loaded: null,
   powered: true,
   booted: false,
+  view: "menu",
+  detailIndex: 0,
   score: 0,
   isDragging: false
 };
@@ -181,6 +183,236 @@ const recruiterRoutes = {
     ]
   }
 };
+const consolePages = {
+  about: [
+    {
+      kicker: "Resume packet",
+      title: "Sami El-Figha",
+      body: "Electrical Engineering builder heading to Waterloo, fluent in English, French, and Arabic, building across AI products, ML systems, and hardware.",
+      lines: [
+        "Software Engineering Intern at Venu AI (YC W'21).",
+        "Co-founded OraxAI and shipped it to paying users.",
+        "Waterloo Electrical Engineering starts Sept. 2026."
+      ],
+      meta: ["Waterloo EE", "Montreal", "3 languages", "Builder"],
+      actionLabel: "Open resume PDF",
+      url: "./Sami-El-Figha-Resume.pdf"
+    },
+    {
+      kicker: "Signal",
+      title: "What to call about",
+      body: "Best fits: machine learning, hardware engineering, or software engineering internships where shipping and learning speed matter.",
+      lines: [
+        "ML: ATS scoring, phonetic generation, adaptive tutoring.",
+        "Hardware: Verilog, FPGA inference, computer architecture direction.",
+        "Software: React, FastAPI, Django, Azure, AWS, Docker."
+      ],
+      meta: ["ML", "Hardware", "Software", "Internships"]
+    },
+    {
+      kicker: "Recognition",
+      title: "Proof of range",
+      body: "The resume has research, internships, projects, and recognition that tell the same story: technical curiosity plus follow-through.",
+      lines: [
+        "Mathematics Olympiad Finalist in Casablanca.",
+        "Calculus intuition researcher with 20+ peer interviews.",
+        "Pratt & Whitney and Bombardier micro-internships in 2025."
+      ],
+      meta: ["Research", "Math", "Aerospace", "Education"]
+    }
+  ],
+  experience: [
+    {
+      kicker: "Current role",
+      title: "Venu AI",
+      body: "Software Engineering Intern working remotely with the Venu AI team on conference automation, sales workflows, and AI-enabled event systems.",
+      lines: [
+        "Automated end-to-end conference production workflows.",
+        "Built AI-powered personalized email outreach for founders and event stakeholders.",
+        "Used Python, Django, React, and Microsoft Azure services."
+      ],
+      meta: ["YC W'21", "Python", "Django", "Azure"]
+    },
+    {
+      kicker: "Agent work",
+      title: "NeuralSeek AI",
+      body: "Shipped production AWS agent work and built multi-agent workflows that made task handling faster and more reliable.",
+      lines: [
+        "Completed the mAIstro Challenge with 100% on-time delivery.",
+        "Designed triage, execution, and review stages.",
+        "Cut average task resolution time by about 40%."
+      ],
+      meta: ["AWS", "Agents", "40% faster", "Remote"]
+    },
+    {
+      kicker: "Research",
+      title: "Calculus intuition",
+      body: "Interviewed peers and designed weekly exercises to understand where procedural math ability breaks before real conceptual intuition forms.",
+      lines: [
+        "20+ peer interviews mapped conceptual gaps.",
+        "10+ students used the structured exercises weekly.",
+        "Strong bridge between tutoring, UX, and model feedback."
+      ],
+      meta: ["Research", "Teaching", "Math", "UX"]
+    }
+  ],
+  oraxai: [
+    {
+      kicker: "Product",
+      title: "OraxAI",
+      body: "AI resume tailoring platform with resume scoring, keyword gap analysis, PDF workflows, and product analytics in one production system.",
+      lines: [
+        "Built the ATS scoring engine, React frontend, and FastAPI backend.",
+        "Iterated from live user research and product demos.",
+        "Grew to 100+ MAUs and $2K+ MRR."
+      ],
+      meta: ["React", "FastAPI", "OpenAI", "$2K+ MRR"],
+      actionLabel: "Open oraxai.ca",
+      url: "https://www.oraxai.ca/"
+    },
+    {
+      kicker: "Growth",
+      title: "Distribution loop",
+      body: "OraxAI was built and marketed like a product, not just a portfolio demo.",
+      lines: [
+        "SEO and organic social brought 10K+ followers.",
+        "Content reached 1M+ views without paid ads.",
+        "Product analytics fed feature prioritization."
+      ],
+      meta: ["SEO", "10K+", "1M views", "No ads"]
+    },
+    {
+      kicker: "Why it matters",
+      title: "Recruiter read",
+      body: "The strongest signal is ownership: scoring logic, frontend, backend, PDFs, analytics, user feedback, and growth all connect.",
+      lines: [
+        "Full-stack system thinking under real users.",
+        "ML product judgment around scoring and feedback loops.",
+        "A clear artifact to discuss in an interview."
+      ],
+      meta: ["Ownership", "Users", "ML product", "Shipping"]
+    }
+  ],
+  projects: [
+    {
+      kicker: "ML system",
+      title: "Lyric Engine",
+      body: "Phonetic-aware lyrics generation with a dual BPE + ARPAbet tokenizer, LoRA adapters, and constrained beam search.",
+      lines: [
+        "Enforces rhyme, syllable count, and emotional arc.",
+        "Runtime genre blending with Llama 3.1 adapters.",
+        "GitHub repo was updated Apr. 25, 2026."
+      ],
+      meta: ["Python", "Llama 3.1", "LoRA", "Beam"],
+      actionLabel: "Open GitHub",
+      url: "https://github.com/SMXFREEZE/lyric-engine"
+    },
+    {
+      kicker: "Product",
+      title: "PaideAI",
+      body: "Adaptive math tutor that generates practice, gives real-time hints, and gives teachers visibility into class progress.",
+      lines: [
+        "Built around how students actually reason through math.",
+        "React UI with AI-generated support and teacher-facing progress.",
+        "Connects tutoring experience to product design."
+      ],
+      meta: ["React", "FastAPI", "Claude API", "Tutoring"],
+      actionLabel: "Open live demo",
+      url: "https://paideai.onrender.com"
+    },
+    {
+      kicker: "Hardware ML",
+      title: "NeuralForge",
+      body: "FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array.",
+      lines: [
+        "Verilog RTL, Python simulation, PyTorch baseline.",
+        "Shows hardware, ML, and systems thinking together.",
+        "GitHub repo was updated Apr. 20, 2026."
+      ],
+      meta: ["Verilog", "FPGA", "INT8", "PyTorch"],
+      actionLabel: "Open GitHub",
+      url: "https://github.com/SMXFREEZE/neuralforge"
+    }
+  ],
+  education: [
+    {
+      kicker: "Next level",
+      title: "Waterloo EE",
+      body: "BASc Electrical Engineering at the University of Waterloo, starting Sept. 2026.",
+      lines: [
+        "Focus direction: ML, digital hardware, networks, embedded systems.",
+        "Strong fit for hardware/software roles with systems depth.",
+        "Long-term path points toward practical AI infrastructure."
+      ],
+      meta: ["Waterloo", "EE", "Networks", "Embedded"]
+    },
+    {
+      kicker: "Foundation",
+      title: "Maisonneuve",
+      body: "Pure and Applied Sciences at Maisonneuve College in Montreal, Jan. 2024 to Dec. 2025.",
+      lines: [
+        "Advanced calculus, linear algebra, physics, electricity and magnetism.",
+        "Built early programming base in Python, Java, and Unity.",
+        "Research and weekly tutoring sharpened communication."
+      ],
+      meta: ["Science", "Calculus", "Physics", "Teaching"]
+    }
+  ],
+  contact: [
+    {
+      kicker: "Link cable",
+      title: "LinkedIn",
+      body: "Fastest recruiter context: role history, education, and professional updates.",
+      lines: [
+        "LinkedIn profile: samielfigha.",
+        "Use this for outreach or quick verification.",
+        "A opens the LinkedIn profile."
+      ],
+      meta: ["LinkedIn", "Recruiter", "Profile", "Outreach"],
+      actionLabel: "Open LinkedIn",
+      url: "https://www.linkedin.com/in/samielfigha/"
+    },
+    {
+      kicker: "Build trail",
+      title: "GitHub",
+      body: "Current public repos include this portfolio, Lyric Engine, NeuralForge, PaideAI, FormulaForge, and analytics/data tools.",
+      lines: [
+        "GitHub profile: SMXFREEZE.",
+        "Recent repos show Python, TypeScript, Verilog, and HTML projects.",
+        "A opens the GitHub profile."
+      ],
+      meta: ["GitHub", "Repos", "Python", "Verilog"],
+      actionLabel: "Open GitHub",
+      url: "https://github.com/SMXFREEZE"
+    },
+    {
+      kicker: "Resume",
+      title: "PDF resume",
+      body: "One-page resume with education, Venu AI, NeuralSeek, OraxAI, Lyric Engine, KPMG, skills, and awards.",
+      lines: [
+        "Includes phone and email.",
+        "Lists Python, JavaScript, C++, SQL, Verilog.",
+        "A opens the PDF."
+      ],
+      meta: ["PDF", "Resume", "Skills", "Experience"],
+      actionLabel: "Open resume",
+      url: "./Sami-El-Figha-Resume.pdf"
+    },
+    {
+      kicker: "Inbox",
+      title: "Email",
+      body: "Interested in machine learning, hardware engineering, or software engineering internships.",
+      lines: [
+        "Email: sami.elfigha@gmail.com.",
+        "Best subject: Internship conversation.",
+        "A starts an email."
+      ],
+      meta: ["Email", "Internships", "ML", "Hardware"],
+      actionLabel: "Email Sami",
+      url: "mailto:sami.elfigha@gmail.com"
+    }
+  ]
+};
 const cartColors = ["#ffd166", "#60c7ff", "#ff7d6e", "#84f0bd", "#c7b8ff", "#f4a261"];
 
 function playBlip(type = "tap") {
@@ -222,6 +454,36 @@ function currentItem() {
 function loadedItem() {
   if (state.loaded === null) return null;
   return screenItems[state.loaded];
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function pagesForItem(item) {
+  return consolePages[item.id] || [{
+    kicker: item.cart,
+    title: item.title,
+    body: item.body,
+    lines: item.lines,
+    meta: item.meta
+  }];
+}
+
+function activeDetail(item) {
+  const pages = pagesForItem(item);
+  const index = ((state.detailIndex % pages.length) + pages.length) % pages.length;
+  state.detailIndex = index;
+  return { page: pages[index], index, total: pages.length };
+}
+
+function resetConsoleDetail() {
+  state.detailIndex = 0;
 }
 
 function updateQuestProgress() {
@@ -530,6 +792,7 @@ function renderScreen() {
         <p class="screen-copy">Press START to power the Pocket Lab back on.</p>
       </div>
     `;
+    body.scrollTop = 0;
     return;
   }
 
@@ -541,12 +804,18 @@ function renderScreen() {
       <div class="screen-meta"><span>RAM OK</span><span>AI CORE OK</span><span>SHIP MODE</span><span>READY</span></div>
       <div class="screen-footer">Please wait.</div>
     `;
+    body.scrollTop = 0;
     return;
   }
 
   const item = loadedItem();
   if (item) {
     renderLoadedCart(item);
+    return;
+  }
+
+  if (state.view === "detail") {
+    renderConsoleDetail(currentItem(), { loaded: false });
     return;
   }
 
@@ -570,25 +839,42 @@ function renderMenu() {
     <div class="screen-meta">
       ${item.meta.map((tag) => `<span>${tag}</span>`).join("")}
     </div>
-    <div class="screen-footer">Tap a cart or drag it into the slot. A opens menu item.</div>
+    <div class="screen-footer">Up/down choose. A opens inside screen. Select returns here.</div>
   `;
+  body.scrollTop = 0;
 }
 
 function renderLoadedCart(item) {
+  renderConsoleDetail(item, { loaded: true });
+}
+
+function renderConsoleDetail(item, { loaded = false } = {}) {
+  const { page, index, total } = activeDetail(item);
+  const actionText = page.actionLabel || (page.url ? "Open link" : "Next page");
+  const escapedMeta = (page.meta || item.meta).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
+  const escapedLines = (page.lines || item.lines).map((line) => `<li>${escapeHtml(line)}</li>`).join("");
+  const counter = `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+
   body.innerHTML = `
     <div class="cart-screen">
-      <div class="loaded-chip">${item.cart} CART LOADED</div>
-      <h2 class="screen-title">${item.title}</h2>
-      <p class="screen-copy">${item.body}</p>
+      <div class="console-page-top">
+        <div class="loaded-chip">${loaded ? `${escapeHtml(item.cart)} CART LOADED` : `${escapeHtml(item.cart)} SCREEN`}</div>
+        <div class="console-page-count">${counter}</div>
+      </div>
+      <p class="console-kicker">${escapeHtml(page.kicker || item.cart)}</p>
+      <h2 class="screen-title">${escapeHtml(page.title || item.title)}</h2>
+      <p class="screen-copy">${escapeHtml(page.body || item.body)}</p>
       <ul class="cart-lines">
-        ${item.lines.map((line) => `<li>${line}</li>`).join("")}
+        ${escapedLines}
       </ul>
       <div class="screen-meta">
-        ${item.meta.map((tag) => `<span>${tag}</span>`).join("")}
+        ${escapedMeta}
       </div>
-      <div class="screen-footer">A/screen: open. B/Select: eject. Start: power.</div>
+      ${page.url ? `<div class="console-link-pill">${escapeHtml(actionText)}</div>` : ""}
+      <div class="screen-footer">Up/down browse pages. A: ${escapeHtml(actionText)}. B: ${loaded ? "eject" : "back"}.</div>
     </div>
   `;
+  body.scrollTop = 0;
 }
 
 function updateConsoleChrome() {
@@ -618,8 +904,40 @@ function updateConsoleChrome() {
 
 function setSelected(nextIndex) {
   state.selected = (nextIndex + screenItems.length) % screenItems.length;
+  resetConsoleDetail();
   state.score = Math.min(999, state.score + 7);
   renderScreen();
+}
+
+function setDetailPage(nextIndex) {
+  const item = loadedItem() || currentItem();
+  const pages = pagesForItem(item);
+  state.detailIndex = (nextIndex + pages.length) % pages.length;
+  state.score = Math.min(999, state.score + 6);
+  renderScreen();
+}
+
+function enterConsoleDetail() {
+  state.view = "detail";
+  resetConsoleDetail();
+  state.score = Math.min(999, state.score + 18);
+  renderScreen();
+}
+
+function openExternalFromConsole(page) {
+  if (!page?.url) return false;
+
+  state.score = Math.min(999, state.score + 25);
+  if (page.url.includes("github.com") || page.url.includes("linkedin.com") || page.url.includes("Resume.pdf") || page.url.startsWith("mailto:")) unlockQuest("contact");
+  if (page.url.includes("oraxai.ca") || page.url.includes("neuralforge") || page.url.includes("lyric-engine")) unlockQuest("builds");
+
+  if (page.url.startsWith("mailto:")) {
+    window.location.href = page.url;
+  } else {
+    window.open(page.url, "_blank", "noopener,noreferrer");
+  }
+  renderScreen();
+  return true;
 }
 
 function bootConsole({ silent = false } = {}) {
@@ -679,7 +997,7 @@ function animateCardFlight(index, sourceElement) {
   const startLeft = sourceRect.left + sourceRect.width / 2 - width / 2;
   const startTop = sourceRect.top + sourceRect.height / 2 - height / 2;
   const targetLeft = slotRect.left + slotRect.width / 2 - width / 2;
-  const targetTop = slotRect.top + slotRect.height / 2 - height / 2;
+  const targetTop = slotRect.top - height * 0.62;
   const flightCard = document.createElement("div");
   const item = screenItems[index];
 
@@ -695,9 +1013,10 @@ function animateCardFlight(index, sourceElement) {
 
   const dx = targetLeft - startLeft;
   const dy = targetTop - startTop;
-  const duration = 720;
+  const duration = 820;
   const lift = Math.min(86, Math.max(34, Math.abs(dy) * 0.18));
   const startTilt = sourceRect.left < slotRect.left ? -6 : 6;
+  const sinkDistance = Math.min(height * 0.64, 74);
   const t0 = performance.now();
 
   function step(now) {
@@ -705,15 +1024,19 @@ function animateCardFlight(index, sourceElement) {
     const ease = 1 - Math.pow(1 - t, 3);
     const plugT = t > 0.74 ? (t - 0.74) / 0.26 : 0;
     const arc = Math.sin(t * Math.PI) * lift;
-    const sink = plugT * 22;
+    const sinkEase = plugT * plugT * (3 - 2 * plugT);
+    const sink = sinkEase * sinkDistance;
     const x = dx * ease;
     const y = dy * ease - arc + sink;
-    const rotate = startTilt * (1 - ease) + Math.sin(t * Math.PI) * -7;
-    const scale = 1 - ease * 0.48 - plugT * 0.2;
-    const opacity = t > 0.84 ? 1 - ((t - 0.84) / 0.16) * 0.92 : 1;
+    const rotate = startTilt * (1 - ease) + Math.sin(t * Math.PI) * -5;
+    const rotateX = 16 * (1 - ease) + sinkEase * -8;
+    const scale = 1 - ease * 0.1 - sinkEase * 0.08;
+    const opacity = t > 0.92 ? 1 - ((t - 0.92) / 0.08) * 0.72 : 1;
+    const hiddenBottom = Math.min(82, sinkEase * 78);
 
-    flightCard.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale})`;
+    flightCard.style.transform = `translate(${x}px, ${y}px) rotateX(${rotateX}deg) rotate(${rotate}deg) scale(${scale})`;
     flightCard.style.opacity = `${opacity}`;
+    flightCard.style.clipPath = `inset(0 0 ${hiddenBottom}% 0 round 10px 10px 4px 4px)`;
 
     if (t < 1) {
       animateCardFlight.frame = window.requestAnimationFrame(step);
@@ -744,6 +1067,8 @@ function insertCart(index, mode = "insert", sourceElement = null) {
   state.loaded = index;
   state.selected = index;
   state.powered = true;
+  state.view = "detail";
+  resetConsoleDetail();
   state.score = Math.min(999, state.score + (mode === "drag" ? 75 : 55));
   document.documentElement.classList.remove("cart-dragging");
   cartSlot?.classList.remove("is-hot");
@@ -757,6 +1082,8 @@ function insertCart(index, mode = "insert", sourceElement = null) {
 function ejectCart() {
   if (state.loaded === null) return;
   state.loaded = null;
+  state.view = "menu";
+  resetConsoleDetail();
   state.score = Math.min(999, state.score + 15);
   playBlip("eject");
   renderScreen();
@@ -764,14 +1091,15 @@ function ejectCart() {
 
 function openCurrent() {
   const item = loadedItem() || currentItem();
-  const target = document.querySelector(item.target);
-  if (!target) return;
-  state.score = Math.min(999, state.score + 25);
-  renderScreen();
-  history.replaceState(null, "", item.target);
-  if (item.id === "oraxai" || item.id === "projects") unlockQuest("builds");
-  if (item.id === "contact") unlockQuest("contact");
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (state.view !== "detail" && state.loaded === null) {
+    enterConsoleDetail();
+    return;
+  }
+
+  const { page, index } = activeDetail(item);
+  if (openExternalFromConsole(page)) return;
+
+  setDetailPage(index + 1);
 }
 
 function handleAction(action) {
@@ -790,12 +1118,14 @@ function handleAction(action) {
 
   if (action === "up") {
     playBlip("tap");
-    setSelected(state.selected - 1);
+    if (state.view === "detail" || state.loaded !== null) setDetailPage(state.detailIndex - 1);
+    else setSelected(state.selected - 1);
   }
 
   if (action === "down") {
     playBlip("tap");
-    setSelected(state.selected + 1);
+    if (state.view === "detail" || state.loaded !== null) setDetailPage(state.detailIndex + 1);
+    else setSelected(state.selected + 1);
   }
 
   if (action === "open") {
@@ -808,10 +1138,15 @@ function handleAction(action) {
       ejectCart();
       return;
     }
+    if (state.view === "detail") {
+      playBlip("back");
+      state.view = "menu";
+      resetConsoleDetail();
+      renderScreen();
+      return;
+    }
     playBlip("back");
     setSelected(0);
-    history.replaceState(null, "", "#home");
-    document.getElementById("home")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   if (action === "top") {
@@ -820,7 +1155,9 @@ function handleAction(action) {
       return;
     }
     playBlip("tap");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    state.view = "menu";
+    resetConsoleDetail();
+    renderScreen();
   }
 }
 
@@ -930,11 +1267,13 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  const fallbackAction = getConsoleActionFromPoint(event);
-  if (fallbackAction) {
-    flashControl(document.querySelector(`[data-console-action="${fallbackAction}"]`));
-    handleAction(fallbackAction);
-    return;
+  if (consoleEl?.contains(event.target)) {
+    const fallbackAction = getConsoleActionFromPoint(event);
+    if (fallbackAction) {
+      flashControl(document.querySelector(`[data-console-action="${fallbackAction}"]`));
+      handleAction(fallbackAction);
+      return;
+    }
   }
 
   const menuButton = event.target.closest("[data-screen-index]");
@@ -943,7 +1282,7 @@ document.addEventListener("click", (event) => {
     setSelected(Number(menuButton.dataset.screenIndex));
   }
 
-  const contactLink = event.target.closest('a[href^="mailto:"], a[href*="github.com/SMXFREEZE"], a[href*="oraxai.ca"]');
+  const contactLink = event.target.closest('a[href^="mailto:"], a[href*="linkedin.com/in/samielfigha"], a[href*="github.com/SMXFREEZE"], a[href*="oraxai.ca"], a[href$="Sami-El-Figha-Resume.pdf"]');
   if (contactLink) {
     unlockQuest("contact");
   }
@@ -1114,6 +1453,17 @@ function resetDraggedCart(cart, pointerId) {
   document.documentElement.classList.remove("cart-dragging");
 }
 
+consoleEl?.addEventListener("click", (event) => {
+  if (event.target.closest("button, a")) return;
+  lcd?.focus({ preventScroll: true });
+});
+
+function shouldHandleConsoleKeys() {
+  const active = document.activeElement;
+  if (!consoleEl || !active || active === document.body) return false;
+  return consoleEl.contains(active);
+}
+
 document.addEventListener("keydown", (event) => {
   const activeTag = document.activeElement?.tagName;
   if (activeTag === "INPUT" || activeTag === "TEXTAREA") return;
@@ -1131,6 +1481,8 @@ document.addEventListener("keydown", (event) => {
     closeRecruiterPanel();
     return;
   }
+
+  if (!shouldHandleConsoleKeys()) return;
 
   if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
     event.preventDefault();
