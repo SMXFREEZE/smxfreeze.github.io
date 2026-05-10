@@ -49,7 +49,7 @@
         <p class="hero-lede">I build AI systems end to end: ATS scoring engines, multi-agent pipelines, full-stack products, and hardware ML experiments with real users on the other side.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" id="recruiterScanButton" data-open-scan>Check recruiter fit</button>
-          <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com">Start co-op conversation</a>
+          <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com" data-email-link>Copy email</a>
           <a class="btn btn-ghost" href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">Open GitHub</a>
         </div>
         <section class="mobile-pocket-deck" aria-label="Phone portfolio navigation">
@@ -441,7 +441,7 @@
         <h2>Hiring for ML, hardware, or software? Pick the fastest next step.</h2>
         <p>Use the resume for a quick scan, GitHub for build proof, LinkedIn for background, OraxAI for product traction, or email me to start the co-op conversation.</p>
         <div class="contact-links">
-          <a href="mailto:sami.elfigha@gmail.com">Email Sami</a>
+          <a href="mailto:sami.elfigha@gmail.com" data-email-link>Copy email</a>
           <a href="https://www.linkedin.com/in/samielfigha/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">GitHub</a>
           <a href="./Sami-El-Figha-Resume.pdf" target="_blank" rel="noopener">Resume PDF</a>
@@ -451,7 +451,7 @@
     </section>
   </main>
 
-  <div class="recruiter-panel" id="recruiterPanel" aria-hidden="true">
+  <div class="recruiter-panel" id="recruiterPanel" aria-hidden="true" inert>
     <button class="panel-backdrop" type="button" data-close-panel aria-label="Close recruiter scan"></button>
     <aside class="scan-card-panel" role="dialog" aria-modal="true" aria-labelledby="scanTitle">
       <button class="panel-close" type="button" data-close-panel aria-label="Close">Close</button>
@@ -500,12 +500,12 @@
       <div class="scan-actions">
         <a class="btn btn-primary" href="#projects" data-scan-jump="builds">View projects</a>
         <a class="btn btn-ghost" href="#oraxai" data-scan-jump="builds">Open OraxAI</a>
-        <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com" data-scan-jump="contact">Email Sami</a>
+        <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com" data-scan-jump="contact" data-email-link>Copy email</a>
       </div>
     </aside>
   </div>
 
-  <div class="tabletop-panel" id="tabletopPanel" aria-hidden="true">
+  <div class="tabletop-panel" id="tabletopPanel" aria-hidden="true" inert>
     <button class="tabletop-backdrop" type="button" data-close-table aria-label="Close tabletop mode"></button>
     <section class="tabletop-dialog" role="dialog" aria-modal="true" aria-labelledby="tabletopTitle">
       <header class="tabletop-header">

@@ -129,6 +129,7 @@ let bootTimer = null;
 let bootToken = 0;
 let selectedRecruiterRoute = "software";
 const questState = new Set();
+const EMAIL_ADDRESS = "sami.elfigha@gmail.com";
 
 const quests = {
   scan: {
@@ -408,10 +409,10 @@ const consolePages = {
       lines: [
         "Email: sami.elfigha@gmail.com.",
         "Best subject: Internship conversation.",
-        "A starts an email."
+        "A copies the email address."
       ],
       meta: ["Email", "Internships", "ML", "Hardware"],
-      actionLabel: "Email Sami",
+      actionLabel: "Copy email",
       url: "mailto:sami.elfigha@gmail.com"
     }
   ]
@@ -528,17 +529,64 @@ function updateQuestProgress() {
   }
 }
 
-function showQuestToast(quest) {
+function showActionToast(titleText, detailText) {
   if (!questToast) return;
   const title = questToast.querySelector("strong");
   const detail = questToast.querySelector("small");
-  if (title) title.textContent = quest.title;
-  if (detail) detail.textContent = quest.detail;
+  if (title) title.textContent = titleText;
+  if (detail) detail.textContent = detailText;
   questToast.classList.add("is-visible");
   window.clearTimeout(showQuestToast.timer);
   showQuestToast.timer = window.setTimeout(() => {
     questToast.classList.remove("is-visible");
   }, 2600);
+}
+
+function showQuestToast(quest) {
+  showActionToast(quest.title, quest.detail);
+}
+
+async function writeClipboardText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const fallback = document.createElement("textarea");
+  fallback.value = text;
+  fallback.setAttribute("readonly", "");
+  fallback.style.position = "fixed";
+  fallback.style.left = "-9999px";
+  document.body.appendChild(fallback);
+  fallback.select();
+  document.execCommand("copy");
+  fallback.remove();
+}
+
+function temporarilyLabelEmailLink(sourceElement) {
+  if (!sourceElement || sourceElement.dataset.emailBusy === "true") return;
+  const originalText = sourceElement.textContent;
+  sourceElement.dataset.emailBusy = "true";
+  sourceElement.textContent = "Email copied";
+
+  window.setTimeout(() => {
+    sourceElement.textContent = originalText;
+    delete sourceElement.dataset.emailBusy;
+  }, 1800);
+}
+
+async function handleEmailIntent(sourceElement = null) {
+  unlockQuest("contact");
+
+  try {
+    await writeClipboardText(EMAIL_ADDRESS);
+    temporarilyLabelEmailLink(sourceElement);
+    showActionToast("Email copied", EMAIL_ADDRESS);
+    playBlip("open");
+  } catch (error) {
+    showActionToast("Email address", EMAIL_ADDRESS);
+    playBlip("back");
+  }
 }
 
 function unlockQuest(id) {
@@ -587,19 +635,7 @@ async function copyRecruiterPitch() {
   const text = route.clipboard;
 
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const fallback = document.createElement("textarea");
-      fallback.value = text;
-      fallback.setAttribute("readonly", "");
-      fallback.style.position = "fixed";
-      fallback.style.left = "-9999px";
-      document.body.appendChild(fallback);
-      fallback.select();
-      document.execCommand("copy");
-      fallback.remove();
-    }
+    await writeClipboardText(text);
     if (copyStatus) copyStatus.textContent = "Pitch copied.";
     unlockQuest("contact");
     playBlip("open");
@@ -613,6 +649,7 @@ function openRecruiterPanel() {
   renderRecruiterRoute();
   recruiterPanel?.classList.add("is-open");
   recruiterPanel?.setAttribute("aria-hidden", "false");
+  recruiterPanel?.removeAttribute("inert");
   document.body.classList.add("no-scroll");
   animateDialogIn(".scan-card-panel");
   unlockQuest("scan");
@@ -622,6 +659,7 @@ function openRecruiterPanel() {
 function closeRecruiterPanel() {
   recruiterPanel?.classList.remove("is-open");
   recruiterPanel?.setAttribute("aria-hidden", "true");
+  recruiterPanel?.setAttribute("inert", "");
   document.body.classList.remove("no-scroll");
 }
 
@@ -665,6 +703,7 @@ function openTabletop() {
   updateTabletop();
   tabletopPanel?.classList.add("is-open");
   tabletopPanel?.setAttribute("aria-hidden", "false");
+  tabletopPanel?.removeAttribute("inert");
   document.body.classList.add("no-scroll");
   animateDialogIn(".tabletop-dialog");
   playBlip("open");
@@ -673,6 +712,7 @@ function openTabletop() {
 function closeTabletop() {
   tabletopPanel?.classList.remove("is-open");
   tabletopPanel?.setAttribute("aria-hidden", "true");
+  tabletopPanel?.setAttribute("inert", "");
   document.body.classList.remove("no-scroll");
 }
 
@@ -980,7 +1020,7 @@ function openExternalFromConsole(page) {
   if (page.url.includes("oraxai.ca") || page.url.includes("neuralforge") || page.url.includes("lyric-engine")) unlockQuest("builds");
 
   if (page.url.startsWith("mailto:")) {
-    window.location.href = page.url;
+    handleEmailIntent();
   } else {
     window.open(page.url, "_blank", "noopener,noreferrer");
   }
@@ -1375,6 +1415,14 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-copy-pitch]")) {
     copyRecruiterPitch();
+    return;
+  }
+
+  const emailLink = event.target.closest("[data-email-link]");
+  if (emailLink) {
+    event.preventDefault();
+    handleEmailIntent(emailLink);
+    if (emailLink.dataset.scanJump) closeRecruiterPanel();
     return;
   }
 

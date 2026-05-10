@@ -1128,7 +1128,7 @@ img {
   gap: 0.45rem 1.25rem;
   min-height: 234px;
   padding: 1.35rem 0.45rem 0;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .dpad {
@@ -2163,12 +2163,20 @@ img {
   padding: clamp(1rem, 4vw, 2rem);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.18s ease;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0s linear 0.18s;
 }
 
 .recruiter-panel.is-open {
   pointer-events: auto;
   opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.recruiter-panel:not(.is-open),
+.recruiter-panel:not(.is-open) * {
+  pointer-events: none !important;
 }
 
 .panel-backdrop {
@@ -2401,12 +2409,20 @@ img {
   padding: clamp(0.75rem, 3vw, 1.5rem);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.18s ease;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0s linear 0.18s;
 }
 
 .tabletop-panel.is-open {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.tabletop-panel:not(.is-open),
+.tabletop-panel:not(.is-open) * {
+  pointer-events: none !important;
 }
 
 .tabletop-backdrop {
@@ -2713,6 +2729,7 @@ img {
   border: 3px solid #101520;
   border-radius: 8px;
   box-shadow: 7px 7px 0 #101520;
+  pointer-events: none;
   transform: translateY(calc(100% + 2rem));
   opacity: 0;
   transition: transform 0.22s ease, opacity 0.22s ease;
