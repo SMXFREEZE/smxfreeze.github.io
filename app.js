@@ -94,8 +94,6 @@ const lcd = document.getElementById("lcdScreen");
 const consoleEl = document.getElementById("portfolioConsole");
 const cartSlot = document.getElementById("cartSlot");
 const powerLabel = document.querySelector(".power-pill");
-const themeSwitch = document.getElementById("themeSwitch");
-const themeLabel = themeSwitch?.querySelector(".switch-label");
 const carts = [...document.querySelectorAll(".mini-cart[data-cart-index]")];
 const recruiterScanButton = document.getElementById("recruiterScanButton");
 const recruiterPanel = document.getElementById("recruiterPanel");
@@ -871,20 +869,6 @@ document.addEventListener("keydown", (event) => {
     handleAction("boot");
   }
 });
-
-themeSwitch?.addEventListener("click", () => {
-  const html = document.documentElement;
-  const next = html.dataset.theme === "day" ? "night" : "day";
-  html.dataset.theme = next;
-  localStorage.setItem("sef-pocket-theme", next);
-  if (themeLabel) themeLabel.textContent = next === "day" ? "Day" : "Night";
-});
-
-const savedTheme = localStorage.getItem("sef-pocket-theme");
-if (savedTheme === "day" || savedTheme === "night") {
-  document.documentElement.dataset.theme = savedTheme;
-  if (themeLabel) themeLabel.textContent = savedTheme === "day" ? "Day" : "Night";
-}
 
 const revealObserver = "IntersectionObserver" in window
   ? new IntersectionObserver((entries) => {
