@@ -2131,13 +2131,15 @@ img {
 .contact-panel {
   max-width: 1120px;
   margin: 0 auto;
-  padding: clamp(1.4rem, 5vw, 4rem);
+  padding: clamp(1.4rem, 4vw, 3rem);
   text-align: center;
 }
 
 .contact-panel h2 {
-  max-width: 10ch;
+  max-width: 18ch;
   margin-inline: auto;
+  font-size: clamp(2rem, 4.2vw, 3.6rem);
+  line-height: 1;
 }
 
 .contact-panel p:not(.section-label) {
@@ -3438,6 +3440,17 @@ img {
   .contact-panel h2,
   .contact-panel p:not(.section-label) {
     margin-inline: 0;
+  }
+
+  .contact-panel h2 {
+    max-width: 100%;
+    font-size: clamp(1.85rem, 8.8vw, 2.35rem);
+    line-height: 1.05;
+  }
+
+  .contact-panel p:not(.section-label) {
+    font-size: 0.98rem;
+    line-height: 1.6;
   }
 
   .contact-links {
