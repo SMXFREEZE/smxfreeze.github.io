@@ -667,6 +667,9 @@ function getCartColor(index, sourceElement) {
 function animateCardFlight(index, sourceElement) {
   if (!sourceElement || !cartSlot || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+  window.cancelAnimationFrame(animateCardFlight.frame);
+  animateCardFlight.activeCard?.remove();
+
   const sourceRect = sourceElement.getBoundingClientRect();
   const slotRect = cartSlot.getBoundingClientRect();
   if (!sourceRect.width || !sourceRect.height || !slotRect.width || !slotRect.height) return;
@@ -688,20 +691,39 @@ function animateCardFlight(index, sourceElement) {
   flightCard.style.setProperty("--flight-bg", getCartColor(index, sourceElement));
   flightCard.innerHTML = `<strong>${item.cart}</strong><small>Cart</small>`;
   document.body.appendChild(flightCard);
+  animateCardFlight.activeCard = flightCard;
 
   const dx = targetLeft - startLeft;
   const dy = targetTop - startTop;
-  const animation = flightCard.animate([
-    { opacity: 1, transform: "translate(0, 0) rotate(0deg) scale(1)" },
-    { opacity: 1, transform: `translate(${dx * 0.72}px, ${dy - 34}px) rotate(-8deg) scale(0.92)`, offset: 0.7 },
-    { opacity: 0.08, transform: `translate(${dx}px, ${dy}px) rotate(0deg) scale(0.34)` }
-  ], {
-    duration: 760,
-    easing: "cubic-bezier(.2,.8,.2,1)"
-  });
+  const duration = 720;
+  const lift = Math.min(86, Math.max(34, Math.abs(dy) * 0.18));
+  const startTilt = sourceRect.left < slotRect.left ? -6 : 6;
+  const t0 = performance.now();
 
-  animation.onfinish = () => flightCard.remove();
-  animation.oncancel = () => flightCard.remove();
+  function step(now) {
+    const t = Math.min((now - t0) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const plugT = t > 0.74 ? (t - 0.74) / 0.26 : 0;
+    const arc = Math.sin(t * Math.PI) * lift;
+    const sink = plugT * 22;
+    const x = dx * ease;
+    const y = dy * ease - arc + sink;
+    const rotate = startTilt * (1 - ease) + Math.sin(t * Math.PI) * -7;
+    const scale = 1 - ease * 0.48 - plugT * 0.2;
+    const opacity = t > 0.84 ? 1 - ((t - 0.84) / 0.16) * 0.92 : 1;
+
+    flightCard.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale})`;
+    flightCard.style.opacity = `${opacity}`;
+
+    if (t < 1) {
+      animateCardFlight.frame = window.requestAnimationFrame(step);
+    } else {
+      flightCard.remove();
+      if (animateCardFlight.activeCard === flightCard) animateCardFlight.activeCard = null;
+    }
+  }
+
+  animateCardFlight.frame = window.requestAnimationFrame(step);
 }
 
 function playInsertAnimation(index, sourceElement) {
