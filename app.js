@@ -119,6 +119,7 @@ const openTableButtons = [...document.querySelectorAll("[data-open-table]")];
 const closeTableButtons = [...document.querySelectorAll("[data-close-table]")];
 const tableFocusButtons = [...document.querySelectorAll("[data-table-focus-console]")];
 const mobileCartButtons = [...document.querySelectorAll("[data-mobile-cart-index]")];
+const projectCards = [...document.querySelectorAll("[data-project-card]")];
 let suppressNextCartClick = false;
 let lastTableOpenAt = 0;
 let selectedRecruiterRoute = "software";
@@ -180,6 +181,7 @@ const recruiterRoutes = {
     ]
   }
 };
+const cartColors = ["#ffd166", "#60c7ff", "#ff7d6e", "#84f0bd", "#c7b8ff", "#f4a261"];
 
 function playBlip(type = "tap") {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -427,7 +429,7 @@ function loadMobileCartFromEvent(event) {
   event?.stopPropagation();
   const index = Number(event.currentTarget?.dataset.mobileCartIndex);
   if (!Number.isInteger(index)) return;
-  insertCart(index, "tap");
+  insertCart(index, "tap", event.currentTarget);
 }
 
 document.addEventListener("pointerdown", (event) => {
@@ -501,7 +503,7 @@ tableCards.forEach((card) => {
   card.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    insertCart(Number(card.dataset.tableCartIndex), "tap");
+    insertCart(Number(card.dataset.tableCartIndex), "tap", card);
     updateTabletop();
   });
 });
@@ -653,13 +655,77 @@ function focusConsoleOnSmallScreens() {
   }, 80);
 }
 
-function insertCart(index, mode = "insert") {
+function getCartColor(index, sourceElement) {
+  return (
+    sourceElement?.style?.getPropertyValue("--cart-bg") ||
+    sourceElement?.style?.getPropertyValue("--route-bg") ||
+    cartColors[index] ||
+    "#ffd166"
+  ).trim();
+}
+
+function animateCardFlight(index, sourceElement) {
+  if (!sourceElement || !cartSlot || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const sourceRect = sourceElement.getBoundingClientRect();
+  const slotRect = cartSlot.getBoundingClientRect();
+  if (!sourceRect.width || !sourceRect.height || !slotRect.width || !slotRect.height) return;
+
+  const width = Math.min(Math.max(sourceRect.width, 72), 104);
+  const height = Math.min(Math.max(sourceRect.height, 82), 132);
+  const startLeft = sourceRect.left + sourceRect.width / 2 - width / 2;
+  const startTop = sourceRect.top + sourceRect.height / 2 - height / 2;
+  const targetLeft = slotRect.left + slotRect.width / 2 - width / 2;
+  const targetTop = slotRect.top + slotRect.height / 2 - height / 2;
+  const flightCard = document.createElement("div");
+  const item = screenItems[index];
+
+  flightCard.className = "insert-flight-card";
+  flightCard.style.left = `${startLeft}px`;
+  flightCard.style.top = `${startTop}px`;
+  flightCard.style.width = `${width}px`;
+  flightCard.style.height = `${height}px`;
+  flightCard.style.setProperty("--flight-bg", getCartColor(index, sourceElement));
+  flightCard.innerHTML = `<strong>${item.cart}</strong><small>Cart</small>`;
+  document.body.appendChild(flightCard);
+
+  const dx = targetLeft - startLeft;
+  const dy = targetTop - startTop;
+  const animation = flightCard.animate([
+    { opacity: 1, transform: "translate(0, 0) rotate(0deg) scale(1)" },
+    { opacity: 1, transform: `translate(${dx * 0.72}px, ${dy - 34}px) rotate(-8deg) scale(0.92)`, offset: 0.7 },
+    { opacity: 0.08, transform: `translate(${dx}px, ${dy}px) rotate(0deg) scale(0.34)` }
+  ], {
+    duration: 760,
+    easing: "cubic-bezier(.2,.8,.2,1)"
+  });
+
+  animation.onfinish = () => flightCard.remove();
+  animation.oncancel = () => flightCard.remove();
+}
+
+function playInsertAnimation(index, sourceElement) {
+  const color = getCartColor(index, sourceElement);
+  animateCardFlight(index, sourceElement);
+  consoleEl?.style.setProperty("--insert-bg", color);
+  cartSlot?.style.setProperty("--insert-bg", color);
+  consoleEl?.classList.add("is-inserting");
+  cartSlot?.classList.add("is-plugging");
+  window.clearTimeout(playInsertAnimation.timer);
+  playInsertAnimation.timer = window.setTimeout(() => {
+    consoleEl?.classList.remove("is-inserting");
+    cartSlot?.classList.remove("is-plugging");
+  }, 840);
+}
+
+function insertCart(index, mode = "insert", sourceElement = null) {
   state.loaded = index;
   state.selected = index;
   state.powered = true;
   state.score = Math.min(999, state.score + (mode === "drag" ? 75 : 55));
   document.documentElement.classList.remove("cart-dragging");
   cartSlot?.classList.remove("is-hot");
+  playInsertAnimation(index, sourceElement);
   playBlip("insert");
   bootConsole();
   unlockQuest("cart");
@@ -760,7 +826,7 @@ document.addEventListener("click", (event) => {
 
   const tableCard = event.target.closest("[data-table-cart-index]");
   if (tableCard) {
-    insertCart(Number(tableCard.dataset.tableCartIndex), "tap");
+    insertCart(Number(tableCard.dataset.tableCartIndex), "tap", tableCard);
     updateTabletop();
     return;
   }
@@ -772,7 +838,7 @@ document.addEventListener("click", (event) => {
 
   const mobileCart = event.target.closest("[data-mobile-cart-index]");
   if (mobileCart) {
-    insertCart(Number(mobileCart.dataset.mobileCartIndex), "tap");
+    insertCart(Number(mobileCart.dataset.mobileCartIndex), "tap", mobileCart);
     return;
   }
 
@@ -831,7 +897,7 @@ document.addEventListener("click", (event) => {
     }
     const index = Number(cart.dataset.cartIndex);
     if (state.loaded === index) ejectCart();
-    else insertCart(index, "tap");
+    else insertCart(index, "tap", cart);
     return;
   }
 
@@ -994,11 +1060,11 @@ function setupCartridgeDrag() {
       const shouldTap = !drag.moved;
       const targetIndex = drag.index;
       resetDraggedCart(cart, event.pointerId);
-      if (shouldInsert) insertCart(drag.index, "drag");
+      if (shouldInsert) insertCart(drag.index, "drag", cart);
       if (shouldTap) {
         suppressNextCartClick = true;
         if (state.loaded === targetIndex) ejectCart();
-        else insertCart(targetIndex, "tap");
+        else insertCart(targetIndex, "tap", cart);
       }
       window.setTimeout(() => {
         state.isDragging = false;
@@ -1095,6 +1161,50 @@ document.querySelectorAll(".reveal-card").forEach((card, index) => {
   }
 });
 
+function setupProjectCards() {
+  const canTilt = window.matchMedia("(hover: hover)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  projectCards.forEach((card) => {
+    const front = card.querySelector(".project-card-front");
+    const close = card.querySelector(".project-card-close");
+    if (!front) return;
+
+    const setOpen = (open) => {
+      card.classList.toggle("is-open", open);
+      front.setAttribute("aria-expanded", String(open));
+    };
+
+    front.addEventListener("click", () => {
+      setOpen(true);
+      unlockQuest("builds");
+      playBlip("tap");
+      window.setTimeout(() => close?.focus({ preventScroll: true }), 360);
+    });
+
+    close?.addEventListener("click", () => {
+      setOpen(false);
+      playBlip("tap");
+      front.focus({ preventScroll: true });
+    });
+
+    if (!canTilt) return;
+
+    front.addEventListener("pointermove", (event) => {
+      const rect = front.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      front.style.setProperty("--tilt-x", `${x * 8}deg`);
+      front.style.setProperty("--tilt-y", `${-y * 6}deg`);
+    });
+
+    front.addEventListener("pointerleave", () => {
+      front.style.setProperty("--tilt-x", "0deg");
+      front.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
+
+setupProjectCards();
 setupCartridgeDrag();
 updateQuestProgress();
 renderRecruiterRoute();

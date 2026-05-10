@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20260510-phone2">
+  <link rel="stylesheet" href="./styles.css?v=20260510-pokecards">
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -352,31 +352,55 @@
       </div>
 
       <div class="project-grid">
-        <article class="project-cart reveal-card">
-          <div class="cart-ridge"></div>
-          <p class="cart-type">ML System</p>
-          <h3>Lyric Engine</h3>
-          <p>Phonetic-aware lyrics generation using a dual BPE + ARPAbet tokenizer, genre LoRA adapters, runtime blending, and constrained beam search for rhyme, syllables, and emotional arc.</p>
-          <div class="tag-row"><span>Python</span><span>Llama 3.1</span><span>LoRA</span><span>Beam Search</span></div>
-          <a href="https://github.com/SMXFREEZE/lyric-engine" target="_blank" rel="noopener">GitHub</a>
+        <article class="project-cart reveal-card" data-project-card>
+          <div class="project-flip">
+            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal Lyric Engine project">
+              <img class="pokemon-card-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton Pokemon TCG card cover for Lyric Engine" onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';">
+              <span class="project-card-hint">Reveal project</span>
+            </button>
+            <div class="project-card-back">
+              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
+              <p class="cart-type">ML System</p>
+              <h3>Lyric Engine</h3>
+              <p>Phonetic-aware lyrics generation using a dual BPE + ARPAbet tokenizer, genre LoRA adapters, runtime blending, and constrained beam search for rhyme, syllables, and emotional arc.</p>
+              <div class="tag-row"><span>Python</span><span>Llama 3.1</span><span>LoRA</span><span>Beam Search</span></div>
+              <a href="https://github.com/SMXFREEZE/lyric-engine" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
         </article>
 
-        <article class="project-cart reveal-card">
-          <div class="cart-ridge"></div>
-          <p class="cart-type">Active Product</p>
-          <h3>PaideAI</h3>
-          <p>Math tutor that adapts to how each student thinks, generates practice, gives real-time hints, and gives teachers a view of class progress.</p>
-          <div class="tag-row"><span>React</span><span>Claude API</span><span>FastAPI</span></div>
-          <a href="https://paideai.onrender.com" target="_blank" rel="noopener">Live demo</a>
+        <article class="project-cart reveal-card" data-project-card>
+          <div class="project-flip">
+            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal PaideAI project">
+              <img class="pokemon-card-img" src="https://images.pokemontcg.io/base1/1_hires.png" alt="Alakazam Pokemon TCG card cover for PaideAI" onerror="this.src='https://assets.tcgdex.net/en/base/base1/1/high.webp';">
+              <span class="project-card-hint">Reveal project</span>
+            </button>
+            <div class="project-card-back">
+              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
+              <p class="cart-type">Active Product</p>
+              <h3>PaideAI</h3>
+              <p>Math tutor that adapts to how each student thinks, generates practice, gives real-time hints, and gives teachers a view of class progress.</p>
+              <div class="tag-row"><span>React</span><span>Claude API</span><span>FastAPI</span></div>
+              <a href="https://paideai.onrender.com" target="_blank" rel="noopener">Live demo</a>
+            </div>
+          </div>
         </article>
 
-        <article class="project-cart reveal-card">
-          <div class="cart-ridge"></div>
-          <p class="cart-type">Hardware ML</p>
-          <h3>NeuralForge</h3>
-          <p>Custom FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array with Verilog RTL, Python sim, and a live dashboard.</p>
-          <div class="tag-row"><span>Verilog</span><span>PyTorch</span><span>FPGA</span><span>INT8</span></div>
-          <a href="https://github.com/SMXFREEZE/neuralforge" target="_blank" rel="noopener">GitHub</a>
+        <article class="project-cart reveal-card" data-project-card>
+          <div class="project-flip">
+            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal NeuralForge project">
+              <img class="pokemon-card-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo Pokemon TCG card cover for NeuralForge" onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';">
+              <span class="project-card-hint">Reveal project</span>
+            </button>
+            <div class="project-card-back">
+              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
+              <p class="cart-type">Hardware ML</p>
+              <h3>NeuralForge</h3>
+              <p>Custom FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array with Verilog RTL, Python sim, and a live dashboard.</p>
+              <div class="tag-row"><span>Verilog</span><span>PyTorch</span><span>FPGA</span><span>INT8</span></div>
+              <a href="https://github.com/SMXFREEZE/neuralforge" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
         </article>
       </div>
     </section>
@@ -544,6 +568,6 @@
     <span>Gotta ship them all.</span>
   </footer>
 
-  <script src="./app.js?v=20260510-phone2" defer></script>
+  <script src="./app.js?v=20260510-pokecards" defer></script>
 </body>
 </html>
