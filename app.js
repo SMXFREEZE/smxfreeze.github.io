@@ -748,18 +748,7 @@ function loadMobileCartFromEvent(event) {
   insertCart(index, "tap", event.currentTarget);
 }
 
-document.addEventListener("pointerdown", (event) => {
-  if (event.target.closest("[data-load-route-cart]")) {
-    loadRecruiterRouteFromEvent(event);
-  }
-
-  if (event.target.closest("[data-copy-pitch]")) {
-    copyRecruiterPitchFromEvent(event);
-  }
-}, true);
-
 openTableButtons.forEach((button) => {
-  button.addEventListener("pointerdown", openTabletopFromEvent);
   button.addEventListener("click", openTabletopFromEvent);
   button.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") openTabletopFromEvent(event);
@@ -767,7 +756,6 @@ openTableButtons.forEach((button) => {
 });
 
 openScanButtons.forEach((button) => {
-  button.addEventListener("pointerdown", openRecruiterScanFromEvent);
   button.addEventListener("click", openRecruiterScanFromEvent);
   button.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") openRecruiterScanFromEvent(event);
@@ -782,12 +770,10 @@ roleTabs.forEach((button) => {
 });
 
 loadRouteButtons.forEach((button) => {
-  button.addEventListener("pointerdown", loadRecruiterRouteFromEvent);
   button.addEventListener("click", loadRecruiterRouteFromEvent);
 });
 
 copyPitchButtons.forEach((button) => {
-  button.addEventListener("pointerdown", copyRecruiterPitchFromEvent);
   button.addEventListener("click", copyRecruiterPitchFromEvent);
 });
 
