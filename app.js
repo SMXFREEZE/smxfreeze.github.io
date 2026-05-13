@@ -16,12 +16,13 @@ const screenItems = [
     id: "experience",
     title: "Experience",
     cart: "WORK",
-    body: "Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
+    body: "Blaze, Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
     meta: ["Python", "React", "Azure", "Agents"],
     lines: [
+      "Blaze (YC S'24): agent infrastructure and viral video automation.",
       "Venu AI (YC W'21): conference automation and sales workflows.",
       "NeuralSeek: multi-agent AWS pipeline, about 40% faster.",
-      "Research and case work sharpen the product muscle."
+      "Research and case work sharpen product judgment."
     ],
     target: "#experience"
   },
@@ -154,9 +155,10 @@ const recruiterRoutes = {
     title: "Software engineering packet",
     cart: "ORAX",
     cartIndex: 2,
-    pitch: "Production AI product builder with React, FastAPI, Django, Azure, AWS agents, and real user traction.",
-    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, plus shipped AI automation work with Venu AI and NeuralSeek.",
+    pitch: "Production AI product builder with React, FastAPI, Node, TypeScript, Django, Azure, AWS agents, and real user traction.",
+    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, plus shipped AI infrastructure and automation work with Blaze, Venu AI, and NeuralSeek.",
     proof: [
+      "Blaze: Node/TypeScript agent infrastructure, x402 payments, Remotion video generation.",
       "OraxAI: built the full-stack product from scratch for paying users.",
       "Venu AI: Python, React, Django, and Azure on conference automation.",
       "NeuralSeek: production AWS agent pipeline that cut task resolution about 40%."
@@ -194,7 +196,8 @@ const consolePages = {
       title: "Sami El-Figha",
       body: "Electrical Engineering builder heading to Waterloo, fluent in English, French, and Arabic, building across AI products, ML systems, and hardware.",
       lines: [
-        "Software Engineering Intern at Venu AI (YC W'21).",
+        "AI Infrastructure Engineer Intern at Blaze (YC S'24).",
+        "Backend & AI Engineering Intern at Venu AI (YC W'21).",
         "Co-founded OraxAI and shipped it to paying users.",
         "Waterloo Electrical Engineering starts Sept. 2026."
       ],
@@ -228,8 +231,19 @@ const consolePages = {
   experience: [
     {
       kicker: "Current role",
+      title: "Blaze",
+      body: "AI Infrastructure Engineer Intern building agent infrastructure, vertical video generation, and multi-stage publishing automation for a YC S'24 startup.",
+      lines: [
+        "Built an Agent Brief API in Node/TypeScript for structured JSON briefs.",
+        "Integrated x402 payments and Bazaar discovery for per-request monetization.",
+        "Shipped a Remotion + Express video generation system and Python viral video pipeline."
+      ],
+      meta: ["YC S'24", "Node", "TypeScript", "Remotion"]
+    },
+    {
+      kicker: "Backend & AI",
       title: "Venu AI",
-      body: "Software Engineering Intern working remotely with the Venu AI team on conference automation, sales workflows, and AI-enabled event systems.",
+      body: "Backend & AI Engineering Intern working remotely with the Venu AI team on conference automation, sales workflows, semantic matchmaking, and AI-enabled event systems.",
       lines: [
         "Automated end-to-end conference production workflows.",
         "Built AI-powered personalized email outreach for founders and event stakeholders.",

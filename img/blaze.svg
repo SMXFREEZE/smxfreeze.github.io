@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">Blaze logo</title>
+  <desc id="desc">Yellow square with a black Blaze wordmark.</desc>
+  <rect width="240" height="240" fill="#fff200"/>
+  <path fill="#020202" d="M37 80h73v80H37V80Zm88 0h37v80h-37V80Zm50 31h28v49h-28v-49Z"/>
+  <path fill="#fff200" d="M96 110c11-5 18-15 20-30h9v80H93c11-11 17-26 17-45l-14-5Z"/>
+  <rect x="71" y="91" width="9" height="31" rx="4" fill="#fff200"/>
+  <rect x="71" y="132" width="9" height="11" rx="4" fill="#fff200"/>
+</svg>

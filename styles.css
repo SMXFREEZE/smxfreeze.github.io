@@ -1629,7 +1629,7 @@ img {
   overflow: hidden;
 }
 
-.timeline-media-venu {
+.timeline-media-dual {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.65rem;
   padding: 0.85rem;
@@ -1642,9 +1642,14 @@ img {
   border-radius: 5px;
 }
 
-.timeline-media-venu img {
+.timeline-media-dual img {
   max-width: 72px;
   max-height: 72px;
+}
+
+.timeline-media-blaze img {
+  background: #fff200;
+  border: 1px solid rgba(16, 21, 32, 0.12);
 }
 
 .yc-mark {
