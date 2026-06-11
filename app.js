@@ -43,12 +43,13 @@ const screenItems = [
     id: "projects",
     title: "Projects",
     cart: "LABS",
-    body: "Lyric Engine, PaideAI, and NeuralForge: ML generation, adaptive tutoring, and hardware acceleration with a full build story.",
-    meta: ["LoRA", "FastAPI", "FPGA", "PyTorch"],
+    body: "MealFlip, Lyric Engine, PaideAI, NeuralForge, BagSlot, and AssetOps: live products, ML systems, marketplaces, and hardware acceleration with a full build story.",
+    meta: ["Live products", "LoRA", "FPGA", "Marketplaces"],
     lines: [
+      "MealFlip: live marketplace for campus meal plan value.",
       "Lyric Engine: phonetic constrained generation.",
-      "PaideAI: adaptive math tutor with teacher visibility.",
-      "NeuralForge: INT8 CNN inference on FPGA."
+      "NeuralForge: INT8 CNN inference on FPGA.",
+      "BagSlot + AssetOps: full-stack marketplace and ops systems."
     ],
     target: "#projects"
   },
@@ -156,10 +157,11 @@ const recruiterRoutes = {
     cart: "ORAX",
     cartIndex: 2,
     pitch: "Production AI product builder with React, FastAPI, Node, TypeScript, Django, Azure, AWS agents, and real user traction.",
-    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, plus shipped AI infrastructure and automation work with Blaze, Venu AI, and NeuralSeek.",
+    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, runs MealFlip, a live student marketplace for campus meal plans, plus shipped AI infrastructure and automation work with Blaze, Venu AI, and NeuralSeek.",
     proof: [
       "Blaze: Node/TypeScript agent infrastructure, x402 payments, Remotion video generation.",
       "OraxAI: built the full-stack product from scratch for paying users.",
+      "MealFlip: live student-run marketplace for unused campus meal plan value.",
       "Venu AI: Python, React, Django, and Azure on conference automation.",
       "NeuralSeek: production AWS agent pipeline that cut task resolution about 40%."
     ]
@@ -313,6 +315,19 @@ const consolePages = {
   ],
   projects: [
     {
+      kicker: "Live product",
+      title: "MealFlip",
+      body: "Student-run marketplace for unused campus meal plan value: buy campus food for less, sell extra meal swipes for cash.",
+      lines: [
+        "Live two-sided marketplace built and run independently.",
+        "Buyers get discounted campus food, sellers recover sunk meal plan money.",
+        "Second shipped product alongside OraxAI."
+      ],
+      meta: ["Marketplace", "Live", "Payments", "Students"],
+      actionLabel: "Open mealflip.app",
+      url: "https://mealflip.app/"
+    },
+    {
       kicker: "ML system",
       title: "Lyric Engine",
       body: "Phonetic-aware lyrics generation with a dual BPE + ARPAbet tokenizer, LoRA adapters, and constrained beam search.",
@@ -350,6 +365,32 @@ const consolePages = {
       meta: ["Verilog", "FPGA", "INT8", "PyTorch"],
       actionLabel: "Open GitHub",
       url: "https://github.com/SMXFREEZE/neuralforge"
+    },
+    {
+      kicker: "Marketplace MVP",
+      title: "BagSlot",
+      body: "Peer-to-peer travel marketplace where travelers monetize unused luggage space on trips they already take.",
+      lines: [
+        "Booking lifecycle with handoff code verification.",
+        "Safety system that flags and blocks prohibited items.",
+        "Next.js, Supabase, and Stripe checkout end to end."
+      ],
+      meta: ["Next.js", "Supabase", "Stripe", "TypeScript"],
+      actionLabel: "Open GitHub",
+      url: "https://github.com/SMXFREEZE/bagslot"
+    },
+    {
+      kicker: "Ops system",
+      title: "AssetOps",
+      body: "Manufacturing asset tracking built for technicians scanning at the dock and managers reviewing operational drift.",
+      lines: [
+        "Four barcode scanner workflows: receive, store, deploy, transfer.",
+        "Three-way reconciliation across ops, facilities, and finance.",
+        "Deployed with CI/CD validation and Playwright testing."
+      ],
+      meta: ["Next.js", "TypeScript", "Supabase", "Playwright"],
+      actionLabel: "Open GitHub",
+      url: "https://github.com/SMXFREEZE/cerebras_ai_builder_solution"
     }
   ],
   education: [
@@ -393,7 +434,7 @@ const consolePages = {
     {
       kicker: "Build trail",
       title: "GitHub",
-      body: "Current public repos include this portfolio, Lyric Engine, NeuralForge, PaideAI, FormulaForge, and analytics/data tools.",
+      body: "Current public repos include this portfolio, Lyric Engine, NeuralForge, BagSlot, AssetOps, PaideAI, and analytics/data tools.",
       lines: [
         "GitHub profile: SMXFREEZE.",
         "Recent repos show Python, TypeScript, Verilog, and HTML projects.",
@@ -1031,7 +1072,7 @@ function openExternalFromConsole(page) {
 
   state.score = Math.min(999, state.score + 25);
   if (page.url.includes("github.com") || page.url.includes("linkedin.com") || page.url.includes("Resume.pdf") || page.url.startsWith("mailto:")) unlockQuest("contact");
-  if (page.url.includes("oraxai.ca") || page.url.includes("neuralforge") || page.url.includes("lyric-engine")) unlockQuest("builds");
+  if (page.url.includes("oraxai.ca") || page.url.includes("mealflip.app") || page.url.includes("neuralforge") || page.url.includes("lyric-engine") || page.url.includes("paideai") || page.url.includes("bagslot") || page.url.includes("cerebras")) unlockQuest("builds");
 
   if (page.url.startsWith("mailto:")) {
     handleEmailIntent();
