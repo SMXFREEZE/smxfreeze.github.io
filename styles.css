@@ -2013,20 +2013,13 @@ p {
 }
 
 .pokemon-card-img {
-  width: min(88%, 295px);
-  max-height: 460px;
+  width: min(78%, 265px);
+  max-height: 430px;
   object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 18px 36px rgba(16, 21, 32, 0.34);
+  box-shadow: 0 16px 28px rgba(16, 21, 32, 0.28);
   pointer-events: none;
   transform: translateZ(24px);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.project-card-front:hover .pokemon-card-img,
-.project-card-front:focus-visible .pokemon-card-img {
-  transform: translateZ(24px) scale(1.035);
-  box-shadow: 0 26px 48px rgba(16, 21, 32, 0.42);
 }
 
 .project-card-hint {
@@ -3460,7 +3453,7 @@ p {
   }
 
   .pokemon-card-img {
-    width: min(88%, 270px);
+    width: min(82%, 250px);
   }
 
   .metric-grid {
