@@ -334,19 +334,25 @@ p {
   transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
+.btn,
+.contact-links a,
+.project-cart a {
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+}
+
 .btn:hover,
 .btn:focus-visible,
 .contact-links a:hover,
 .contact-links a:focus-visible,
 .project-cart a:hover,
 .project-cart a:focus-visible {
-  transform: translateY(-2px);
+  transform: translate(var(--mx, 0px), calc(var(--my, 0px) - 2px));
 }
 
 .btn:active,
 .contact-links a:active,
 .project-cart a:active {
-  transform: translateY(1px);
+  transform: translate(var(--mx, 0px), calc(var(--my, 0px) + 1px));
 }
 
 .btn-primary,
