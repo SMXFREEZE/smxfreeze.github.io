@@ -343,6 +343,12 @@ p {
   transform: translateY(-2px);
 }
 
+.btn:active,
+.contact-links a:active,
+.project-cart a:active {
+  transform: translateY(1px);
+}
+
 .btn-primary,
 .contact-links a:first-child {
   color: #101520;
@@ -1933,7 +1939,7 @@ p {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.25rem;
   align-items: start;
 }
@@ -2046,14 +2052,6 @@ p {
 
 .project-cart:nth-child(4) .project-card-back {
   background: #8bd5ff;
-}
-
-.project-cart:nth-child(5) .project-card-back {
-  background: #ffab9e;
-}
-
-.project-cart:nth-child(6) .project-card-back {
-  background: #f4b97f;
 }
 
 .project-card-close {

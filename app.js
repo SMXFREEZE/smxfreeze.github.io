@@ -43,13 +43,13 @@ const screenItems = [
     id: "projects",
     title: "Projects",
     cart: "LABS",
-    body: "MealFlip, Lyric Engine, PaideAI, NeuralForge, BagSlot, and AssetOps: live products, ML systems, marketplaces, and hardware acceleration with a full build story.",
-    meta: ["Live products", "LoRA", "FPGA", "Marketplaces"],
+    body: "MealFlip, Lyric Engine, NeuralForge, and AssetOps: live products, ML systems, and hardware acceleration with a full build story.",
+    meta: ["Live products", "LoRA", "FPGA", "Ops systems"],
     lines: [
       "MealFlip: live marketplace for campus meal plan value.",
       "Lyric Engine: phonetic constrained generation.",
       "NeuralForge: INT8 CNN inference on FPGA.",
-      "BagSlot + AssetOps: full-stack marketplace and ops systems."
+      "AssetOps: live asset tracking with three-way reconciliation."
     ],
     target: "#projects"
   },
@@ -171,11 +171,11 @@ const recruiterRoutes = {
     cart: "LABS",
     cartIndex: 3,
     pitch: "Applied ML builder with product context: resume scoring, phonetic generation, adaptive tutoring, and agent evaluation loops.",
-    clipboard: "Sami El-Figha is a strong machine learning call: he shipped OraxAI's ATS scoring and keyword gap system, built Lyric Engine with phonetic constraints and LoRA adapters, and designed adaptive tutoring workflows in PaideAI.",
+    clipboard: "Sami El-Figha is a strong machine learning call: he shipped OraxAI's ATS scoring and keyword gap system, built Lyric Engine with phonetic constraints and LoRA adapters, and built NeuralForge, an FPGA INT8 CNN inference accelerator with PyTorch baselines.",
     proof: [
       "OraxAI: semantic and keyword gap scoring for resumes and job descriptions.",
       "Lyric Engine: dual tokenizer, LoRA adapters, and constrained beam search.",
-      "PaideAI: adaptive math tutoring with real-time hints and progress visibility."
+      "NeuralForge: quantized CNN inference bridging ML models and hardware."
     ]
   },
   hardware: {
@@ -205,7 +205,7 @@ const consolePages = {
       ],
       meta: ["Waterloo EE", "Montreal", "3 languages", "Builder"],
       actionLabel: "Open resume PDF",
-      url: "./Sami-El-Figha-Resume.pdf"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260611"
     },
     {
       kicker: "Role fit",
@@ -341,19 +341,6 @@ const consolePages = {
       url: "https://github.com/SMXFREEZE/lyric-engine"
     },
     {
-      kicker: "Product",
-      title: "PaideAI",
-      body: "Adaptive math tutor that generates practice, gives real-time hints, and gives teachers visibility into class progress.",
-      lines: [
-        "Built around how students actually reason through math.",
-        "React UI with AI-generated support and teacher-facing progress.",
-        "Connects tutoring experience to product design."
-      ],
-      meta: ["React", "FastAPI", "Claude API", "Tutoring"],
-      actionLabel: "Open live demo",
-      url: "https://paideai.onrender.com"
-    },
-    {
       kicker: "Hardware ML",
       title: "NeuralForge",
       body: "FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array.",
@@ -367,30 +354,17 @@ const consolePages = {
       url: "https://github.com/SMXFREEZE/neuralforge"
     },
     {
-      kicker: "Marketplace MVP",
-      title: "BagSlot",
-      body: "Peer-to-peer travel marketplace where travelers monetize unused luggage space on trips they already take.",
-      lines: [
-        "Booking lifecycle with handoff code verification.",
-        "Safety system that flags and blocks prohibited items.",
-        "Next.js, Supabase, and Stripe checkout end to end."
-      ],
-      meta: ["Next.js", "Supabase", "Stripe", "TypeScript"],
-      actionLabel: "Open GitHub",
-      url: "https://github.com/SMXFREEZE/bagslot"
-    },
-    {
       kicker: "Ops system",
       title: "AssetOps",
       body: "Manufacturing asset tracking built for technicians scanning at the dock and managers reviewing operational drift.",
       lines: [
         "Four barcode scanner workflows: receive, store, deploy, transfer.",
         "Three-way reconciliation across ops, facilities, and finance.",
-        "Deployed with CI/CD validation and Playwright testing."
+        "Live demo deployed on Vercel with Playwright testing."
       ],
       meta: ["Next.js", "TypeScript", "Supabase", "Playwright"],
-      actionLabel: "Open GitHub",
-      url: "https://github.com/SMXFREEZE/cerebras_ai_builder_solution"
+      actionLabel: "Open live app",
+      url: "https://starter-plum-nine.vercel.app"
     }
   ],
   education: [
@@ -434,7 +408,7 @@ const consolePages = {
     {
       kicker: "Build trail",
       title: "GitHub",
-      body: "Current public repos include this portfolio, Lyric Engine, NeuralForge, BagSlot, AssetOps, PaideAI, and analytics/data tools.",
+      body: "Current public repos include this portfolio, Lyric Engine, NeuralForge, AssetOps, and analytics/data tools.",
       lines: [
         "GitHub profile: SMXFREEZE.",
         "Recent repos show Python, TypeScript, Verilog, and HTML projects.",
@@ -455,7 +429,7 @@ const consolePages = {
       ],
       meta: ["PDF", "Resume", "Skills", "Experience"],
       actionLabel: "Open resume",
-      url: "./Sami-El-Figha-Resume.pdf"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260611"
     },
     {
       kicker: "Inbox",
@@ -1072,7 +1046,7 @@ function openExternalFromConsole(page) {
 
   state.score = Math.min(999, state.score + 25);
   if (page.url.includes("github.com") || page.url.includes("linkedin.com") || page.url.includes("Resume.pdf") || page.url.startsWith("mailto:")) unlockQuest("contact");
-  if (page.url.includes("oraxai.ca") || page.url.includes("mealflip.app") || page.url.includes("neuralforge") || page.url.includes("lyric-engine") || page.url.includes("paideai") || page.url.includes("bagslot") || page.url.includes("cerebras")) unlockQuest("builds");
+  if (page.url.includes("oraxai.ca") || page.url.includes("mealflip.app") || page.url.includes("neuralforge") || page.url.includes("lyric-engine") || page.url.includes("starter-plum")) unlockQuest("builds");
 
   if (page.url.startsWith("mailto:")) {
     handleEmailIntent();
@@ -1556,7 +1530,7 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  const contactLink = event.target.closest('a[href^="mailto:"], a[href*="linkedin.com/in/samielfigha"], a[href*="github.com/SMXFREEZE"], a[href*="oraxai.ca"], a[href$="Sami-El-Figha-Resume.pdf"]');
+  const contactLink = event.target.closest('a[href^="mailto:"], a[href*="linkedin.com/in/samielfigha"], a[href*="github.com/SMXFREEZE"], a[href*="oraxai.ca"], a[href*="Sami-El-Figha-Resume.pdf"]');
   if (contactLink) {
     unlockQuest("contact");
   }
