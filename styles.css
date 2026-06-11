@@ -1708,23 +1708,6 @@ p {
   letter-spacing: 0;
 }
 
-.loi-mark {
-  display: grid;
-  place-items: center;
-  width: var(--brand-logo-size, 58px);
-  height: var(--brand-logo-size, 58px);
-  box-sizing: border-box;
-  color: #0a0a0a;
-  background: #fff;
-  border: 3px solid #0a0a0a;
-  border-radius: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: calc(var(--yc-font-size, 45px) * 0.42);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.04em;
-}
-
 .timeline-meta {
   margin: 0 0 0.55rem;
   color: var(--yellow);
