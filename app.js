@@ -16,13 +16,13 @@ const screenItems = [
     id: "experience",
     title: "Experience",
     cart: "WORK",
-    body: "Blaze, Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
+    body: "Blaze, Appli AI, Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
     meta: ["Python", "React", "Azure", "Agents"],
     lines: [
       "Blaze (YC S'24): agent infrastructure and viral video automation.",
+      "Appli AI (LOI): full-stack work on an AI hiring platform.",
       "Venu AI (YC W'21): conference automation and sales workflows.",
-      "NeuralSeek: multi-agent AWS pipeline, about 40% faster.",
-      "Research and case work sharpen product judgment."
+      "NeuralSeek: multi-agent AWS pipeline, about 40% faster."
     ],
     target: "#experience"
   },
@@ -157,9 +157,10 @@ const recruiterRoutes = {
     cart: "ORAX",
     cartIndex: 2,
     pitch: "Production AI product builder with React, FastAPI, Node, TypeScript, Django, Azure, AWS agents, and real user traction.",
-    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, runs MealFlip, a live student marketplace for campus meal plans, plus shipped AI infrastructure and automation work with Blaze, Venu AI, and NeuralSeek.",
+    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, runs MealFlip, a live student marketplace for campus meal plans, plus shipped AI infrastructure and automation work with Blaze, Appli AI, Venu AI, and NeuralSeek.",
     proof: [
       "Blaze: Node/TypeScript agent infrastructure, x402 payments, Remotion video generation.",
+      "Appli AI: full-stack features for an AI hiring platform (LOI Accelerator).",
       "OraxAI: built the full-stack product from scratch for paying users.",
       "MealFlip: live student-run marketplace for unused campus meal plan value.",
       "Venu AI: Python, React, Django, and Azure on conference automation.",
@@ -199,6 +200,7 @@ const consolePages = {
       body: "Electrical Engineering builder heading to Waterloo, fluent in English, French, and Arabic, building across AI products, ML systems, and hardware.",
       lines: [
         "AI Infrastructure Engineer Intern at Blaze (YC S'24).",
+        "Software Engineering Intern at Appli AI (LOI Accelerator).",
         "Backend & AI Engineering Intern at Venu AI (YC W'21).",
         "Co-founded OraxAI and shipped it to paying users.",
         "Waterloo Electrical Engineering starts Sept. 2026."
@@ -241,6 +243,17 @@ const consolePages = {
         "Shipped a Remotion + Express video generation system and Python viral video pipeline."
       ],
       meta: ["YC S'24", "Node", "TypeScript", "Remotion"]
+    },
+    {
+      kicker: "Full-stack",
+      title: "Appli AI",
+      body: "Software Engineering Intern shipping features and bug fixes across the stack for an AI-powered hiring platform backed by LOI Accelerator.",
+      lines: [
+        "Work trials, candidate screening, and interview automation.",
+        "Full-stack feature delivery on a live hiring product.",
+        "Backed by LOI Accelerator, based in Montreal."
+      ],
+      meta: ["LOI", "Full-stack", "Hiring AI", "Remote"]
     },
     {
       kicker: "Backend & AI",
@@ -421,7 +434,7 @@ const consolePages = {
     {
       kicker: "Resume",
       title: "PDF resume",
-      body: "One-page resume with education, Venu AI, NeuralSeek, OraxAI, Lyric Engine, KPMG, skills, and awards.",
+      body: "One-page resume with education, Blaze, Appli AI, Venu AI, NeuralSeek, OraxAI, projects, skills, and awards.",
       lines: [
         "Includes phone and email.",
         "Lists Python, JavaScript, C++, SQL, Verilog.",
