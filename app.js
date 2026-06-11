@@ -317,9 +317,9 @@ const consolePages = {
     {
       kicker: "Live product",
       title: "MealFlip",
-      body: "Student-run marketplace for unused campus meal plan value: buy campus food for less, sell extra meal swipes for cash.",
+      body: "My student-run marketplace for unused campus meal plan value: buy campus food for less, sell extra meal swipes for cash.",
       lines: [
-        "Live two-sided marketplace built and run independently.",
+        "Live two-sided marketplace I built and run independently.",
         "Buyers get discounted campus food, sellers recover sunk meal plan money.",
         "Second shipped product alongside OraxAI."
       ],
