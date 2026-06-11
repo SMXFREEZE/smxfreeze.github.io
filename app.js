@@ -1925,9 +1925,89 @@ function setupProjectCards() {
   });
 }
 
+function setupStatCounters() {
+  if (prefersReducedMotion() || !("IntersectionObserver" in window)) return;
+
+  const stats = [...document.querySelectorAll(".save-number, .metric-grid strong")];
+  const pattern = /^([^0-9]*)([\d,.]+)(.*)$/;
+
+  const animate = (el) => {
+    const match = el.textContent.trim().match(pattern);
+    if (!match) return;
+    const [, prefix, rawNumber, suffix] = match;
+    const target = parseFloat(rawNumber.replace(/,/g, ""));
+    if (!isFinite(target)) return;
+
+    const duration = 900;
+    const start = performance.now();
+    const step = (now) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      animate(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  stats.forEach((el) => observer.observe(el));
+}
+
+function setupMagneticButtons() {
+  if (prefersReducedMotion()) return;
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  const strength = 0.22;
+  const targets = [...document.querySelectorAll(".hero-actions .btn, .contact-links a")];
+
+  targets.forEach((el) => {
+    el.addEventListener("pointermove", (event) => {
+      const rect = el.getBoundingClientRect();
+      const x = (event.clientX - rect.left - rect.width / 2) * strength;
+      const y = (event.clientY - rect.top - rect.height / 2) * strength;
+      el.style.setProperty("--mx", `${x.toFixed(1)}px`);
+      el.style.setProperty("--my", `${y.toFixed(1)}px`);
+    });
+    el.addEventListener("pointerleave", () => {
+      el.style.setProperty("--mx", "0px");
+      el.style.setProperty("--my", "0px");
+    });
+  });
+}
+
+function setupTickerVelocity() {
+  if (prefersReducedMotion()) return;
+
+  const track = document.querySelector(".ticker-track");
+  if (!track || typeof track.getAnimations !== "function") return;
+
+  let lastY = window.scrollY;
+  let boost = 1;
+  const tick = () => {
+    const delta = Math.abs(window.scrollY - lastY);
+    lastY = window.scrollY;
+    const target = 1 + Math.min(3, delta * 0.06);
+    boost += (target - boost) * 0.12;
+    const animation = track.getAnimations()[0];
+    if (animation) animation.playbackRate = boost;
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 setupProjectCards();
 setupCartridgeDrag();
 setupGsapEnhancements();
+setupStatCounters();
+setupMagneticButtons();
+setupTickerVelocity();
 updateQuestProgress();
 renderRecruiterRoute();
 renderScreen();
