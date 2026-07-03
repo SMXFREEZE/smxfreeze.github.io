@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20260611-grid3">
+  <link rel="stylesheet" href="./styles.css?v=20260702-holo2">
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -407,7 +407,11 @@
         <article class="project-cart reveal-card" data-project-card>
           <div class="project-flip">
             <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal MealFlip project">
-              <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base2/11_hires.png" alt="Snorlax Pokemon TCG card cover for MealFlip" onerror="this.src='https://assets.tcgdex.net/en/base/base2/11/high.webp';">
+              <span class="card-art">
+                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base2/11_hires.png" alt="Snorlax Pokemon TCG card cover for MealFlip" onerror="this.src='https://assets.tcgdex.net/en/base/base2/11/high.webp';">
+                <span class="card-holo" aria-hidden="true"></span>
+                <span class="card-glare" aria-hidden="true"></span>
+              </span>
               <span class="project-card-hint">Reveal project</span>
             </button>
             <div class="project-card-back">
@@ -424,7 +428,11 @@
         <article class="project-cart reveal-card" data-project-card>
           <div class="project-flip">
             <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal Lyric Engine project">
-              <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton Pokemon TCG card cover for Lyric Engine" onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';">
+              <span class="card-art">
+                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton Pokemon TCG card cover for Lyric Engine" onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';">
+                <span class="card-holo" aria-hidden="true"></span>
+                <span class="card-glare" aria-hidden="true"></span>
+              </span>
               <span class="project-card-hint">Reveal project</span>
             </button>
             <div class="project-card-back">
@@ -441,7 +449,11 @@
         <article class="project-cart reveal-card" data-project-card>
           <div class="project-flip">
             <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal NeuralForge project">
-              <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo Pokemon TCG card cover for NeuralForge" onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';">
+              <span class="card-art">
+                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo Pokemon TCG card cover for NeuralForge" onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';">
+                <span class="card-holo" aria-hidden="true"></span>
+                <span class="card-glare" aria-hidden="true"></span>
+              </span>
               <span class="project-card-hint">Reveal project</span>
             </button>
             <div class="project-card-back">
@@ -458,7 +470,11 @@
         <article class="project-cart reveal-card" data-project-card>
           <div class="project-flip">
             <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal AssetOps project">
-              <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/8_hires.png" alt="Machamp Pokemon TCG card cover for AssetOps" onerror="this.src='https://assets.tcgdex.net/en/base/base1/8/high.webp';">
+              <span class="card-art">
+                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/8_hires.png" alt="Machamp Pokemon TCG card cover for AssetOps" onerror="this.src='https://assets.tcgdex.net/en/base/base1/8/high.webp';">
+                <span class="card-holo" aria-hidden="true"></span>
+                <span class="card-glare" aria-hidden="true"></span>
+              </span>
               <span class="project-card-hint">Reveal project</span>
             </button>
             <div class="project-card-back">
@@ -642,6 +658,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-  <script src="./app.js?v=20260611-motion" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
+  <script src="./app.js?v=20260702-holo2" defer></script>
 </body>
 </html>

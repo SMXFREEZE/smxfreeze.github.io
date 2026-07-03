@@ -693,6 +693,7 @@ function openRecruiterPanel() {
   recruiterPanel?.setAttribute("aria-hidden", "false");
   recruiterPanel?.removeAttribute("inert");
   document.body.classList.add("no-scroll");
+  window.__lenis?.stop();
   animateDialogIn(".scan-card-panel");
   unlockQuest("scan");
   playBlip("open");
@@ -703,6 +704,7 @@ function closeRecruiterPanel() {
   recruiterPanel?.setAttribute("aria-hidden", "true");
   recruiterPanel?.setAttribute("inert", "");
   document.body.classList.remove("no-scroll");
+  window.__lenis?.start();
 }
 
 function updateTabletop() {
@@ -747,6 +749,7 @@ function openTabletop() {
   tabletopPanel?.setAttribute("aria-hidden", "false");
   tabletopPanel?.removeAttribute("inert");
   document.body.classList.add("no-scroll");
+  window.__lenis?.stop();
   animateDialogIn(".tabletop-dialog");
   playBlip("open");
 }
@@ -756,6 +759,7 @@ function closeTabletop() {
   tabletopPanel?.setAttribute("aria-hidden", "true");
   tabletopPanel?.setAttribute("inert", "");
   document.body.classList.remove("no-scroll");
+  window.__lenis?.start();
 }
 
 function flashControl(control) {
@@ -879,7 +883,7 @@ tableFocusButtons.forEach((button) => {
     event.preventDefault();
     event.stopPropagation();
     closeTabletop();
-    consoleEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+    smoothScrollTo(consoleEl, "center");
     window.setTimeout(() => focusConsole(), 180);
   });
 });
@@ -1106,7 +1110,7 @@ function focusConsoleOnSmallScreens() {
   if (!consoleEl || !window.matchMedia("(max-width: 900px)").matches) return;
 
   window.setTimeout(() => {
-    consoleEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    smoothScrollTo(consoleEl, "center");
   }, 80);
 }
 
@@ -1420,7 +1424,7 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-table-focus-console]")) {
     closeTabletop();
-    consoleEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+    smoothScrollTo(consoleEl, "center");
     window.setTimeout(() => focusConsole(), 180);
     return;
   }
@@ -1489,12 +1493,12 @@ document.addEventListener("click", (event) => {
     }
     if (quest === "builds") {
       unlockQuest("builds");
-      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      smoothScrollTo(document.getElementById("projects"), "start");
       return;
     }
     if (quest === "contact") {
       unlockQuest("contact");
-      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      smoothScrollTo(document.getElementById("contact"), "start");
       return;
     }
   }
@@ -1784,6 +1788,56 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function smoothScrollTo(el, block = "start") {
+  if (!el) return;
+  const lenis = window.__lenis;
+  if (lenis) {
+    const rect = el.getBoundingClientRect();
+    const offset = block === "center"
+      ? Math.round(rect.height / 2 - window.innerHeight / 2)
+      : -84;
+    lenis.scrollTo(el, { offset, duration: 1.05 });
+    return;
+  }
+  el.scrollIntoView({ behavior: "smooth", block });
+}
+
+function setupLenis() {
+  if (prefersReducedMotion() || typeof window.Lenis !== "function") return;
+
+  const lenis = new window.Lenis({
+    duration: 1.05,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true
+  });
+  window.__lenis = lenis;
+
+  const gsap = getGsap();
+  if (gsap && window.ScrollTrigger) {
+    lenis.on("scroll", window.ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  } else {
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    const targetEl = document.querySelector(hash);
+    if (!targetEl) return;
+    event.preventDefault();
+    smoothScrollTo(targetEl, "start");
+    history.pushState(null, "", hash);
+  });
+}
+
 function setupGsapEnhancements() {
   const gsap = getGsap();
   if (!gsap) return;
@@ -1794,29 +1848,69 @@ function setupGsapEnhancements() {
   if (window.ScrollTrigger) {
     gsap.registerPlugin(window.ScrollTrigger);
     gsap.set(".reveal-card", { autoAlpha: 0, y: 24 });
+    gsap.utils.toArray(".timeline-card").forEach((cardEl, index) => {
+      gsap.set(cardEl, { x: index % 2 ? 42 : -42 });
+    });
     window.ScrollTrigger.batch(".reveal-card", {
       start: "top 86%",
       once: true,
       onEnter: (batch) => gsap.to(batch, {
         autoAlpha: 1,
         y: 0,
+        x: 0,
         duration: 0.58,
         ease: "power3.out",
         stagger: { each: 0.055, from: "start" },
         overwrite: "auto"
       })
     });
+
+    gsap.utils.toArray(".section-label").forEach((label) => {
+      gsap.from(label, {
+        x: -28,
+        autoAlpha: 0,
+        duration: 0.5,
+        scrollTrigger: { trigger: label, start: "top 90%", once: true }
+      });
+    });
+
+    gsap.to(".console-stage", {
+      yPercent: -7,
+      ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.6 }
+    });
   }
 
-  const heroTargets = gsap.utils.toArray(".hero-kicker, .hero h1, .hero-lede, .hero-actions, .quick-facts");
+  // Split the hero name into characters for a masked stagger reveal
+  const heroTitle = document.querySelector(".hero h1");
+  if (heroTitle && !heroTitle.dataset.split) {
+    const text = heroTitle.textContent.trim();
+    heroTitle.dataset.split = "true";
+    heroTitle.setAttribute("aria-label", text);
+    heroTitle.innerHTML = text
+      .split(" ")
+      .map((word) => word
+        .split(/(?<=-)/)
+        .map((chunk) => `<span class="split-word" aria-hidden="true">${[...chunk].map((ch) => `<span class="split-char">${ch}</span>`).join("")}</span>`)
+        .join(""))
+      .join(" ");
+  }
+
+  const heroTargets = gsap.utils.toArray(".hero-kicker, .hero-lede, .hero-actions, .quick-facts");
   gsap.timeline({ defaults: { ease: "power3.out" } })
+    .from(".hero h1 .split-char", {
+      yPercent: 112,
+      duration: 0.72,
+      ease: "power4.out",
+      stagger: 0.03
+    })
     .from(heroTargets, {
       autoAlpha: 0,
       y: 18,
       duration: 0.54,
       stagger: 0.06,
       clearProps: "opacity,visibility,transform"
-    })
+    }, "<0.25")
     .from(".mini-cart", {
       autoAlpha: 0,
       y: -18,
@@ -1883,45 +1977,159 @@ document.querySelectorAll(".reveal-card").forEach((card, index) => {
 });
 
 function setupProjectCards() {
-  const canTilt = window.matchMedia("(hover: hover)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = prefersReducedMotion();
+  if (!projectCards.length) return;
+
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   projectCards.forEach((card) => {
+    const flip = card.querySelector(".project-flip");
     const front = card.querySelector(".project-card-front");
     const close = card.querySelector(".project-card-close");
-    if (!front) return;
+    if (!flip || !front) return;
 
-    const setOpen = (open) => {
+    let open = false;
+    let dragging = false;
+    let dragStartX = null;
+    let dragStartY = 0;
+    let dragBase = 0;
+    let dragAngle = 0;
+    let dragLastX = 0;
+    let dragLastT = 0;
+    let dragVX = 0;
+    let suppressClick = false;
+    let settleTimer = null;
+
+    const clearInline = () => {
+      flip.classList.remove("is-dragging");
+      flip.style.transform = "";
+    };
+
+    const setOpen = (next, { focus = true } = {}) => {
+      card.classList.remove("is-tilting");
+      clearInline();
+      if (open === next) return;
+      open = next;
       card.classList.toggle("is-open", open);
       front.setAttribute("aria-expanded", String(open));
+      playBlip("tap");
+      if (open) {
+        card.classList.remove("is-hovering");
+        unlockQuest("builds");
+        if (focus) window.setTimeout(() => close?.focus({ preventScroll: true }), 420);
+      } else if (focus && canHover) {
+        front.focus({ preventScroll: true });
+      }
     };
 
     front.addEventListener("click", () => {
+      if (suppressClick) return;
       setOpen(true);
-      unlockQuest("builds");
-      playBlip("tap");
-      window.setTimeout(() => close?.focus({ preventScroll: true }), 360);
     });
 
     close?.addEventListener("click", () => {
+      if (suppressClick) return;
       setOpen(false);
-      playBlip("tap");
-      front.focus({ preventScroll: true });
     });
 
-    if (!canTilt) return;
-
-    front.addEventListener("pointermove", (event) => {
-      const rect = front.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      front.style.setProperty("--tilt-x", `${x * 8}deg`);
-      front.style.setProperty("--tilt-y", `${-y * 6}deg`);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && open) setOpen(false);
     });
 
-    front.addEventListener("pointerleave", () => {
-      front.style.setProperty("--tilt-x", "0deg");
-      front.style.setProperty("--tilt-y", "0deg");
+    // Pointer-tracked holographic shine + 3D tilt on the closed card
+    const updatePointerFx = (event) => {
+      const rect = card.getBoundingClientRect();
+      const px = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+      const py = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));
+      front.style.setProperty("--px", `${(px * 100).toFixed(1)}%`);
+      front.style.setProperty("--py", `${(py * 100).toFixed(1)}%`);
+      if (!open && !dragging && canHover && !reduced) {
+        window.clearTimeout(settleTimer);
+        card.classList.add("is-tilting");
+        const ry = (px - 0.5) * 14;
+        const rx = (0.5 - py) * 10;
+        flip.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      }
+    };
+
+    card.addEventListener("pointerenter", (event) => {
+      if (!open) card.classList.add("is-hovering");
+      updatePointerFx(event);
     });
+
+    card.addEventListener("pointermove", updatePointerFx);
+
+    card.addEventListener("pointerleave", () => {
+      card.classList.remove("is-hovering");
+      if (!dragging && !open) {
+        flip.style.transform = "";
+        window.clearTimeout(settleTimer);
+        settleTimer = window.setTimeout(() => card.classList.remove("is-tilting"), 180);
+      }
+    });
+
+    // Swipe / drag anywhere on the card to flip it (touch and mouse)
+    if (!reduced) {
+      flip.addEventListener("pointerdown", (event) => {
+        if (event.button !== undefined && event.button !== 0) return;
+        if (open && event.pointerType === "mouse") return;
+        dragging = false;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragBase = open ? 180 : 0;
+        dragLastX = event.clientX;
+        dragLastT = performance.now();
+        dragVX = 0;
+      });
+
+      flip.addEventListener("pointermove", (event) => {
+        if (dragStartX === null) return;
+        if (event.pointerType === "mouse" && event.buttons === 0) return;
+        const dx = event.clientX - dragStartX;
+        const dy = event.clientY - dragStartY;
+        if (!dragging) {
+          if (Math.abs(dx) > 14 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+            dragging = true;
+            card.classList.remove("is-tilting");
+            flip.classList.add("is-dragging");
+            if (!open) card.classList.add("is-hovering");
+            try { flip.setPointerCapture(event.pointerId); } catch (_) { /* unsupported */ }
+          } else {
+            return;
+          }
+        }
+        event.preventDefault();
+        const now = performance.now();
+        const dt = Math.max(1, now - dragLastT);
+        dragVX = dragVX * 0.6 + ((event.clientX - dragLastX) / dt) * 0.4;
+        dragLastX = event.clientX;
+        dragLastT = now;
+        dragAngle = Math.min(220, Math.max(-40, dragBase - dx * 0.6));
+        flip.style.transform = `rotateY(${dragAngle.toFixed(2)}deg)`;
+      });
+
+      const endDrag = () => {
+        dragStartX = null;
+        if (!dragging) return;
+        dragging = false;
+        card.classList.remove("is-hovering");
+        suppressClick = true;
+        window.setTimeout(() => { suppressClick = false; }, 150);
+        // A quick flick flips regardless of how far the drag got
+        const flick = Math.abs(dragVX) > 0.45;
+        const shouldOpen = flick ? dragVX < 0 : dragAngle > (open ? 100 : 80);
+        flip.classList.remove("is-dragging");
+        void flip.offsetWidth; // flush so the snap-back transitions from the dragged angle
+        if (shouldOpen === open) {
+          flip.style.transform = "";
+        } else {
+          setOpen(shouldOpen, { focus: false });
+        }
+      };
+
+      flip.addEventListener("pointerup", endDrag);
+      flip.addEventListener("pointercancel", endDrag);
+    }
   });
 }
 
@@ -2002,6 +2210,7 @@ function setupTickerVelocity() {
   requestAnimationFrame(tick);
 }
 
+setupLenis();
 setupProjectCards();
 setupCartridgeDrag();
 setupGsapEnhancements();

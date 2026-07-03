@@ -6,6 +6,25 @@ html {
   scroll-behavior: smooth;
 }
 
+html.lenis,
+html.lenis body {
+  scroll-behavior: auto;
+}
+
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: top;
+  padding: 0.06em 0.02em 0.14em;
+  margin: -0.06em -0.02em -0.14em;
+}
+
+.split-char {
+  display: inline-block;
+  will-change: transform;
+}
+
 section[id] {
   scroll-margin-top: 88px;
 }
@@ -156,10 +175,14 @@ p {
 
 .scanlines {
   z-index: 9997;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath d='M0 3.5H4' stroke='white' stroke-opacity='.45'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath d='M0 3.5H4' stroke='%23101520' stroke-opacity='.5'/%3E%3C/svg%3E");
   background-size: 4px 4px;
-  mix-blend-mode: soft-light;
+  transform: translateZ(0);
+}
+
+.grain {
+  transform: translateZ(0);
 }
 
 .site-header {
@@ -1973,10 +1996,29 @@ p {
   inset: 0;
   transform-style: preserve-3d;
   transition: transform 0.72s cubic-bezier(.2,.8,.2,1);
+  touch-action: pan-y;
+  will-change: transform;
 }
 
 .project-cart.is-open .project-flip {
   transform: rotateY(180deg);
+}
+
+/* Fast transition while the pointer tilts the closed card */
+.project-cart.is-tilting .project-flip {
+  transition: transform 0.14s ease-out;
+}
+
+/* No transition while a swipe drag drives the angle directly */
+.project-flip.is-dragging,
+.project-cart.is-tilting .project-flip.is-dragging {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-flip {
+    transition: none;
+  }
 }
 
 .project-card-front,
@@ -1989,11 +2031,10 @@ p {
   border-radius: 16px;
   box-shadow: 10px 10px 0 #101520;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .project-card-front {
-  --tilt-x: 0deg;
-  --tilt-y: 0deg;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   place-items: center;
@@ -2001,9 +2042,11 @@ p {
   width: 100%;
   padding: 1.1rem;
   cursor: pointer;
-  transform: rotateX(var(--tilt-y)) rotateY(var(--tilt-x));
-  transform-style: preserve-3d;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: box-shadow 0.18s ease;
+}
+
+.project-cart.is-open .project-card-front {
+  pointer-events: none;
 }
 
 .project-card-front:hover,
@@ -2011,20 +2054,77 @@ p {
   box-shadow: 12px 12px 0 #101520, 0 0 0 5px rgba(255, 209, 102, 0.36);
 }
 
-.pokemon-card-img {
+.card-art {
+  position: relative;
+  display: block;
   width: min(78%, 265px);
+  transform: translateZ(24px);
+}
+
+.pokemon-card-img {
+  display: block;
+  width: 100%;
   max-height: 430px;
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 16px 28px rgba(16, 21, 32, 0.28);
   pointer-events: none;
-  transform: translateZ(24px);
+}
+
+.card-holo,
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.card-holo {
+  background-image:
+    radial-gradient(
+      farthest-corner circle at var(--px, 50%) var(--py, 50%),
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.3) 26%,
+      rgba(40, 40, 60, 0.85) 90%
+    ),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 60, 150, 0.75) 0%,
+      rgba(255, 214, 0, 0.75) 7%,
+      rgba(40, 255, 175, 0.75) 14%,
+      rgba(60, 190, 255, 0.75) 21%,
+      rgba(190, 80, 255, 0.75) 28%,
+      rgba(255, 60, 150, 0.75) 35%
+    );
+  background-size: 100% 100%, 260% 260%;
+  background-position: 0 0, calc(var(--px, 50%) * 1.5) calc(var(--py, 50%) * 1.5);
+  background-blend-mode: soft-light;
+}
+
+.card-glare {
+  background: radial-gradient(
+    farthest-corner circle at var(--px, 50%) var(--py, 50%),
+    rgba(255, 255, 255, 0.55) 6%,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0) 60%
+  );
+}
+
+.project-cart.is-hovering .card-holo {
+  opacity: 0.32;
+}
+
+.project-cart.is-hovering .card-glare {
+  opacity: 0.65;
 }
 
 .project-card-hint {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
   min-height: 38px;
   padding: 0.65rem 0.9rem;
   color: #101520;
@@ -2036,6 +2136,23 @@ p {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transform: translateZ(34px);
+}
+
+.project-card-hint::after {
+  content: "\2192";
+  font-size: 0.8rem;
+  animation: hint-nudge 1.6s ease-in-out infinite;
+}
+
+@keyframes hint-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-hint::after {
+    animation: none;
+  }
 }
 
 .project-card-back {
