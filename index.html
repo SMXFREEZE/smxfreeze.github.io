@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20260702-holo2">
+  <link rel="stylesheet" href="./styles.css?v=20260703-orax">
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -358,21 +358,23 @@
           <div class="orax-terminal">
             <div class="terminal-top">
               <span>ORAXAI PRODUCT SYSTEM</span>
-              <span>LIVE</span>
+              <span class="terminal-live">LIVE</span>
             </div>
             <div class="orax-brand-panel">
-              <div class="orax-panel-header">
-                <span>Production stack</span>
+              <div class="orax-module-tabs" role="tablist" aria-label="OraxAI system modules">
+                <button type="button" class="orax-tab is-active" role="tab" aria-selected="true" data-orax-module="ats">ATS Engine</button>
+                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="app">React App</button>
+                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="api">FastAPI</button>
+                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="growth">Growth Loop</button>
               </div>
-              <div class="orax-mascot-stage">
-                <img loading="lazy" decoding="async" class="orax-mascot" src="./squirtle.gif" alt="Animated Squirtle mascot" onerror="this.src='./squirtle.png'">
-                <p class="orax-speech">Resume scoring, keyword gap analysis, PDF workflows, and product analytics in one production system.</p>
+              <div class="orax-mascot-row">
+                <img loading="lazy" decoding="async" class="orax-mascot" id="oraxMascot" src="./squirtle.gif" alt="Animated Squirtle mascot" onerror="this.src='./squirtle.png'">
+                <p class="orax-speech" id="oraxSpeech">Resume scoring, keyword gaps, PDF workflows — pick a module and I'll run it.</p>
               </div>
-              <div class="orax-system-list" aria-label="OraxAI system modules">
-                <span>ATS Engine</span>
-                <span>React App</span>
-                <span>FastAPI</span>
-                <span>Growth Loop</span>
+              <div class="orax-term-screen" id="oraxTermScreen"></div>
+              <div class="orax-term-status">
+                <span>oraxai &middot; prod &middot; us-east</span>
+                <span id="oraxTermState">BOOT</span>
               </div>
             </div>
           </div>
@@ -659,6 +661,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="./app.js?v=20260702-holo2" defer></script>
+  <script src="./app.js?v=20260703-orax" defer></script>
 </body>
 </html>

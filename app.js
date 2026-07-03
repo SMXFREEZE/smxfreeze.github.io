@@ -2210,7 +2210,245 @@ function setupTickerVelocity() {
   requestAnimationFrame(tick);
 }
 
+function setupOraxTerminal() {
+  const screen = document.getElementById("oraxTermScreen");
+  const speech = document.getElementById("oraxSpeech");
+  const mascot = document.getElementById("oraxMascot");
+  const stateLabel = document.getElementById("oraxTermState");
+  const tabs = [...document.querySelectorAll("[data-orax-module]")];
+  if (!screen || !tabs.length) return;
+
+  const reduced = prefersReducedMotion();
+  let runToken = 0;
+  let booted = false;
+
+  const fmtMetric = (value) => {
+    if (value >= 1000000) return `${(value / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
+    if (value >= 1000) return `${Math.round(value / 1000)}K`;
+    return String(value);
+  };
+
+  const MODULES = {
+    ats: {
+      speech: "Squirtle used HYDRO-PARSE! 87/100 — two keywords away from super effective.",
+      running: "SCANNING",
+      done: "SCAN COMPLETE",
+      steps: [
+        { cmd: "orax scan resume.pdf --job ml-engineer-intern" },
+        { text: "parse resume.pdf ............ ok  (2 pages · 512 tokens)", cls: "tl-ok", delay: 240 },
+        { text: "extract skills .............. ok  (24 found)", cls: "tl-ok", delay: 300 },
+        { text: "match vs job description .... running", cls: "tl-dim", delay: 320 },
+        { score: 87, delay: 280 },
+        { text: "matched   python · pytorch · fastapi · docker · sql", cls: "tl-match", delay: 340 },
+        { text: "missing   kubernetes · airflow", cls: "tl-miss", delay: 300 },
+        { text: "3 rewrites suggested → export ATS-ready PDF", cls: "tl-warn", delay: 340 }
+      ]
+    },
+    app: {
+      speech: "React UI, zero dead props. It renders faster than a Quick Attack.",
+      running: "RENDERING",
+      done: "UI READY",
+      steps: [
+        { cmd: "npm run build && orax ui --profile" },
+        { text: "render <ScoreDashboard/> ......... 42ms", cls: "tl-ok", delay: 260 },
+        { text: "render <KeywordGapTable/> ........ 18ms", cls: "tl-ok", delay: 260 },
+        { text: "render <RewriteSuggestions/> ..... 27ms", cls: "tl-ok", delay: 260 },
+        { text: "bundle 148 kB gzip · LCP 1.2s · CLS 0.00", cls: "tl-dim", delay: 320 },
+        { text: "hydration clean — 0 client errors", cls: "tl-match", delay: 340 }
+      ]
+    },
+    api: {
+      speech: "FastAPI holds p95 under 40 ms. Critical hit, every request.",
+      running: "STREAMING",
+      done: "HEALTHY",
+      steps: [
+        { cmd: "orax logs --tail api.prod" },
+        { text: "POST /v1/score        200  34ms", cls: "tl-ok", delay: 240 },
+        { text: "POST /v1/gap-report   200  41ms", cls: "tl-ok", delay: 240 },
+        { text: "GET  /v1/export/pdf   200  87ms", cls: "tl-ok", delay: 240 },
+        { text: "POST /v1/score        200  29ms", cls: "tl-ok", delay: 240 },
+        { text: "p95 38ms · uptime 99.9% · rate-limit ok", cls: "tl-match", delay: 340 }
+      ]
+    },
+    growth: {
+      speech: "Zero paid ads. The loop just keeps evolving.",
+      running: "LIVE FEED",
+      done: "TRENDING UP",
+      steps: [
+        { cmd: "orax metrics --live" },
+        { count: { label: "monthly active users", to: 100, display: "100+" }, delay: 220 },
+        { count: { label: "monthly recurring revenue", to: 2000, display: "$2K+" }, delay: 220 },
+        { count: { label: "social followers", to: 10000, display: "10K+" }, delay: 220 },
+        { count: { label: "content views", to: 1000000, display: "1M+" }, delay: 220 },
+        { text: "CAC $0.00 — organic loop only", cls: "tl-warn", delay: 380 }
+      ]
+    }
+  };
+
+  const caret = document.createElement("span");
+  caret.className = "orax-caret";
+  caret.setAttribute("aria-hidden", "true");
+
+  const wait = (ms, token) => new Promise((resolve) => {
+    window.setTimeout(() => resolve(token === runToken), reduced ? 0 : ms);
+  });
+
+  const addLine = (cls = "") => {
+    const line = document.createElement("p");
+    if (cls) line.className = cls;
+    screen.appendChild(line);
+    screen.scrollTop = screen.scrollHeight;
+    return line;
+  };
+
+  const typeCommand = async (line, text, token) => {
+    line.appendChild(caret);
+    if (reduced) {
+      line.insertBefore(document.createTextNode(text), caret);
+      return token === runToken;
+    }
+    for (const ch of text) {
+      if (token !== runToken) return false;
+      line.insertBefore(document.createTextNode(ch), caret);
+      await new Promise((resolve) => window.setTimeout(resolve, 16));
+    }
+    return token === runToken;
+  };
+
+  const renderScore = async (target, token) => {
+    const row = document.createElement("div");
+    row.className = "orax-score";
+    row.innerHTML = '<div class="orax-score-track"><div class="orax-score-fill"></div></div><span class="orax-score-num">0</span>';
+    screen.appendChild(row);
+    screen.scrollTop = screen.scrollHeight;
+    const fill = row.querySelector(".orax-score-fill");
+    const num = row.querySelector(".orax-score-num");
+    if (reduced) {
+      fill.style.width = `${target}%`;
+      num.textContent = `${target}/100`;
+      return token === runToken;
+    }
+    requestAnimationFrame(() => { fill.style.width = `${target}%`; });
+    return new Promise((resolve) => {
+      let value = 0;
+      const timer = window.setInterval(() => {
+        if (token !== runToken) {
+          window.clearInterval(timer);
+          resolve(false);
+          return;
+        }
+        value = Math.min(target, value + 3);
+        num.textContent = `${value}/100`;
+        if (value >= target) {
+          window.clearInterval(timer);
+          resolve(true);
+        }
+      }, 36);
+    });
+  };
+
+  const renderCount = async (spec, token) => {
+    const line = document.createElement("p");
+    line.className = "orax-metric-line";
+    line.innerHTML = `<span>${spec.label}</span><b>0</b>`;
+    screen.appendChild(line);
+    screen.scrollTop = screen.scrollHeight;
+    const num = line.querySelector("b");
+    if (reduced) {
+      num.textContent = spec.display;
+      return token === runToken;
+    }
+    return new Promise((resolve) => {
+      const start = performance.now();
+      const duration = 620;
+      const timer = window.setInterval(() => {
+        if (token !== runToken) {
+          window.clearInterval(timer);
+          resolve(false);
+          return;
+        }
+        const progress = Math.min(1, (performance.now() - start) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        num.textContent = fmtMetric(Math.round(spec.to * eased));
+        if (progress >= 1) {
+          num.textContent = spec.display;
+          window.clearInterval(timer);
+          resolve(true);
+        }
+      }, 36);
+    });
+  };
+
+  const run = async (id) => {
+    const moduleSpec = MODULES[id];
+    if (!moduleSpec) return;
+    const token = ++runToken;
+    screen.textContent = "";
+    if (speech) speech.textContent = moduleSpec.speech;
+    if (stateLabel) stateLabel.textContent = moduleSpec.running;
+    if (mascot && !reduced) {
+      mascot.classList.remove("is-cheer");
+      void mascot.offsetWidth;
+      mascot.classList.add("is-cheer");
+    }
+
+    for (const step of moduleSpec.steps) {
+      if (token !== runToken) return;
+      if (step.cmd) {
+        const line = addLine("tl-cmd");
+        if (!(await typeCommand(line, step.cmd, token))) return;
+        continue;
+      }
+      if (!(await wait(step.delay || 260, token))) return;
+      if (step.text) {
+        const line = addLine(step.cls);
+        line.textContent = step.text;
+        line.appendChild(caret);
+        screen.scrollTop = screen.scrollHeight;
+      } else if (step.score !== undefined) {
+        if (!(await renderScore(step.score, token))) return;
+      } else if (step.count) {
+        if (!(await renderCount(step.count, token))) return;
+      }
+    }
+    if (token === runToken && stateLabel) stateLabel.textContent = moduleSpec.done;
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((other) => {
+        const active = other === tab;
+        other.classList.toggle("is-active", active);
+        other.setAttribute("aria-selected", String(active));
+      });
+      playBlip("tap");
+      run(tab.dataset.oraxModule);
+    });
+  });
+
+  const boot = () => {
+    if (booted) return;
+    booted = true;
+    run("ats");
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          boot();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(screen);
+  } else {
+    boot();
+  }
+}
+
 setupLenis();
+setupOraxTerminal();
 setupProjectCards();
 setupCartridgeDrag();
 setupGsapEnhancements();
