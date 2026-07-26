@@ -19,7 +19,7 @@ const screenItems = [
     body: "GutGutGoose, Blaze, Venu AI, and NeuralSeek AI: four engineering roles across computational biology, agent infrastructure, backend AI, and production agents.",
     meta: ["Python", "Computational biology", "Azure", "Agents"],
     lines: [
-      "GutGutGoose (YC S'24): personalized microbiome ML and scientific software.",
+      "GutGutGoose (YC S'26): personalized microbiome ML and scientific software.",
       "Blaze (YC S'24): agent infrastructure and viral video automation.",
       "Venu AI (YC W'21): conference automation and sales workflows.",
       "NeuralSeek: multi-agent AWS pipeline, about 40% faster."
@@ -199,7 +199,7 @@ const consolePages = {
       title: "Sami El-Figha",
       body: "Founding Engineer Intern at GutGutGoose and Waterloo Electrical Engineering student, fluent in English, French, and Arabic.",
       lines: [
-        "Founding Engineer Intern at GutGutGoose (YC S'24).",
+        "Founding Engineer Intern at GutGutGoose (YC S'26).",
         "AI Infrastructure Engineer Intern at Blaze (YC S'24).",
         "Backend & AI Engineering Intern at Venu AI (YC W'21).",
         "AI Agent Developer Intern at NeuralSeek AI.",
@@ -207,7 +207,7 @@ const consolePages = {
       ],
       meta: ["GutGutGoose", "Waterloo EE", "3 languages", "Builder"],
       actionLabel: "Open resume PDF",
-      url: "./Sami-El-Figha-Resume.pdf?v=20260726"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260726-s26"
     },
     {
       kicker: "Role fit",
@@ -241,7 +241,7 @@ const consolePages = {
         "Building Python pipelines for sequence comparison and similarity scoring.",
         "Working from data ingestion through model evaluation."
       ],
-      meta: ["YC S'24", "Python", "Computational biology", "ML"]
+      meta: ["YC S'26", "Python", "Computational biology", "ML"]
     },
     {
       kicker: "AI infrastructure",
@@ -430,7 +430,7 @@ const consolePages = {
       ],
       meta: ["PDF", "Resume", "Skills", "Experience"],
       actionLabel: "Open resume",
-      url: "./Sami-El-Figha-Resume.pdf?v=20260726"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260726-s26"
     },
     {
       kicker: "Inbox",
