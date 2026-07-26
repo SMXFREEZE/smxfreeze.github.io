@@ -1,0 +1,160 @@
+% One-page resume based on Matty's Resume:
+% https://github.com/mattyHerzig/mattys_resume
+% Template license: MIT
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.58in}
+\addtolength{\evensidemargin}{-0.58in}
+\addtolength{\textwidth}{1.16in}
+\addtolength{\topmargin}{-0.78in}
+\addtolength{\textheight}{1.18in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\footskip}{4pt}
+
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-2pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & {\small #2} \\
+      \textit{\small #3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \small #1 & {\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in,label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.22in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\begin{document}
+
+\begin{center}
+  \textbf{\Huge \scshape Sami El-Figha} \\ \vspace{6pt}
+  \small
+  \href{tel:+14383363391}{\underline{+1 438-336-3391}} $|$
+  \href{mailto:sami.elfigha@gmail.com}{\underline{sami.elfigha@gmail.com}} $|$
+  \href{https://github.com/SMXFREEZE}{\underline{github.com/SMXFREEZE}} $|$
+  \href{https://smxfreeze.github.io/}{\underline{smxfreeze.github.io}}
+\end{center}
+
+\section{Experience}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Founding Engineer Intern}{June 2026 -- Present}
+    {GutGutGoose (YC S'24)}{San Francisco, CA}
+    \resumeItemListStart
+      \resumeItem{Developed machine learning algorithms to match customer DNA and genomic markers against curated reference microbiome datasets to power personalized probiotic recommendations.}
+      \resumeItem{Built computational biology data pipelines in Python for sequence comparison and similarity scoring between user genetic profiles and a reference strain library.}
+      \resumeItem{Worked across the ML and scientific software engineering stack as a founding engineer, from data ingestion through model evaluation, supporting a computational-biology-driven personalization engine.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {AI Infrastructure Engineer Intern}{Apr. 2026 -- June 2026}
+    {Blaze (YC S'24)}{San Francisco, CA (Remote)}
+    \resumeItemListStart
+      \resumeItem{Built an Agent Brief API (Node/TypeScript) registered on agentic.market, transforming raw text into structured JSON briefs for AI agents, with x402 payment integration for per-request monetization and Bazaar discovery.}
+      \resumeItem{Architected a Remotion-based vertical video generation system (1080 x 1920) producing iMessage-style marketing videos with three script compositions and a hosted Express API for on-demand MP4 rendering.}
+      \resumeItem{Engineered a multi-stage agentic viral video pipeline in Python with ingestion, compliance gating, FFmpeg transcoding, caption generation, and Postiz publishing adapters for TikTok and Instagram Reels.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Backend \& AI Engineering Intern}{Feb. 2026 -- Apr. 2026}
+    {Venu AI (YC W'21)}{San Jose, CA (Remote)}
+    \resumeItemListStart
+      \resumeItem{Automated end-to-end conference production workflows using Python, Django, and React on Microsoft Azure, reducing manual coordination overhead across event pipelines.}
+      \resumeItem{Built an AI-powered personalized email outreach system integrating LLM-generated content with CRM data to drive top-of-funnel sales for founders and conference stakeholders.}
+      \resumeItem{Developed a React matchmaking feature pairing attendees, speakers, and sponsors via semantic similarity; designed and maintained scalable Azure backend services (Functions, Blob Storage, Service Bus).}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {AI Agent Developer Intern}{Oct. 2025 -- Jan. 2026}
+    {NeuralSeek AI}{Miami, FL (Remote)}
+    \resumeItemListStart
+      \resumeItem{Shipped a production AI agent on AWS completing the mAIstro Challenge with 100\% on-time delivery across all milestones.}
+      \resumeItem{Designed a multi-agent pipeline with triage, execution, and review stages, cutting average task resolution time by approximately 40\% through parallelized reasoning and fallback handling.}
+      \resumeItem{Ran 3+ design iterations on competitive research findings, improving agent response accuracy by approximately 30\% on evaluation benchmarks.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+\section{Projects}
+\resumeSubHeadingListStart
+  \resumeProjectHeading
+    {\textbf{OraxAI} $|$ \footnotesize\emph{React, FastAPI, Python, OpenAI API} $|$ \href{https://oraxai.ca}{\underline{oraxai.ca}}}{Jan. 2026 -- Present}
+    \resumeItemListStart
+      \resumeItem{Built an end-to-end AI resume tailoring platform: designed the ATS scoring engine, React frontend, and FastAPI backend; iterated on live user research and demos.}
+      \resumeItem{Grew to 100+ monthly active users and \$2K+ MRR through SEO and organic social growth to 10K+ followers and 1M+ views.}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {\textbf{Lyric Engine} $|$ \footnotesize\emph{Python, Llama 3.1, LoRA, Beam Search} $|$ \href{https://github.com/SMXFREEZE/lyric-engine}{\underline{github}}}{2025}
+    \resumeItemListStart
+      \resumeItem{Phonetic-aware lyrics generation system with a dual BPE + ARPAbet tokenizer and genre-specific LoRA adapters with runtime blending.}
+      \resumeItem{Constrained beam search enforcing rhyme, syllable count, and emotional arc during generation.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {University of Waterloo}{Aug. 2026 -- Present}
+    {BASc Electrical Engineering}{Waterloo, ON}
+  \resumeSubheading
+    {Maisonneuve College}{Feb. 2024 -- Jan. 2026}
+    {Diploma of College Studies, Pure \& Applied Sciences}{Montreal, QC}
+\resumeSubHeadingListEnd
+
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in,label={}]
+  \small{\item{
+    \textbf{Languages:} Python, JavaScript, TypeScript, C++, SQL, Verilog \\
+    \textbf{Frameworks \& Tools:} React, FastAPI, Django, Node.js, AWS, Microsoft Azure, Docker, Git, PyTorch, Hugging Face, OpenAI API, Amazon Bedrock, Remotion \\
+    \textbf{Spoken Languages:} English, French, Arabic (all fluent)
+  }}
+\end{itemize}
+
+\section{Awards \& Recognition}
+\begin{itemize}[leftmargin=0.15in,label={}]
+  \small{\item{
+    Mathematics Olympiad Finalist -- Casablanca, Morocco \\
+    Micro-internship, Pratt \& Whitney -- AI Integration in Computing Systems (2025) \\
+    Micro-internship, Bombardier -- Training \& Development (2025)
+  }}
+\end{itemize}
+
+\end{document}

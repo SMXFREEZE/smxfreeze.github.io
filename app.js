@@ -3,12 +3,12 @@ const screenItems = [
     id: "about",
     title: "About Sami",
     cart: "SAMI",
-    body: "Electrical Engineering builder heading to Waterloo. I co-founded OraxAI, ship full-stack AI products, and research how students actually build calculus intuition.",
-    meta: ["Waterloo EE", "Montreal", "English/French/Arabic", "Math Olympiad"],
+    body: "Founding Engineer Intern at GutGutGoose and Electrical Engineering student at Waterloo, building computational biology, AI infrastructure, and full-stack products.",
+    meta: ["GutGutGoose", "Waterloo EE", "English/French/Arabic", "Math Olympiad"],
     lines: [
-      "Built OraxAI from scoring engine to GTM.",
-      "Researching calculus intuition and tutoring weekly.",
-      "Interested in machine learning, hardware engineering, or software engineering."
+      "Building personalized microbiome ML at GutGutGoose.",
+      "Built agent infrastructure at Blaze and backend AI systems at Venu AI.",
+      "Built OraxAI from ATS scoring engine to live product."
     ],
     target: "#about"
   },
@@ -16,11 +16,11 @@ const screenItems = [
     id: "experience",
     title: "Experience",
     cart: "WORK",
-    body: "Blaze, Appli AI, Venu AI, OraxAI, NeuralSeek, calculus research, and KPMG case work. The through-line is practical systems under real pressure.",
-    meta: ["Python", "React", "Azure", "Agents"],
+    body: "GutGutGoose, Blaze, Venu AI, and NeuralSeek AI: four engineering roles across computational biology, agent infrastructure, backend AI, and production agents.",
+    meta: ["Python", "Computational biology", "Azure", "Agents"],
     lines: [
+      "GutGutGoose (YC S'24): personalized microbiome ML and scientific software.",
       "Blaze (YC S'24): agent infrastructure and viral video automation.",
-      "Appli AI (LOI): full-stack work on an AI hiring platform.",
       "Venu AI (YC W'21): conference automation and sales workflows.",
       "NeuralSeek: multi-agent AWS pipeline, about 40% faster."
     ],
@@ -43,8 +43,8 @@ const screenItems = [
     id: "projects",
     title: "Projects",
     cart: "LABS",
-    body: "MealFlip, Lyric Engine, NeuralForge, and AssetOps: live products, ML systems, and hardware acceleration with a full build story.",
-    meta: ["Live products", "LoRA", "FPGA", "Ops systems"],
+    body: "OraxAI and Lyric Engine are the core resume projects, with additional product and hardware builds available for deeper review.",
+    meta: ["OraxAI", "LoRA", "FPGA", "Live products"],
     lines: [
       "MealFlip: live marketplace for campus meal plan value.",
       "Lyric Engine: phonetic constrained generation.",
@@ -57,12 +57,12 @@ const screenItems = [
     id: "education",
     title: "Education",
     cart: "EDU",
-    body: "Waterloo Electrical Engineering after Pure and Applied Sciences at Maisonneuve, with networks, ML, digital hardware, and embedded systems ahead.",
-    meta: ["C/C++", "Rust", "Calculus", "Physics"],
+    body: "BASc Electrical Engineering at the University of Waterloo after a Diploma of College Studies in Pure and Applied Sciences at Maisonneuve College.",
+    meta: ["Waterloo EE", "Python", "C++", "Verilog"],
     lines: [
-      "Waterloo EE starts Sept 2026.",
-      "DEC in Pure and Applied Sciences at Maisonneuve.",
-      "Focus: ML, digital hardware, networks, embedded."
+      "Waterloo BASc Electrical Engineering, Aug. 2026 to present.",
+      "Diploma of College Studies at Maisonneuve, Feb. 2024 to Jan. 2026.",
+      "Technical skills include Python, C++, SQL, and Verilog."
     ],
     target: "#education"
   },
@@ -70,7 +70,7 @@ const screenItems = [
     id: "contact",
     title: "Contact",
     cart: "LINK",
-    body: "Interested in machine learning, hardware engineering, or software engineering internships. If you are building something interesting, my inbox is open.",
+    body: "Open to computational biology, machine learning, and software engineering conversations. If you are building something interesting, my inbox is open.",
     meta: ["Email", "GitHub", "OraxAI", "Internships"],
     lines: [
       "Email is the fastest route.",
@@ -156,13 +156,12 @@ const recruiterRoutes = {
     title: "Software engineering packet",
     cart: "ORAX",
     cartIndex: 2,
-    pitch: "Production AI product builder with React, FastAPI, Node, TypeScript, Django, Azure, AWS agents, and real user traction.",
-    clipboard: "Sami El-Figha is a strong software engineering call: he co-founded OraxAI, built the ATS scoring engine, React frontend, FastAPI backend, PDF workflows, and growth loops, runs MealFlip, a live student marketplace for campus meal plans, plus shipped AI infrastructure and automation work with Blaze, Appli AI, Venu AI, and NeuralSeek.",
+    pitch: "Production software engineer with Python, React, FastAPI, Django, Node, TypeScript, Azure, AWS, and experience shipping systems at four AI startups.",
+    clipboard: "Sami El-Figha is a strong software engineering call: he builds scientific software at GutGutGoose, shipped agent infrastructure at Blaze, backend AI systems at Venu AI, production agents at NeuralSeek AI, and built OraxAI end to end.",
     proof: [
+      "GutGutGoose: Python computational biology pipelines from data ingestion through model evaluation.",
       "Blaze: Node/TypeScript agent infrastructure, x402 payments, Remotion video generation.",
-      "Appli AI: full-stack features for an AI hiring platform (LOI Accelerator).",
       "OraxAI: built the full-stack product from scratch for paying users.",
-      "MealFlip: live student-run marketplace for unused campus meal plan value.",
       "Venu AI: Python, React, Django, and Azure on conference automation.",
       "NeuralSeek: production AWS agent pipeline that cut task resolution about 40%."
     ]
@@ -171,24 +170,25 @@ const recruiterRoutes = {
     title: "Machine learning packet",
     cart: "LABS",
     cartIndex: 3,
-    pitch: "Applied ML builder with product context: resume scoring, phonetic generation, adaptive tutoring, and agent evaluation loops.",
-    clipboard: "Sami El-Figha is a strong machine learning call: he shipped OraxAI's ATS scoring and keyword gap system, built Lyric Engine with phonetic constraints and LoRA adapters, and built NeuralForge, an FPGA INT8 CNN inference accelerator with PyTorch baselines.",
+    pitch: "Applied ML engineer working across personalized microbiome recommendations, ATS scoring, phonetic generation, and production agent evaluation loops.",
+    clipboard: "Sami El-Figha is a strong machine learning call: he develops personalized microbiome ML at GutGutGoose, built OraxAI's ATS scoring engine, created Lyric Engine with phonetic constraints and LoRA adapters, and improved production agent benchmarks at NeuralSeek AI.",
     proof: [
+      "GutGutGoose: customer DNA and genomic marker matching against curated microbiome datasets.",
       "OraxAI: semantic and keyword gap scoring for resumes and job descriptions.",
       "Lyric Engine: dual tokenizer, LoRA adapters, and constrained beam search.",
-      "NeuralForge: quantized CNN inference bridging ML models and hardware."
+      "NeuralSeek AI: approximately 30% benchmark accuracy improvement after 3+ iterations."
     ]
   },
   hardware: {
     title: "Hardware engineering packet",
     cart: "LABS",
     cartIndex: 3,
-    pitch: "Electrical engineering builder with ML hardware proof: FPGA inference, Verilog RTL, Python simulation, and embedded systems direction.",
-    clipboard: "Sami El-Figha is a strong hardware engineering call: he is heading to Waterloo Electrical Engineering and built NeuralForge, an FPGA INT8 CNN inference accelerator with Verilog RTL, Python simulation, and PyTorch baselines.",
+    pitch: "Waterloo Electrical Engineering student with Python, C++, SQL, and Verilog skills plus practical ML systems experience.",
+    clipboard: "Sami El-Figha is a Waterloo Electrical Engineering student whose current resume includes Python, C++, SQL, and Verilog alongside production ML and software engineering experience.",
     proof: [
-      "NeuralForge: INT8 CNN inference on a 4x4 weight-stationary systolic array.",
-      "Technical proof: Verilog, PyTorch, Python simulation, C/C++, and Rust direction.",
-      "Waterloo EE path: digital hardware, architecture, networks, and embedded software."
+      "University of Waterloo: BASc Electrical Engineering.",
+      "Technical languages: Python, JavaScript, TypeScript, C++, SQL, and Verilog.",
+      "ML tools: PyTorch, Hugging Face, OpenAI API, and Amazon Bedrock."
     ]
   }
 };
@@ -197,25 +197,25 @@ const consolePages = {
     {
       kicker: "Resume packet",
       title: "Sami El-Figha",
-      body: "Electrical Engineering builder heading to Waterloo, fluent in English, French, and Arabic, building across AI products, ML systems, and hardware.",
+      body: "Founding Engineer Intern at GutGutGoose and Waterloo Electrical Engineering student, fluent in English, French, and Arabic.",
       lines: [
+        "Founding Engineer Intern at GutGutGoose (YC S'24).",
         "AI Infrastructure Engineer Intern at Blaze (YC S'24).",
-        "Software Engineering Intern at Appli AI (LOI Accelerator).",
         "Backend & AI Engineering Intern at Venu AI (YC W'21).",
-        "Co-founded OraxAI and shipped it to paying users.",
-        "Waterloo Electrical Engineering starts Sept. 2026."
+        "AI Agent Developer Intern at NeuralSeek AI.",
+        "Built OraxAI and grew it to 100+ MAUs and $2K+ MRR."
       ],
-      meta: ["Waterloo EE", "Montreal", "3 languages", "Builder"],
+      meta: ["GutGutGoose", "Waterloo EE", "3 languages", "Builder"],
       actionLabel: "Open resume PDF",
-      url: "./Sami-El-Figha-Resume.pdf?v=20260611"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260726"
     },
     {
       kicker: "Role fit",
       title: "What to call about",
-      body: "Best fits: machine learning, hardware engineering, or software engineering internships where shipping and learning speed matter.",
+      body: "Best fits: computational biology, machine learning, and software engineering roles where shipping and learning speed matter.",
       lines: [
-        "ML: ATS scoring, phonetic generation, adaptive tutoring.",
-        "Hardware: Verilog, FPGA inference, computer architecture direction.",
+        "ML: microbiome matching, ATS scoring, phonetic generation.",
+        "Hardware foundation: Waterloo EE, C++, and Verilog.",
         "Software: React, FastAPI, Django, Azure, AWS, Docker."
       ],
       meta: ["ML", "Hardware", "Software", "Internships"]
@@ -223,10 +223,9 @@ const consolePages = {
     {
       kicker: "Recognition",
       title: "Proof of range",
-      body: "The resume has research, internships, projects, and recognition that tell the same story: technical curiosity plus follow-through.",
+      body: "The resume has four engineering internships, two core projects, technical breadth, and recognition that tell the same story: technical curiosity plus follow-through.",
       lines: [
         "Mathematics Olympiad Finalist in Casablanca.",
-        "Calculus intuition researcher with 20+ peer interviews.",
         "Pratt & Whitney and Bombardier micro-internships in 2025."
       ],
       meta: ["Research", "Math", "Aerospace", "Education"]
@@ -235,8 +234,19 @@ const consolePages = {
   experience: [
     {
       kicker: "Current role",
+      title: "GutGutGoose",
+      body: "Founding Engineer Intern working across ML and scientific software engineering on a computational-biology-driven personalization engine.",
+      lines: [
+        "Matching customer DNA and genomic markers against curated microbiome datasets.",
+        "Building Python pipelines for sequence comparison and similarity scoring.",
+        "Working from data ingestion through model evaluation."
+      ],
+      meta: ["YC S'24", "Python", "Computational biology", "ML"]
+    },
+    {
+      kicker: "AI infrastructure",
       title: "Blaze",
-      body: "AI Infrastructure Engineer Intern building agent infrastructure, vertical video generation, and multi-stage publishing automation for a YC S'24 startup.",
+      body: "AI Infrastructure Engineer Intern who built agent infrastructure, vertical video generation, and multi-stage publishing automation for a YC S'24 startup.",
       lines: [
         "Built an Agent Brief API in Node/TypeScript for structured JSON briefs.",
         "Integrated x402 payments and Bazaar discovery for per-request monetization.",
@@ -245,20 +255,9 @@ const consolePages = {
       meta: ["YC S'24", "Node", "TypeScript", "Remotion"]
     },
     {
-      kicker: "Full-stack",
-      title: "Appli AI",
-      body: "Software Engineering Intern shipping features and bug fixes across the stack for an AI-powered hiring platform backed by LOI Accelerator.",
-      lines: [
-        "Work trials, candidate screening, and interview automation.",
-        "Full-stack feature delivery on a live hiring product.",
-        "Backed by LOI Accelerator, based in Montreal."
-      ],
-      meta: ["LOI", "Full-stack", "Hiring AI", "Remote"]
-    },
-    {
       kicker: "Backend & AI",
       title: "Venu AI",
-      body: "Backend & AI Engineering Intern working remotely with the Venu AI team on conference automation, sales workflows, semantic matchmaking, and AI-enabled event systems.",
+      body: "Backend & AI Engineering Intern who automated conference production, built AI-powered outreach, and developed semantic matchmaking.",
       lines: [
         "Automated end-to-end conference production workflows.",
         "Built AI-powered personalized email outreach for founders and event stakeholders.",
@@ -269,24 +268,13 @@ const consolePages = {
     {
       kicker: "Agent work",
       title: "NeuralSeek AI",
-      body: "Shipped production AWS agent work and built multi-agent workflows that made task handling faster and more reliable.",
+      body: "AI Agent Developer Intern who shipped a production AWS agent and built multi-agent workflows that made task handling faster and more reliable.",
       lines: [
         "Completed the mAIstro Challenge with 100% on-time delivery.",
         "Designed triage, execution, and review stages.",
-        "Cut average task resolution time by about 40%."
+        "Cut average task resolution time by approximately 40% and improved benchmark accuracy by approximately 30%."
       ],
       meta: ["AWS", "Agents", "40% faster", "Remote"]
-    },
-    {
-      kicker: "Research",
-      title: "Calculus intuition",
-      body: "Interviewed peers and designed weekly exercises to understand where procedural math ability breaks before real conceptual intuition forms.",
-      lines: [
-        "20+ peer interviews mapped conceptual gaps.",
-        "10+ students used the structured exercises weekly.",
-        "Strong bridge between tutoring, UX, and model feedback."
-      ],
-      meta: ["Research", "Teaching", "Math", "UX"]
     }
   ],
   oraxai: [
@@ -384,22 +372,22 @@ const consolePages = {
     {
       kicker: "Next level",
       title: "Waterloo EE",
-      body: "BASc Electrical Engineering at the University of Waterloo, starting Sept. 2026.",
+      body: "BASc Electrical Engineering at the University of Waterloo, Aug. 2026 to present.",
       lines: [
-        "Focus direction: ML, digital hardware, networks, embedded systems.",
-        "Strong fit for hardware/software roles with systems depth.",
-        "Long-term path points toward practical AI infrastructure."
+        "Electrical Engineering BASc.",
+        "Technical skills include Python, C++, SQL, and Verilog.",
+        "Current engineering work spans ML and scientific software."
       ],
       meta: ["Waterloo", "EE", "Networks", "Embedded"]
     },
     {
       kicker: "Foundation",
       title: "Maisonneuve",
-      body: "Pure and Applied Sciences at Maisonneuve College in Montreal, Jan. 2024 to Dec. 2025.",
+      body: "Diploma of College Studies in Pure and Applied Sciences at Maisonneuve College in Montreal, Feb. 2024 to Jan. 2026.",
       lines: [
-        "Advanced calculus, linear algebra, physics, electricity and magnetism.",
-        "Built early programming base in Python, Java, and Unity.",
-        "Research and weekly tutoring sharpened communication."
+        "Pure and Applied Sciences.",
+        "Completed the program before beginning Waterloo Electrical Engineering.",
+        "Montreal, Quebec."
       ],
       meta: ["Science", "Calculus", "Physics", "Teaching"]
     }
@@ -434,7 +422,7 @@ const consolePages = {
     {
       kicker: "Resume",
       title: "PDF resume",
-      body: "One-page resume with education, Blaze, Appli AI, Venu AI, NeuralSeek, OraxAI, projects, skills, and awards.",
+      body: "One-page LaTeX resume with GutGutGoose, Blaze, Venu AI, NeuralSeek AI, OraxAI, Lyric Engine, education, skills, and awards.",
       lines: [
         "Includes phone and email.",
         "Lists Python, JavaScript, C++, SQL, Verilog.",
@@ -442,12 +430,12 @@ const consolePages = {
       ],
       meta: ["PDF", "Resume", "Skills", "Experience"],
       actionLabel: "Open resume",
-      url: "./Sami-El-Figha-Resume.pdf?v=20260611"
+      url: "./Sami-El-Figha-Resume.pdf?v=20260726"
     },
     {
       kicker: "Inbox",
       title: "Email",
-      body: "Interested in machine learning, hardware engineering, or software engineering internships.",
+      body: "Open to computational biology, machine learning, and software engineering conversations.",
       lines: [
         "Email: sami.elfigha@gmail.com.",
         "Best subject: Internship conversation.",
