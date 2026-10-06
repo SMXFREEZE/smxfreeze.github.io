@@ -430,7 +430,7 @@ function setupOrax() {
         row.appendChild(caret);
         const fill = row.querySelector(".orax-score-fill");
         const num = row.querySelector(".orax-score-num");
-        requestAnimationFrame(() => { fill.style.width = `${step.score}%`; });
+        requestAnimationFrame(() => { fill.style.transform = `scaleX(${step.score / 100})`; });
         await tween(900, t, (e) => { num.textContent = `${Math.round(step.score * e)}/100`; });
       } else if (step.count) {
         const p = line("orax-metric");

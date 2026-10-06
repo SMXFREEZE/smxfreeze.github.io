@@ -122,7 +122,7 @@ button { font: inherit; color: inherit; }
 .contact-links {
   font-family: var(--font-mono);
   font-weight: 300;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   line-height: 1.4;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -456,12 +456,19 @@ button { font: inherit; color: inherit; }
 .role .desc { margin-top: 1rem; font-size: 1rem; line-height: 1.375rem; }
 
 .tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: 52rem;
   margin: 4rem auto 0;
-  text-align: center;
+  padding: 0;
+  list-style: none;
   color: var(--muted);
   line-height: 1.9;
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
+.tools li:not(:last-child)::after { content: "·"; margin-inline: 0.6em; }
 
 /* ---------- projects: holo cards ---------- */
 
@@ -684,7 +691,14 @@ button { font: inherit; color: inherit; }
 @keyframes caret { 50% { opacity: 0; } }
 .orax-score { display: flex; align-items: center; gap: 0.75rem; margin: 0.25rem 0; }
 .orax-score-track { flex: 1; height: 1px; background: var(--border); }
-.orax-score-fill { width: 0; height: 100%; background: var(--primary); transition: width 900ms var(--spring); }
+.orax-score-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms var(--spring);
+}
 .orax-score-num { min-width: 4.5ch; text-align: right; color: var(--primary); }
 .orax-metric { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); }
 .orax-metric b { font-weight: 400; color: var(--primary); }
@@ -824,7 +838,7 @@ button { font: inherit; color: inherit; }
   color: var(--muted);
 }
 .footer-base a:hover { color: var(--primary); }
-.credits { justify-self: center; text-align: center; }
+.credits { justify-self: center; text-align: center; text-transform: none; letter-spacing: 0.02em; }
 .credits a { text-decoration: underline; text-underline-offset: 0.2em; }
 
 /* ---------- toast ---------- */
@@ -869,7 +883,6 @@ button { font: inherit; color: inherit; }
   .starters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .starter .frame { aspect-ratio: 1; padding: 22% 10% 10%; }
   .starter-name { font-size: 0.875rem; line-height: 1.125rem; }
-  .starter .meta { font-size: 0.5625rem; }
   .starter-panel { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "pitch" "proof" "actions"; }
   .proof { margin-top: 1.75rem; }
   .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
