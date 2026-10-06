@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="day">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sami El-Figha is an Electrical Engineering student and AI engineer building computational biology, agent infrastructure, backend AI systems, and products including OraxAI.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sami El-Figha | ML, Hardware &amp; Software Portfolio</title>
+  <meta name="description" content="Sami El-Figha is an Electrical Engineering student at Waterloo and Founding Engineer Intern at GutGutGoose (YC S26), building computational biology pipelines, agent infrastructure, backend AI systems, and OraxAI.">
   <link rel="canonical" href="https://smxfreeze.github.io/">
-  <meta property="og:title" content="Sami El-Figha | ML, Hardware & Software Portfolio">
+  <meta property="og:title" content="Sami El-Figha | ML, Hardware &amp; Software Portfolio">
   <meta property="og:description" content="Portfolio for machine learning and software engineering roles: GutGutGoose, Blaze, Venu AI, NeuralSeek AI, OraxAI, and Lyric Engine.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://smxfreeze.github.io/">
-  <meta property="og:image" content="https://smxfreeze.github.io/charizard.png">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Sami El-Figha | ML, Hardware & Software Portfolio">
+  <meta property="og:image" content="https://smxfreeze.github.io/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sami El-Figha | ML, Hardware &amp; Software Portfolio">
   <meta name="twitter:description" content="Portfolio for machine learning and software engineering roles: GutGutGoose, Blaze, Venu AI, NeuralSeek AI, OraxAI, and Lyric Engine.">
-  <meta name="theme-color" content="#f1ecd8">
+  <meta name="twitter:image" content="https://smxfreeze.github.io/img/og.png">
+  <meta name="theme-color" content="#f4f3ef">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -32,606 +36,427 @@
     ]
   }
   </script>
-  <title>Sami El-Figha | ML, Hardware & Software Portfolio</title>
-  <link rel="icon" href="./charizard.png" type="image/png">
+  <script>
+    // Light by default; dark only when chosen.
+    (function () {
+      var root = document.documentElement;
+      root.classList.remove("no-js");
+      root.classList.add("js");
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") root.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="./img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20260726-gutgutgoose-s26">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://images.pokemontcg.io" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Literata:ital,opsz,wght@0,7..72,300;1,7..72,300&family=Schibsted+Grotesk:wght@400;500&family=Space+Grotesk:wght@500&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=20261006-wd">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
-  <a class="skip-link" href="#about">Skip to content</a>
-  <div class="ambient-grid" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="scanlines" aria-hidden="true"></div>
+  <a class="skip-link" href="#work">Skip to content</a>
 
-  <header class="site-header" id="top">
-    <a class="brand-lockup" href="#home" aria-label="Sami El-Figha home">
-      <span class="brand-chip">SEF</span>
-      <span class="brand-copy">Portfolio</span>
-    </a>
-    <nav class="primary-nav" aria-label="Primary navigation">
-      <a href="#about">About</a>
-      <a href="#experience">Work</a>
-      <a href="#oraxai">OraxAI</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="header-actions">
-      <button class="header-table-button" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
+  <section class="hero" id="home" aria-label="Introduction">
+    <div class="hero-stage">
+      <img class="hero-fallback" src="./img/gameboy-ascii.webp" alt="" width="624" height="900" loading="lazy" decoding="async">
+      <canvas class="hero-canvas" tabindex="0" aria-label="A Game Boy drawn in type, in Charizard colours. Its buttons work: Start opens the portfolio, A and B change the Pokémon, the D-pad moves through the story. Keys: Enter for Start, A and B, arrows to turn it." data-gameboy></canvas>
+
+      <header class="site-header">
+        <a class="mark" href="#home" aria-label="Sami El-Figha, home">
+          <svg class="ball" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M1.75 12a10.25 10.25 0 0 1 20.5 0z" class="ball-top"/>
+            <circle cx="12" cy="12" r="10.25" class="ball-line"/>
+            <path d="M1.75 12h20.5" class="ball-line"/>
+            <circle cx="12" cy="12" r="3.1" class="ball-button"/>
+          </svg>
+          <span>Sami El-Figha</span>
+        </a>
+        <nav class="nav" aria-label="Sections">
+          <a href="#work">Work</a>
+          <a href="#projects">Projects</a>
+          <a href="#oraxai">OraxAI</a>
+          <a href="#starter">Role fit</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-end">
+          <span>Waterloo, Ontario</span>
+          <button class="theme-toggle" type="button" aria-label="Switch to dark mode" data-theme-toggle>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <h1 class="hero-title" data-story-title>Sami El-Figha</h1>
+
+      <div class="story">
+        <div class="beat beat-start" data-beat="0.17 0.37" data-status="Now · GutGutGoose · San Francisco, CA">
+          <p class="caption">Founding engineer</p>
+          <p class="body">At GutGutGoose (YC S26) I build computational biology pipelines that match customer DNA against curated microbiome datasets.</p>
+        </div>
+        <div class="beat beat-end" data-beat="0.38 0.57" data-status="Before · Blaze · Venu AI · NeuralSeek AI">
+          <p class="caption">Four AI startups</p>
+          <p class="body">Agent infrastructure at Blaze, backend AI systems at Venu AI, and production multi-agent workflows at NeuralSeek AI.</p>
+        </div>
+        <div class="beat beat-start" data-beat="0.58 0.77" data-status="Shipped · oraxai.ca">
+          <p class="caption">OraxAI, end to end</p>
+          <p class="body">The ATS scoring engine, React app, and FastAPI backend. 100+ monthly active users and $2K+ MRR, with no paid ads.</p>
+        </div>
+        <div class="beat beat-center" data-beat="0.8 1.01" data-status="Hiring? sami.elfigha@gmail.com">
+          <p class="caption">Press start</p>
+          <p class="body">Electrical Engineering at Waterloo. Open to machine learning, hardware, and software roles.</p>
+        </div>
+      </div>
+
+      <div class="hero-bar">
+        <span data-story-status></span>
+        <a href="#work" data-story-scroll>Scroll ↓</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-copy">
-        <p class="hero-kicker">Computational biology, AI infrastructure, and products with real users.</p>
-        <h1>Sami El-Figha</h1>
-        <p class="hero-lede">I build production ML and scientific software: personalized microbiome pipelines at GutGutGoose, agent infrastructure at Blaze, backend AI systems at Venu AI, and OraxAI end to end.</p>
-        <div class="hero-actions">
-          <button class="btn btn-primary" type="button" id="recruiterScanButton" data-open-scan>Check recruiter fit</button>
-          <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com" data-email-link>Copy email</a>
-          <a class="btn btn-ghost" href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">Open GitHub</a>
-        </div>
-        <section class="mobile-pocket-deck" aria-label="Phone portfolio navigation">
-          <div class="mobile-pocket-head">
-            <span>Quick navigation</span>
-            <strong>Key sections</strong>
+  <main class="main">
+    <section class="section" id="work" aria-labelledby="work-title">
+      <h2 class="sec-title" id="work-title">
+        <span class="sec-line sec-num"><span>02</span></span>
+        <span class="sec-line"><span>Experience</span></span>
+      </h2>
+      <div class="roles">
+        <article class="role">
+          <div class="frame">
+            <span class="frame-num">01</span>
+            <span class="chip">YC S26</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="logo-gutgutgoose" data-cols="84" data-fit aria-hidden="true"></canvas>
+            <img class="logo-real logo-app" src="./img/logos/gutgutgoose.png" alt="" width="512" height="512" loading="lazy" decoding="async">
           </div>
-          <div class="mobile-pocket-actions">
-            <button type="button" data-open-scan>Recruiter fit</button>
-            <button type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
+          <h3>GutGutGoose</h3>
+          <p class="role-title">Founding Engineer Intern</p>
+          <p class="meta">June 2026 – Present · San Francisco, CA</p>
+          <p class="desc">Developed ML algorithms and computational biology data pipelines that match customer DNA and genomic markers against curated microbiome datasets for personalized probiotic recommendations.</p>
+        </article>
+        <article class="role">
+          <div class="frame">
+            <span class="frame-num">02</span>
+            <span class="chip">YC S24</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="logo-blaze" data-cols="96" data-fit aria-hidden="true"></canvas>
+            <img class="logo-real logo-app" src="./img/logos/blaze.png" alt="" width="512" height="512" loading="lazy" decoding="async">
           </div>
-          <div class="mobile-route-grid">
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="0" style="--route-bg:#ffd166;">
-              <strong>SAMI</strong><small>About</small>
-            </button>
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="1" style="--route-bg:#60c7ff;">
-              <strong>WORK</strong><small>Experience</small>
-            </button>
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="2" style="--route-bg:#ff7d6e;">
-              <strong>ORAX</strong><small>OraxAI</small>
-            </button>
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="3" style="--route-bg:#84f0bd;">
-              <strong>LABS</strong><small>Projects</small>
-            </button>
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="4" style="--route-bg:#c7b8ff;">
-              <strong>EDU</strong><small>Education</small>
-            </button>
-            <button type="button" class="mobile-route-card" data-mobile-cart-index="5" style="--route-bg:#f4a261;">
-              <strong>LINK</strong><small>Contact</small>
-            </button>
+          <h3>Blaze</h3>
+          <p class="role-title">AI Infrastructure Engineer Intern</p>
+          <p class="meta">Apr. 2026 – June 2026 · San Francisco (Remote)</p>
+          <p class="desc">Built an Agent Brief API with x402 payments, a Remotion-based vertical video system, and a multi-stage Python pipeline for compliant video generation and publishing.</p>
+        </article>
+        <article class="role">
+          <div class="frame">
+            <span class="frame-num">03</span>
+            <span class="chip">YC W21</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="logo-venu" data-cols="92" data-fit aria-hidden="true"></canvas>
+            <img class="logo-real logo-mark" src="./img/logos/venu.webp" alt="" width="461" height="461" loading="lazy" decoding="async">
           </div>
-        </section>
-        <dl class="quick-facts" aria-label="Quick facts">
-          <div>
-            <dt>Base</dt>
-            <dd>Montreal, QC &rarr; Waterloo, ON</dd>
+          <h3>Venu AI</h3>
+          <p class="role-title">Backend &amp; AI Engineering Intern</p>
+          <p class="meta">Feb. 2026 – Apr. 2026 · San Jose (Remote)</p>
+          <p class="desc">Automated conference production workflows, built LLM-powered outreach, developed semantic matchmaking, and maintained Azure services using Python, Django, and React.</p>
+        </article>
+        <article class="role">
+          <div class="frame">
+            <span class="frame-num">04</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="logo-neuralseek" data-cols="84" data-fit aria-hidden="true"></canvas>
+            <img class="logo-real logo-mark" src="./img/neuralseek.png" alt="" width="929" height="1024" loading="lazy" decoding="async">
           </div>
-          <div>
-            <dt>Next level</dt>
-            <dd>Waterloo Electrical Engineering</dd>
-          </div>
-          <div>
-            <dt>Interested in</dt>
-            <dd>Machine learning, hardware engineering, or software engineering</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div class="console-stage" aria-label="Interactive portfolio console">
-        <button class="tabletop-launch" type="button" data-open-table aria-haspopup="dialog" aria-controls="tabletopPanel">Quick view</button>
-        <div class="cartridge-dock" aria-label="Portfolio section cards. Tap one or drag it into the slot.">
-          <button type="button" class="mini-cart cart-red" data-cart-index="2" style="--cart-bg:#ff7d6e;">
-            <span class="cart-pin"></span>
-            <strong>ORAX</strong>
-            <small>OraxAI product</small>
-          </button>
-          <button type="button" class="mini-cart cart-blue" data-cart-index="1" style="--cart-bg:#60c7ff;">
-            <span class="cart-pin"></span>
-            <strong>WORK</strong>
-            <small>Experience</small>
-          </button>
-          <button type="button" class="mini-cart cart-green" data-cart-index="3" style="--cart-bg:#84f0bd;">
-            <span class="cart-pin"></span>
-            <strong>LABS</strong>
-            <small>Projects</small>
-          </button>
-          <button type="button" class="mini-cart cart-gold" data-cart-index="0" style="--cart-bg:#ffd166;">
-            <span class="cart-pin"></span>
-            <strong>SAMI</strong>
-            <small>About</small>
-          </button>
-        </div>
-        <article class="handheld" id="portfolioConsole">
-          <div class="shell-top">
-            <span class="power-pill"><span></span>ON</span>
-            <span class="shell-title">SEF PORTFOLIO</span>
-            <span class="cart-slot-wrap" aria-label="Section card slot">
-              <span class="slot-label">Open section</span>
-              <span class="cart-slot" id="cartSlot" aria-live="polite">DROP CARD HERE</span>
-            </span>
-          </div>
-          <div class="screen-bezel">
-            <div class="bezel-label-row">
-              <span>DOT MATRIX</span>
-              <span>WITH AI SYSTEMS</span>
-            </div>
-            <div class="lcd-screen" id="lcdScreen" tabindex="0" aria-live="polite">
-              <div class="lcd-hud">
-                <span>SEF OS v2.6</span>
-                <span id="screenScore">SCORE 000</span>
-              </div>
-              <div class="lcd-body" id="screenBody"></div>
-            </div>
-          </div>
-          <div class="controls">
-            <div class="dpad" aria-label="Console navigation controls">
-              <button type="button" class="dpad-btn dpad-up" data-console-action="up" aria-label="Move menu up"></button>
-              <button type="button" class="dpad-btn dpad-right" data-console-action="open" aria-label="Open selected section"></button>
-              <button type="button" class="dpad-btn dpad-down" data-console-action="down" aria-label="Move menu down"></button>
-              <button type="button" class="dpad-btn dpad-left" data-console-action="back" aria-label="Return to main screen"></button>
-              <span class="dpad-center"></span>
-            </div>
-            <div class="face-buttons" aria-label="Console action buttons">
-              <button type="button" data-console-action="back" aria-label="Back">B</button>
-              <button type="button" data-console-action="open" aria-label="Open selected section">A</button>
-            </div>
-            <div class="meta-buttons">
-              <button type="button" data-console-action="top">Select</button>
-              <button type="button" data-console-action="boot">Start</button>
-            </div>
-            <div class="speaker" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-          </div>
+          <h3>NeuralSeek AI</h3>
+          <p class="role-title">AI Agent Developer Intern</p>
+          <p class="meta">Oct. 2025 – Jan. 2026 · Miami (Remote)</p>
+          <p class="desc">Shipped a production AWS agent, built a triage/execution/review pipeline that cut task resolution time by approximately 40%, and improved benchmark accuracy by approximately 30%.</p>
         </article>
       </div>
+      <ul class="tools" aria-label="Tools">
+        <li>Python</li>
+        <li>TypeScript</li>
+        <li>JavaScript</li>
+        <li>C++</li>
+        <li>SQL</li>
+        <li>Verilog</li>
+        <li>React</li>
+        <li>FastAPI</li>
+        <li>Django</li>
+        <li>Node.js</li>
+        <li>AWS</li>
+        <li>Azure</li>
+        <li>Docker</li>
+        <li>PyTorch</li>
+        <li>Hugging Face</li>
+        <li>OpenAI API</li>
+        <li>Amazon Bedrock</li>
+        <li>Remotion</li>
+      </ul>
     </section>
 
-    <section class="quest-strip" aria-label="Recruiter checklist progress">
-      <div class="quest-header">
-        <span>Recruiter checklist</span>
-        <strong id="questProgress">0 / 4 completed</strong>
-      </div>
-      <div class="quest-grid">
-        <button type="button" class="quest-card" data-quest-card="scan">
-          <span>01</span>
-          <strong>Check role fit</strong>
-          <small>Role fit, proof, and best next click</small>
-        </button>
-        <button type="button" class="quest-card" data-quest-card="cart">
-          <span>02</span>
-          <strong>Open section</strong>
-          <small>Review one portfolio area</small>
-        </button>
-        <button type="button" class="quest-card" data-quest-card="builds">
-          <span>03</span>
-          <strong>Review projects</strong>
-          <small>Projects, product, or systems work</small>
-        </button>
-        <button type="button" class="quest-card" data-quest-card="contact">
-          <span>04</span>
-          <strong>Contact Sami</strong>
-          <small>Email, GitHub, or OraxAI</small>
-        </button>
-      </div>
-    </section>
-
-    <section class="save-strip" aria-label="Career highlights">
-      <div class="save-slot">
-        <span class="save-number">100+</span>
-        <span class="save-label">Monthly active users at OraxAI</span>
-      </div>
-      <div class="save-slot">
-        <span class="save-number">$2K+</span>
-        <span class="save-label">Monthly recurring revenue</span>
-      </div>
-      <div class="save-slot">
-        <span class="save-number">40%</span>
-        <span class="save-label">Faster task resolution via agents</span>
-      </div>
-      <div class="save-slot">
-        <span class="save-number">1M+</span>
-        <span class="save-label">Content views across platforms</span>
-      </div>
-    </section>
-
-    <section class="ticker" aria-label="Technology ticker">
-      <div class="ticker-track">
-        <span>Python</span><span>JavaScript</span><span>TypeScript</span><span>C++</span><span>SQL</span><span>Verilog</span><span>React</span><span>FastAPI</span><span>Django</span><span>Node.js</span><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>PyTorch</span><span>Hugging Face</span><span>OpenAI API</span><span>Amazon Bedrock</span><span>Remotion</span>
-        <span>Python</span><span>JavaScript</span><span>TypeScript</span><span>C++</span><span>SQL</span><span>Verilog</span><span>React</span><span>FastAPI</span><span>Django</span><span>Node.js</span><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>PyTorch</span><span>Hugging Face</span><span>OpenAI API</span><span>Amazon Bedrock</span><span>Remotion</span>
-      </div>
-    </section>
-
-    <section class="content-section about-section" id="about">
-      <div class="section-label">01 / About</div>
-      <div class="section-grid">
-        <div>
-          <h2>Sami El-Figha: founding engineer, AI builder, Waterloo EE.</h2>
-          <div class="story-card large-text">
-            <p>I am an Electrical Engineering student at the University of Waterloo and a Founding Engineer Intern at GutGutGoose (YC S'26), working across machine learning and scientific software engineering.</p>
-            <p>At GutGutGoose, I build computational biology pipelines that match customer DNA and genomic markers against curated microbiome datasets for personalized probiotic recommendations.</p>
-            <p>Previously, I built agent infrastructure at Blaze, backend AI systems at Venu AI, and production multi-agent workflows at NeuralSeek AI. I also built OraxAI end to end and grew it to 100+ monthly active users and $2K+ MRR.</p>
-          </div>
-        </div>
-        <aside class="profile-panel" aria-label="Profile facts">
-          <div class="pixel-avatar">
-            <img loading="lazy" decoding="async" src="./charizard.gif" alt="Animated Charizard mascot" onerror="this.src='./charizard.png'">
-          </div>
-          <dl>
-            <div><dt>Languages</dt><dd>English, French, Arabic</dd></div>
-            <div><dt>Recognition</dt><dd>Mathematics Olympiad Finalist, Casablanca</dd></div>
-            <div><dt>Mode</dt><dd>ML and scientific software engineer with product instincts</dd></div>
-          </dl>
-        </aside>
-      </div>
-    </section>
-
-    <section class="content-section work-section" id="experience">
-      <div class="section-label">02 / Experience</div>
-      <div class="section-heading-row">
-        <h2>Experience across computational biology, AI infrastructure, and backend systems.</h2>
-        <p>Four engineering roles spanning ML, scientific software, agents, product systems, and cloud infrastructure.</p>
-      </div>
-
-      <div class="timeline">
-        <article class="timeline-card reveal-card">
-          <div class="timeline-media timeline-media-dual">
-            <img loading="lazy" decoding="async" src="./img/gutgutgoose-logo.jpg" alt="GutGutGoose logo">
-            <span class="yc-mark" role="img" aria-label="Y Combinator">Y</span>
-          </div>
-          <div class="timeline-copy">
-            <p class="timeline-meta">June 2026 - Present / San Francisco, CA</p>
-            <h3>Founding Engineer Intern, GutGutGoose <span>(YC S'26)</span></h3>
-            <p>Developed ML algorithms and computational biology data pipelines that match customer DNA and genomic markers against curated microbiome datasets for personalized probiotic recommendations.</p>
-          </div>
-        </article>
-
-        <article class="timeline-card reveal-card">
-          <div class="timeline-media timeline-media-dual timeline-media-blaze">
-            <img loading="lazy" decoding="async" src="./img/useblazeapp_logo.jpg" alt="Blaze logo">
-            <span class="yc-mark" role="img" aria-label="Y Combinator">Y</span>
-          </div>
-          <div class="timeline-copy">
-            <p class="timeline-meta">Apr. 2026 - June 2026 / San Francisco, CA (Remote)</p>
-            <h3>AI Infrastructure Engineer Intern, Blaze <span>(YC S'24)</span></h3>
-            <p>Built an Agent Brief API with x402 payments, a Remotion-based vertical video system, and a multi-stage Python pipeline for compliant video generation and publishing.</p>
-          </div>
-        </article>
-
-        <article class="timeline-card reveal-card">
-          <div class="timeline-media timeline-media-dual timeline-media-venu">
-            <img loading="lazy" decoding="async" src="./img/venuai.jpg" alt="Venu AI logo">
-            <span class="yc-mark" role="img" aria-label="Y Combinator">Y</span>
-          </div>
-          <div class="timeline-copy">
-            <p class="timeline-meta">Feb. 2026 - Apr. 2026 / San Jose, CA (Remote)</p>
-            <h3>Backend & AI Engineering Intern, Venu AI <span>(YC W'21)</span></h3>
-            <p>Automated conference production workflows, built LLM-powered outreach, developed semantic matchmaking, and maintained Azure services using Python, Django, and React.</p>
-          </div>
-        </article>
-
-        <article class="timeline-card reveal-card">
-          <div class="timeline-media"><img loading="lazy" decoding="async" src="./img/neuralseek.png" alt="NeuralSeek AI logo"></div>
-          <div class="timeline-copy">
-            <p class="timeline-meta">Oct. 2025 - Jan. 2026 / Miami, FL (Remote)</p>
-            <h3>AI Agent Developer Intern, NeuralSeek AI</h3>
-            <p>Shipped a production AWS agent, built a triage/execution/review pipeline that cut task resolution time by approximately 40%, and improved benchmark accuracy by approximately 30%.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="orax-feature" id="oraxai">
-      <div class="section-label">03 / OraxAI</div>
-      <div class="orax-layout">
-        <div class="orax-screen reveal-card">
-          <div class="orax-terminal">
-            <div class="terminal-top">
-              <span>ORAXAI PRODUCT SYSTEM</span>
-              <span class="terminal-live">LIVE</span>
-            </div>
-            <div class="orax-brand-panel">
-              <div class="orax-module-tabs" role="tablist" aria-label="OraxAI system modules">
-                <button type="button" class="orax-tab is-active" role="tab" aria-selected="true" data-orax-module="ats">ATS Engine</button>
-                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="app">React App</button>
-                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="api">FastAPI</button>
-                <button type="button" class="orax-tab" role="tab" aria-selected="false" data-orax-module="growth">Growth Loop</button>
-              </div>
-              <div class="orax-mascot-row">
-                <img loading="lazy" decoding="async" class="orax-mascot" id="oraxMascot" src="./squirtle.gif" alt="Animated Squirtle mascot" onerror="this.src='./squirtle.png'">
-                <p class="orax-speech" id="oraxSpeech">Resume scoring, keyword gaps, PDF workflows — pick a module and I'll run it.</p>
-              </div>
-              <div class="orax-term-screen" id="oraxTermScreen"></div>
-              <div class="orax-term-status">
-                <span>oraxai &middot; prod &middot; us-east</span>
-                <span id="oraxTermState">BOOT</span>
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <h2 class="sec-title" id="projects-title">
+        <span class="sec-line sec-num"><span>03</span></span>
+        <span class="sec-line"><span>Projects</span></span>
+      </h2>
+      <div class="tiles">
+        <article class="tile">
+          <div class="tile-media">
+            <span class="chip">Live product</span>
+            <div class="holo" data-holo>
+              <div class="holo-card">
+                <img src="https://images.pokemontcg.io/base2/11_hires.png" alt="Snorlax holo card, Pokémon TCG Jungle" width="600" height="825" loading="lazy" decoding="async" crossorigin="anonymous">
+                <span class="holo-foil" aria-hidden="true"></span>
+                <span class="holo-glare" aria-hidden="true"></span>
               </div>
             </div>
           </div>
-        </div>
+          <h3>MealFlip</h3>
+          <p class="desc">My live marketplace for unused campus meal plan value: students buy campus food for less while sellers turn extra meal swipes into cash.</p>
+          <p class="meta">Marketplace · Full-stack · Payments</p>
+          <a class="link" href="https://mealflip.app/" target="_blank" rel="noopener">Visit MealFlip ↗</a>
+        </article>
+        <article class="tile">
+          <div class="tile-media">
+            <span class="chip">ML system</span>
+            <div class="holo" data-holo>
+              <div class="holo-card">
+                <img src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton holo card, Pokémon TCG Base Set" width="600" height="825" loading="lazy" decoding="async" crossorigin="anonymous">
+                <span class="holo-foil" aria-hidden="true"></span>
+                <span class="holo-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <h3>Lyric Engine</h3>
+          <p class="desc">Phonetic-aware lyrics generation using a dual BPE + ARPAbet tokenizer, genre LoRA adapters, runtime blending, and constrained beam search for rhyme, syllables, and emotional arc.</p>
+          <p class="meta">Python · Llama 3.1 · LoRA · Beam search</p>
+          <a class="link" href="https://github.com/SMXFREEZE/lyric-engine" target="_blank" rel="noopener">GitHub ↗</a>
+        </article>
+        <article class="tile">
+          <div class="tile-media">
+            <span class="chip">Hardware ML</span>
+            <div class="holo" data-holo>
+              <div class="holo-card">
+                <img src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo holo card, Pokémon TCG Base Set" width="600" height="825" loading="lazy" decoding="async" crossorigin="anonymous">
+                <span class="holo-foil" aria-hidden="true"></span>
+                <span class="holo-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <h3>NeuralForge</h3>
+          <p class="desc">Custom FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array with Verilog RTL, Python sim, and a live dashboard.</p>
+          <p class="meta">Verilog · PyTorch · FPGA · INT8</p>
+          <a class="link" href="https://github.com/SMXFREEZE/neuralforge" target="_blank" rel="noopener">GitHub ↗</a>
+        </article>
+        <article class="tile">
+          <div class="tile-media">
+            <span class="chip">Ops system</span>
+            <div class="holo" data-holo>
+              <div class="holo-card">
+                <img src="https://images.pokemontcg.io/base1/8_hires.png" alt="Machamp holo card, Pokémon TCG Base Set" width="600" height="825" loading="lazy" decoding="async" crossorigin="anonymous">
+                <span class="holo-foil" aria-hidden="true"></span>
+                <span class="holo-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <h3>AssetOps</h3>
+          <p class="desc">Manufacturing asset tracking with one-hand barcode scanning workflows, a manager drift dashboard, and three-way ops, facilities, and finance reconciliation.</p>
+          <p class="meta">Next.js · TypeScript · Supabase · Playwright</p>
+          <a class="link" href="https://starter-plum-nine.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="oraxai" aria-labelledby="orax-title">
+      <h2 class="sec-title" id="orax-title">
+        <span class="sec-line sec-num"><span>04</span></span>
+        <span class="sec-line"><span>OraxAI</span></span>
+      </h2>
+      <div class="orax">
         <div class="orax-copy">
-          <h2>OraxAI turns resumes into sharper, ATS-ready applications.</h2>
-          <p>I built the end-to-end AI resume tailoring platform: the ATS scoring engine, React frontend, and FastAPI backend, iterated through live user research and demos.</p>
-          <div class="metric-grid">
-            <div><strong>100+</strong><span>Monthly active users</span></div>
-            <div><strong>$2K+</strong><span>MRR</span></div>
-            <div><strong>10K+</strong><span>Social followers</span></div>
-            <div><strong>1M+</strong><span>Total views</span></div>
-          </div>
-          <ol class="build-list">
+          <p class="caption-sm">ATS-ready applications, end to end</p>
+          <p class="body">I built the end-to-end AI resume tailoring platform: the ATS scoring engine, React frontend, and FastAPI backend, iterated through live user research and demos.</p>
+          <dl class="figures">
+            <div><dt>Monthly active users</dt><dd>100+</dd></div>
+            <div><dt>Monthly recurring revenue</dt><dd>$2K+</dd></div>
+            <div><dt>Social followers</dt><dd>10K+</dd></div>
+            <div><dt>Total views</dt><dd>1M+</dd></div>
+          </dl>
+          <ol class="build">
             <li>ATS scoring engine that parses job descriptions, scores resumes against semantic and keyword gaps, and returns specific fixes.</li>
             <li>React UI and FastAPI backend, from auth to PDF export, iterated directly from live user sessions.</li>
             <li>Organic SEO and social distribution, with no paid ads.</li>
           </ol>
-          <a class="btn btn-primary" href="https://www.oraxai.ca/" target="_blank" rel="noopener">Visit OraxAI</a>
+          <a class="link" href="https://www.oraxai.ca/" target="_blank" rel="noopener">Visit OraxAI ↗</a>
+        </div>
+        <div class="terminal">
+          <div class="terminal-row">
+            <span>OraxAI · console</span>
+            <span data-orax-state>Ready</span>
+          </div>
+          <div class="terminal-tabs" role="tablist" aria-label="OraxAI modules">
+            <button type="button" role="tab" class="is-active" aria-selected="true" data-orax-module="ats">ATS scan</button>
+            <button type="button" role="tab" aria-selected="false" data-orax-module="stack">Stack</button>
+            <button type="button" role="tab" aria-selected="false" data-orax-module="growth">Growth</button>
+          </div>
+          <div class="terminal-mascot">
+            <canvas class="ascii-sprite" data-ascii-sprite="squirtle" data-cols="44" data-fit aria-hidden="true"></canvas>
+            <p data-orax-speech>Pick a module and Squirtle will run it.</p>
+          </div>
+          <div class="terminal-screen" data-orax-screen aria-live="polite"></div>
+          <div class="terminal-row">
+            <span data-orax-note>Demo run</span>
+            <span>oraxai.ca</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="content-section projects-section" id="projects">
-      <div class="section-label">04 / Projects</div>
-      <div class="section-heading-row">
-        <h2>Resume projects and selected builds recruiters can review quickly.</h2>
-        <p>OraxAI, Lyric Engine, and additional product and hardware work, each with a link to demo or code.</p>
+    <section class="section" id="starter" aria-labelledby="starter-title">
+      <h2 class="sec-title" id="starter-title">
+        <span class="sec-line sec-num"><span>05</span></span>
+        <span class="sec-line"><span>Role fit</span></span>
+      </h2>
+      <div class="starter-head">
+        <p class="caption-sm">Choose your starter</p>
+        <p class="body">Hiring for one lane? Pick it for the short version and the proof behind it.</p>
       </div>
-
-      <div class="project-grid">
-        <article class="project-cart reveal-card" data-project-card>
-          <div class="project-flip">
-            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal MealFlip project">
-              <span class="card-art">
-                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base2/11_hires.png" alt="Snorlax Pokemon TCG card cover for MealFlip" onerror="this.src='https://assets.tcgdex.net/en/base/base2/11/high.webp';">
-                <span class="card-holo" aria-hidden="true"></span>
-                <span class="card-glare" aria-hidden="true"></span>
-              </span>
-              <span class="project-card-hint">Reveal project</span>
-            </button>
-            <div class="project-card-back">
-              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
-              <p class="cart-type">Live Product</p>
-              <h3>MealFlip</h3>
-              <p>My live marketplace for unused campus meal plan value: students buy campus food for less while sellers turn extra meal swipes into cash.</p>
-              <div class="tag-row"><span>Marketplace</span><span>Full-stack</span><span>Payments</span><span>Live</span></div>
-              <a href="https://mealflip.app/" target="_blank" rel="noopener">Visit MealFlip</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-cart reveal-card" data-project-card>
-          <div class="project-flip">
-            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal Lyric Engine project">
-              <span class="card-art">
-                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/9_hires.png" alt="Magneton Pokemon TCG card cover for Lyric Engine" onerror="this.src='https://assets.tcgdex.net/en/base/base1/9/high.webp';">
-                <span class="card-holo" aria-hidden="true"></span>
-                <span class="card-glare" aria-hidden="true"></span>
-              </span>
-              <span class="project-card-hint">Reveal project</span>
-            </button>
-            <div class="project-card-back">
-              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
-              <p class="cart-type">ML System</p>
-              <h3>Lyric Engine</h3>
-              <p>Phonetic-aware lyrics generation using a dual BPE + ARPAbet tokenizer, genre LoRA adapters, runtime blending, and constrained beam search for rhyme, syllables, and emotional arc.</p>
-              <div class="tag-row"><span>Python</span><span>Llama 3.1</span><span>LoRA</span><span>Beam Search</span></div>
-              <a href="https://github.com/SMXFREEZE/lyric-engine" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-cart reveal-card" data-project-card>
-          <div class="project-flip">
-            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal NeuralForge project">
-              <span class="card-art">
-                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/10_hires.png" alt="Mewtwo Pokemon TCG card cover for NeuralForge" onerror="this.src='https://assets.tcgdex.net/en/base/base1/10/high.webp';">
-                <span class="card-holo" aria-hidden="true"></span>
-                <span class="card-glare" aria-hidden="true"></span>
-              </span>
-              <span class="project-card-hint">Reveal project</span>
-            </button>
-            <div class="project-card-back">
-              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
-              <p class="cart-type">Hardware ML</p>
-              <h3>NeuralForge</h3>
-              <p>Custom FPGA accelerator running INT8 LeNet-5 CNN inference on a 4x4 weight-stationary systolic array with Verilog RTL, Python sim, and a live dashboard.</p>
-              <div class="tag-row"><span>Verilog</span><span>PyTorch</span><span>FPGA</span><span>INT8</span></div>
-              <a href="https://github.com/SMXFREEZE/neuralforge" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-cart reveal-card" data-project-card>
-          <div class="project-flip">
-            <button class="project-card-front" type="button" aria-expanded="false" aria-label="Reveal AssetOps project">
-              <span class="card-art">
-                <img loading="lazy" decoding="async" class="pokemon-card-img" src="https://images.pokemontcg.io/base1/8_hires.png" alt="Machamp Pokemon TCG card cover for AssetOps" onerror="this.src='https://assets.tcgdex.net/en/base/base1/8/high.webp';">
-                <span class="card-holo" aria-hidden="true"></span>
-                <span class="card-glare" aria-hidden="true"></span>
-              </span>
-              <span class="project-card-hint">Reveal project</span>
-            </button>
-            <div class="project-card-back">
-              <button class="project-card-close" type="button" aria-label="Show Pokemon card cover">Back</button>
-              <p class="cart-type">Ops System</p>
-              <h3>AssetOps</h3>
-              <p>Manufacturing asset tracking with one-hand barcode scanning workflows, a manager drift dashboard, and three-way ops, facilities, and finance reconciliation.</p>
-              <div class="tag-row"><span>Next.js</span><span>TypeScript</span><span>Supabase</span><span>Playwright</span></div>
-              <a href="https://starter-plum-nine.vercel.app" target="_blank" rel="noopener">Live demo</a>
-            </div>
-          </div>
-        </article>
+      <div class="starters" role="tablist" aria-label="Hiring lane">
+        <button class="starter" type="button" role="tab" id="lane-software" aria-selected="true" aria-controls="starter-panel" data-lane="software">
+          <span class="frame">
+            <span class="frame-num">137</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="porygon" data-cols="76" data-fit aria-hidden="true"></canvas>
+          </span>
+          <span class="starter-name">Software</span>
+          <span class="meta">No.137 Porygon</span>
+        </button>
+        <button class="starter" type="button" role="tab" id="lane-machine" aria-selected="false" aria-controls="starter-panel" data-lane="machine" tabindex="-1">
+          <span class="frame">
+            <span class="frame-num">065</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="alakazam" data-cols="96" data-fit aria-hidden="true"></canvas>
+          </span>
+          <span class="starter-name">Machine learning</span>
+          <span class="meta">No.065 Alakazam</span>
+        </button>
+        <button class="starter" type="button" role="tab" id="lane-hardware" aria-selected="false" aria-controls="starter-panel" data-lane="hardware" tabindex="-1">
+          <span class="frame">
+            <span class="frame-num">025</span>
+            <canvas class="ascii-sprite" data-ascii-sprite="pikachu" data-cols="70" data-fit aria-hidden="true"></canvas>
+          </span>
+          <span class="starter-name">Hardware</span>
+          <span class="meta">No.025 Pikachu</span>
+        </button>
       </div>
-    </section>
-
-    <section class="content-section education-section" id="education">
-      <div class="section-label">05 / Education</div>
-      <div class="education-grid">
-        <article class="edu-card reveal-card">
-          <img loading="lazy" decoding="async" src="./img/uwaterloo-seal.png" alt="University of Waterloo seal">
-          <div>
-            <p>Aug 2026 - Present</p>
-            <h2>BASc Electrical Engineering</h2>
-            <h3>University of Waterloo</h3>
-            <span>Electrical Engineering</span>
-          </div>
-        </article>
-        <article class="edu-card reveal-card">
-          <img loading="lazy" decoding="async" src="./img/maisonneuve-new.svg" alt="College de Maisonneuve logo">
-          <div>
-            <p>Feb 2024 - Jan 2026</p>
-            <h2>Diploma of College Studies, Pure &amp; Applied Sciences</h2>
-            <h3>College de Maisonneuve, Montreal</h3>
-            <span>Pure and Applied Sciences</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="contact-section" id="contact">
-      <div class="contact-panel reveal-card">
-        <p class="section-label">06 / Contact</p>
-        <h2>Hiring for ML, hardware, or software? Pick the fastest next step.</h2>
-        <p>Use the one-page LaTeX resume for a quick scan, GitHub for build proof, LinkedIn for background, OraxAI for product traction, or email me to start the conversation.</p>
-        <div class="contact-links">
-          <a href="mailto:sami.elfigha@gmail.com" data-email-link>Copy email</a>
-          <a href="https://www.linkedin.com/in/samielfigha/" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">GitHub</a>
-          <a href="./Sami-El-Figha-Resume.pdf?v=20260726-s26" target="_blank" rel="noopener">Resume PDF</a>
-          <a href="https://www.oraxai.ca/" target="_blank" rel="noopener">OraxAI live</a>
+      <div class="starter-panel" id="starter-panel" role="tabpanel" aria-labelledby="lane-software" tabindex="0">
+        <p class="caption-sm" data-lane-title>Software engineering</p>
+        <p class="body" data-lane-pitch>Production software engineer with Python, React, FastAPI, Django, Node, TypeScript, Azure, AWS, and experience shipping systems at four AI startups.</p>
+        <ul class="proof" data-lane-proof>
+          <li>GutGutGoose: Python computational biology pipelines from data ingestion through model evaluation.</li>
+          <li>Blaze: Node/TypeScript agent infrastructure, x402 payments, Remotion video generation.</li>
+          <li>OraxAI: built the full-stack product from scratch for paying users.</li>
+          <li>Venu AI: Python, React, Django, and Azure on conference automation.</li>
+          <li>NeuralSeek: production AWS agent pipeline that cut task resolution about 40%.</li>
+        </ul>
+        <div class="actions">
+          <button class="btn" type="button" data-copy-pitch>Copy 20-second pitch</button>
+          <a class="link" href="#oraxai" data-lane-link>See OraxAI</a>
+          <span class="meta" role="status" data-copy-status></span>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="education" aria-labelledby="education-title">
+      <h2 class="sec-title" id="education-title">
+        <span class="sec-line sec-num"><span>06</span></span>
+        <span class="sec-line"><span>Education</span></span>
+      </h2>
+      <div class="rows">
+        <div class="row">
+          <img src="./img/uwaterloo-seal.png" alt="" width="80" height="80" loading="lazy" decoding="async">
+          <div>
+            <h3>BASc Electrical Engineering</h3>
+            <p class="body">University of Waterloo</p>
+          </div>
+          <p class="meta">Aug 2026 – Present</p>
+        </div>
+        <div class="row">
+          <img class="mark-square" src="./img/maisonneuve-new.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+          <div>
+            <h3>DEC, Pure &amp; Applied Sciences</h3>
+            <p class="body">Collège de Maisonneuve, Montreal</p>
+          </div>
+          <p class="meta">Feb 2024 – Jan 2026</p>
+        </div>
+        <div class="row row-plain">
+          <span class="meta">Languages</span>
+          <p class="body">English, French, Arabic</p>
+        </div>
+        <div class="row row-plain">
+          <span class="meta">Recognition</span>
+          <p class="body">Mathematics Olympiad Finalist, Casablanca</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <h2 class="sec-title" id="contact-title">
+        <span class="sec-line sec-num"><span>07</span></span>
+        <span class="sec-line"><span>Contact</span></span>
+      </h2>
+      <div class="join">
+        <p class="caption-sm">Open to ML, hardware, and software roles</p>
+        <p class="body">Use the one-page resume for a quick scan, GitHub for build proof, or email me to start the conversation.</p>
+        <ul class="contact-links">
+          <li><a href="mailto:sami.elfigha@gmail.com" data-email>sami.elfigha@gmail.com</a></li>
+          <li><a href="./Sami-El-Figha-Resume.pdf?v=20260726-s26" target="_blank" rel="noopener">Resume PDF ↗</a></li>
+          <li><a href="https://www.linkedin.com/in/samielfigha/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+          <li><a href="https://github.com/SMXFREEZE" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
       </div>
     </section>
   </main>
 
-  <div class="recruiter-panel" id="recruiterPanel" aria-hidden="true" inert>
-    <button class="panel-backdrop" type="button" data-close-panel aria-label="Close recruiter scan"></button>
-    <aside class="scan-card-panel" role="dialog" aria-modal="true" aria-labelledby="scanTitle">
-      <button class="panel-close" type="button" data-close-panel aria-label="Close">Close</button>
-      <p class="section-label">Recruiter fit</p>
-      <h2 id="scanTitle">Clear match for machine learning, hardware, or software engineering.</h2>
-      <div class="role-match-panel" aria-label="Recruiter role paths">
-        <div class="role-tabs" role="tablist" aria-label="Choose a hiring lane">
-          <button type="button" class="role-tab is-active" data-role-route="software" aria-pressed="true">Software</button>
-          <button type="button" class="role-tab" data-role-route="machine" aria-pressed="false">ML</button>
-          <button type="button" class="role-tab" data-role-route="hardware" aria-pressed="false">Hardware</button>
-        </div>
-        <div class="role-output">
-          <span class="role-badge" id="roleBadge">Recommended section: ORAX</span>
-          <h3 id="roleTitle">Software engineering packet</h3>
-          <p id="rolePitch">Production software engineer with Python, React, FastAPI, Django, Node, TypeScript, Azure, AWS, and experience shipping systems at four AI startups.</p>
-          <ul class="role-proof-list" id="roleProofList"></ul>
-          <div class="role-actions">
-            <button class="btn btn-primary" type="button" data-load-route-cart>Open recommended section</button>
-            <button class="btn btn-ghost" type="button" data-copy-pitch>Copy 20-sec pitch</button>
-          </div>
-          <p class="copy-status" id="copyStatus" aria-live="polite"></p>
-        </div>
-      </div>
-      <div class="scan-grid">
-        <article>
-          <span>Product proof</span>
-          <strong>OraxAI</strong>
-          <p>Built the ATS scoring engine, React frontend, and FastAPI backend; grew the product to 100+ monthly active users and $2K+ MRR.</p>
-        </article>
-        <article>
-          <span>Computational biology</span>
-          <strong>GutGutGoose</strong>
-          <p>ML algorithms and Python pipelines matching customer DNA and genomic markers against curated reference microbiome datasets.</p>
-        </article>
-        <article>
-          <span>Internship experience</span>
-          <strong>GutGutGoose + YC</strong>
-          <p>Four engineering roles across computational biology, agent infrastructure, conference automation, and production AI agents.</p>
-        </article>
-      </div>
-      <ol class="scan-route">
-        <li>Open Projects for hardware and ML work.</li>
-        <li>Open OraxAI for product traction and full-stack ownership.</li>
-        <li>Use Contact when ready to reach out.</li>
-      </ol>
-      <div class="scan-actions">
-        <a class="btn btn-primary" href="#projects" data-scan-jump="builds">View projects</a>
-        <a class="btn btn-ghost" href="#oraxai" data-scan-jump="builds">Open OraxAI</a>
-        <a class="btn btn-ghost" href="mailto:sami.elfigha@gmail.com" data-scan-jump="contact" data-email-link>Copy email</a>
-      </div>
-    </aside>
-  </div>
-
-  <div class="tabletop-panel" id="tabletopPanel" aria-hidden="true" inert>
-    <button class="tabletop-backdrop" type="button" data-close-table aria-label="Close tabletop mode"></button>
-    <section class="tabletop-dialog" role="dialog" aria-modal="true" aria-labelledby="tabletopTitle">
-      <header class="tabletop-header">
-        <div>
-          <p class="section-label">Quick view</p>
-          <h2 id="tabletopTitle">Open portfolio sections from the table.</h2>
-        </div>
-        <button class="panel-close" type="button" data-close-table aria-label="Close tabletop mode">Close</button>
-      </header>
-      <div class="tabletop-surface">
-        <div class="desk-prop desk-note">
-          <span>Recommended order</span>
-          <strong>Experience &rarr; OraxAI &rarr; Contact</strong>
-        </div>
-        <div class="desk-prop desk-badge">SEF</div>
-        <article class="table-console" aria-live="polite">
-          <div class="table-console-top">
-            <span>SEF PORTFOLIO</span>
-            <span id="tableStatus">READY</span>
-          </div>
-          <div class="table-slot" id="tableSlot">INSERT CART</div>
-          <div class="table-screen" id="tableScreen">
-            <strong>Pick a section</strong>
-            <span>Tap a section card on the table.</span>
-          </div>
-          <div class="table-controls" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </article>
-        <div class="table-card-grid" aria-label="Tabletop section cards">
-          <button class="table-card table-card-sami" type="button" data-table-cart-index="0" style="--cart-bg:#ffd166;">
-            <span>01</span><strong>SAMI</strong><small>About</small>
-          </button>
-          <button class="table-card table-card-work" type="button" data-table-cart-index="1" style="--cart-bg:#60c7ff;">
-            <span>02</span><strong>WORK</strong><small>Experience</small>
-          </button>
-          <button class="table-card table-card-orax" type="button" data-table-cart-index="2" style="--cart-bg:#ff7d6e;">
-            <span>03</span><strong>ORAX</strong><small>OraxAI</small>
-          </button>
-          <button class="table-card table-card-labs" type="button" data-table-cart-index="3" style="--cart-bg:#84f0bd;">
-            <span>04</span><strong>LABS</strong><small>Projects</small>
-          </button>
-          <button class="table-card table-card-edu" type="button" data-table-cart-index="4" style="--cart-bg:#c7b8ff;">
-            <span>05</span><strong>EDU</strong><small>Education</small>
-          </button>
-          <button class="table-card table-card-link" type="button" data-table-cart-index="5" style="--cart-bg:#f4a261;">
-            <span>06</span><strong>LINK</strong><small>Contact</small>
-          </button>
-        </div>
-      </div>
-      <div class="tabletop-actions">
-        <button class="btn btn-primary" type="button" data-table-focus-console>Play on console</button>
-        <a class="btn btn-ghost" href="#projects" data-close-table>Skip to projects</a>
-      </div>
-    </section>
-  </div>
-
-  <div class="quest-toast" id="questToast" role="status" aria-live="polite">
-    <span>Progress updated</span>
-    <strong></strong>
-    <small></small>
-  </div>
-
   <footer class="site-footer">
-    <span>2026 Sami El-Figha</span>
-    <span>Computational biology, ML, and software engineering.</span>
+    <div class="footer-cols">
+      <div>
+        <p class="meta">Sections</p>
+        <ul class="footer-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#oraxai">OraxAI</a></li>
+          <li><a href="#starter">Role fit</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="meta">Partner</p>
+        <div class="footer-sprite"><canvas class="ascii-sprite" data-ascii-sprite="charizard" data-cols="64" aria-hidden="true"></canvas></div>
+        <p class="body">Waterloo Electrical Engineering. Machine learning, hardware, and software.</p>
+      </div>
+      <div class="footer-sign">
+        <p class="meta">Waterloo, Ontario</p>
+        <p class="caption-sm">Gotta ship ’em all.</p>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© Sami El-Figha 2026</span>
+      <span class="credits">Game Boy model by <a href="https://github.com/Snokke/game-boy-challenge" target="_blank" rel="noopener">Andrii Babintsev</a> (MIT) · Sprites via <a href="https://github.com/PokeAPI/sprites" target="_blank" rel="noopener">PokeAPI</a> · Pokémon © Nintendo, Creatures, GAME FREAK · Fan site, not affiliated</span>
+      <a href="#home">Back to top ↑</a>
+    </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="./app.js?v=20260726-gutgutgoose-s26" defer></script>
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+
+  <script type="module" src="./js/main.js?v=20261006-wd"></script>
 </body>
 </html>
