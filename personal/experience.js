@@ -30,6 +30,7 @@ const SETTLE = [0.72, 1.22];    // inside an act: where the card travels into th
 
 function init() {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sticky = section.querySelector('.experience__sticky');
   const frame = section.querySelector('.experience__frame');
   const canvas = section.querySelector('.experience__canvas');
   const intro = section.querySelector('.experience__intro');
@@ -48,8 +49,12 @@ function init() {
       return s;
     });
   };
-  let titleLetters = split(title);
-  new MutationObserver(() => { if (!title.querySelector('.experience-letter')) titleLetters = split(title); }).observe(title, { childList: true });
+  let titleLetters = split(title), layoutDirty = true;
+  new MutationObserver(() => {
+    if (!title.querySelector('.experience-letter')) titleLetters = split(title);
+    layoutDirty = true;
+  }).observe(title, { childList: true });
+  new MutationObserver(() => { layoutDirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 
   const worlds = [...section.querySelectorAll('.experience-world')].map((el, i) => ({
     el, slug: el.dataset.slug, dir: i % 2 ? -1 : 1,
@@ -68,7 +73,8 @@ function init() {
   const settleOf = k => smooth(clamp((u - (TITLE + k * STEP) - SETTLE[0]) / (SETTLE[1] - SETTLE[0]), 0, 1));
   function measure(dt) {
     const r = section.getBoundingClientRect();
-    const vh = innerHeight;
+    // the stage's own height (100svh), which holds still while Safari's toolbars come and go
+    const vh = Math.max(1, sticky.clientHeight);
     p = clamp(-r.top / Math.max(1, section.offsetHeight - vh), 0, 1);
     enter = clamp(1 - r.top / vh, 0, 1);
     leave = clamp((vh - r.bottom) / (vh * 0.8), 0, 1);
@@ -106,12 +112,18 @@ function init() {
       const fit = Math.min(1, (fw * (narrow ? 0.86 : 0.8)) / bw);
       w.card = { k, fit, tx: 0, ty: baseline - (top + bh) };
     }
+    layoutDirty = true;
   }
   new ResizeObserver(place).observe(frame);
   worlds.forEach(w => { new ResizeObserver(place).observe(w.lead); new ResizeObserver(place).observe(w.points); });
   document.fonts?.ready.then(place);
 
+  // nothing moves unless the scroll, the frame or the text did: skip the style writes otherwise
+  let drawnP = -1, drawnEnter = -1, drawnLeave = -1;
   function layout() {
+    if (!layoutDirty && p === drawnP && enter === drawnEnter && leave === drawnLeave) return;
+    layoutDirty = false;
+    drawnP = p; drawnEnter = enter; drawnLeave = leave;
     const enterScale = 0.94 + 0.06 * smooth(enter), leaveScale = 1 - 0.06 * smooth(leave);
     frame.style.transformOrigin = leave > 0 ? '50% 100%' : '50% 0';
     frame.style.transform = `scale(${enterScale * leaveScale})`;
@@ -157,13 +169,22 @@ function init() {
   }
 
   // ---- the film ----------------------------------------------------------------------
-  let gl = null;
-  new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !gl) {
-      gl = 'loading';
-      setup3d().then(x => { gl = x; }).catch(err => { console.warn('experience film:', err); gl = null; });
-    }
-  }, { rootMargin: '120% 0px' }).observe(section);
+  // start loading the film a little over a screen ahead (measured in the stage's stable height)
+  let gl = null, preloadObserver = null, preloadMargin = -1;
+  function observePreload() {
+    const margin = Math.round(sticky.clientHeight * 1.2);
+    if (gl || margin === preloadMargin) return;
+    preloadMargin = margin;
+    preloadObserver?.disconnect();
+    preloadObserver = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !gl) {
+        gl = 'loading';
+        setup3d().then(x => { gl = x; preloadObserver.disconnect(); }).catch(err => { console.warn('experience film:', err); gl = null; });
+      }
+    }, { rootMargin: `${margin}px 0px` });
+    preloadObserver.observe(section);
+  }
+  observePreload();
 
   async function setup3d() {
     const THREE = await import('/personal/vendor/three/build/three.module.min.js');
@@ -286,10 +307,12 @@ function init() {
     comp.frustumCulled = false;
     const compScene = new THREE.Scene(); compScene.add(comp);
 
-    let portrait = false;
+    let portrait = false, drawnW = 0, drawnH = 0;
     const pan = o => (portrait ? FILMS[o.slug].phonePan || 0.12 : 0.05);
     function resize() {
       const w = frame.clientWidth, h = frame.clientHeight;
+      if (w === drawnW && h === drawnH) return;                // Safari's toolbars resize the window, not the stage
+      drawnW = w; drawnH = h;
       H = h;
       renderer.setSize(w, h, false);
       rt.setSize(Math.round(w * dpr), Math.round(h * dpr));
@@ -373,7 +396,11 @@ function init() {
     if (e.isIntersecting && !running) { running = true; then = performance.now(); lastY = scrollY; raf = requestAnimationFrame(tick); }
     else if (!e.isIntersecting && running) { running = false; cancelAnimationFrame(raf); if (gl && gl !== 'loading') gl.sleep(); }
   }).observe(section);
-  addEventListener('resize', () => { H = frame.clientHeight; });
+  new ResizeObserver(() => {
+    H = frame.clientHeight;
+    layoutDirty = true;
+    observePreload();
+  }).observe(frame);
   place(); measure(1 / 60); layout();
 }
 
