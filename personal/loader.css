@@ -1,0 +1,17 @@
+/* The loader's count: under the mark, in the site's small type, gone before the mark opens. */
+.home-loader__count {
+  position: absolute;
+  left: 50%;
+  bottom: 9svh;
+  z-index: 2;
+  margin: 0;
+  transform: translateX(-50%);
+  color: var(--color-dark, #101c30);
+  font: 400 15.84px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  opacity: .55;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+.home-loader__count.is-done { opacity: 0; }
