@@ -1,0 +1,12 @@
+/* Personal palette; the original stylesheets and animation code stay intact. */
+:root {
+  --color-cream: #eef5fb;
+  --color-dark: #101c30;
+  --color-accent: #2864e8;
+  --color-teal: #22b8b1;
+}
+::selection { background: #2864e8; color: #eef5fb; }
+@media (max-width: 600px) {
+  .site-header__link[href="/#parcours"] { display: inline-block; }
+  .site-header__link--playground { display: none; }
+}
