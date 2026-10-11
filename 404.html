@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="noindex, follow" name="robots"/>
+<link href="/personal/brand/favicon.svg" rel="icon" type="image/svg+xml"/>
+<title data-i18n="notFound.title">404 — Sami El-Figha</title>
+<script crossorigin="" src="/assets/notFound-CzZTJkpA.js" type="module"></script>
+<link crossorigin="" href="/assets/setupCrossPageTransitions-CltNm_Hf.js" rel="modulepreload"/>
+<link crossorigin="" href="/assets/createImageDistortionScene-DryuzL4t.js" rel="modulepreload"/>
+<link crossorigin="" href="/assets/setupCrossPageTransitions-D60GSfRM.css" rel="stylesheet"/>
+<link crossorigin="" href="/assets/notFound-B4bu2eBt.css" rel="stylesheet"/>
+<link href="/personal/theme.css" rel="stylesheet"/><meta content="#101c30" name="theme-color"/></head>
+<body class="not-found-page">
+
+<script>
+      if (sessionStorage.getItem("pageTransitionPending") === "true") {
+        const storedColor = sessionStorage.getItem("pageTransitionColor")
+        const color = storedColor === "dark" ? "dark" : "cream"
+
+        const transition = document.createElement("div")
+
+        transition.classList.add("page-transition", `page-transition--${color}`)
+
+        transition.setAttribute("aria-hidden", "true")
+        document.body.prepend(transition)
+      }
+    </script>
+<main class="not-found">
+<div class="not-found__scene">
+<header class="site-header"></header>
+<canvas aria-hidden="true" class="not-found__canvas"></canvas>
+<section aria-labelledby="not-found-title" class="not-found__content">
+<h1 class="not-found__title" id="not-found-title">404</h1>
+<p class="not-found__message">
+<span data-i18n="notFound.messageLine1">Lost between</span><br/>
+<span data-i18n="notFound.messageLine2">software and hardware</span>
+</p>
+<a class="not-found__back" data-i18n="notFound.backHome" href="/">Go back home</a>
+</section>
+</div>
+</main>
+</body>
+</html>
+
