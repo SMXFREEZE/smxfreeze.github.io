@@ -6,6 +6,10 @@
   --color-teal: #22b8b1;
 }
 ::selection { background: #2864e8; color: #eef5fb; }
+/* The home bundle resets this tspan to fill:inherit on touch devices; keep the gradient there too. */
+@media (hover: none) and (pointer: coarse) {
+  #nextTextGradientPart { fill: url(#nextTextGradient); }
+}
 @media (max-width: 600px) {
   .site-header__link[href="/#parcours"] { display: inline-block; }
   .site-header__link--playground { display: none; }
