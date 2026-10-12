@@ -204,3 +204,19 @@
 @media (max-width: 760px) and (max-height: 700px) {
   .experience-world__points li:nth-child(n + 2) { display: none; }
 }
+
+/* A rotated phone (about 360px of stage), or any short landscape window, keeps the two-column
+   lower third, compact: a smaller card, one bullet, and the heading clear of the navigation. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .experience__intro { top: 100px; }
+  .experience__resume { display: none; }
+  .experience-world { --lt-bottom: 5svh; --brand-size: 40px; --brand-k: .5; }
+  .experience-world__lead { width: 40vw; }
+  .experience-world__details { margin-top: 8px; }
+  .experience-world__role { font-size: 22px; }
+  .experience-world__meta { margin-top: 6px; font-size: 12.5px; }
+  .experience-world__meta span:first-child { flex-basis: 100%; }
+  .experience-world__meta span:nth-child(2)::before { content: none; }
+  .experience-world__points { width: 42vw; gap: 6px; font-size: 12.5px; line-height: 1.42; }
+  .experience-world__points li:nth-child(n + 2) { display: none; }
+}
