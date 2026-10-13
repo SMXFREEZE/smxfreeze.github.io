@@ -14,6 +14,11 @@
   .site-header__link[href="/#parcours"] { display: inline-block; }
   .site-header__link--playground { display: none; }
 }
+/* A rotated phone is wider than 600px, so the home page's side section indicator comes back and
+   its bars run over the Experience lower third's text; it is a pointer affordance, keep it off there. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .scroll-indicator { display: none; }
+}
 /* Without WebGL (iOS Lockdown Mode, some privacy settings) the home bundle removes the hero's canvas
    and the first screen would be blank cream: show the hero's own gradient and name instead. */
 .hero-three__frame:not(:has(.webgl)) {
