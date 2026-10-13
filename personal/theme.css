@@ -14,3 +14,42 @@
   .site-header__link[href="/#parcours"] { display: inline-block; }
   .site-header__link--playground { display: none; }
 }
+/* Without WebGL (iOS Lockdown Mode, some privacy settings) the home bundle removes the hero's canvas
+   and the first screen would be blank cream: show the hero's own gradient and name instead. */
+.hero-three__frame:not(:has(.webgl)) {
+  background:
+    url(/home/hero/textures/mobile/texts/text-name.webp) center / min(78%, 520px) auto no-repeat,
+    #2864e8 url(/home/hero/textures/mobile/scene-gradient.webp) center / cover no-repeat;
+}
+@media (min-width: 761px) {
+  .hero-three__frame:not(:has(.webgl)) {
+    background-image: url(/home/hero/textures/desktop/texts/text-name.webp), url(/home/hero/textures/desktop/scene-gradient.webp);
+  }
+}
+/* The contact page's text fallback (no WebGL): the heading's longest word must fit a phone. */
+@media (max-width: 700px) {
+  .contact__heading { font-size: clamp(40px, 14vw, 78px); }
+}
+/* The project pages' ellipse holds a typographic slide (16:11). The original's phone layout crops
+   it to a 2:3 portrait pill, which cuts the title and the list to fragments; keep the desktop's
+   2:1 pill instead, at full width, so the slide reads. */
+@media (max-width: 900px), (max-width: 1024px) and (max-height: 650px) {
+  .project-page .project-ellipse__visual { width: min(100%, 560px); aspect-ratio: 2; }
+}
+/* A rotated phone (or any short landscape window) cannot hold the contact page's WebGL layout:
+   its desktop text textures keep their minimum legible scale and pile up over each other. Show the
+   page's own text fallback there instead, on the dark frame (the same layout it uses without WebGL). */
+@media (orientation: landscape) and (max-height: 500px) {
+  .contact.is-webgl-ready .contact__canvas { visibility: hidden; opacity: 0; }
+  .contact.is-webgl-ready .contact__fallback > :not(.contact__email) {
+    position: static; clip: auto; clip-path: none; white-space: normal;
+    width: auto; height: auto; margin: 0; overflow: visible;
+  }
+  .contact.is-webgl-ready .contact__fallback > .contact__heading,
+  .contact.is-webgl-ready .contact__fallback > .contact__availability { position: absolute; }
+  .contact.is-webgl-ready .contact__fallback > .contact__heading { width: calc(100% - 40px); top: 50%; font-size: clamp(40px, 8vw, 64px); }
+  .contact.is-webgl-ready .contact__email {
+    position: static; width: auto; height: auto; margin: 0; padding: 0; color: inherit;
+    clip: auto; clip-path: none; white-space: normal; overflow: visible;
+  }
+}
