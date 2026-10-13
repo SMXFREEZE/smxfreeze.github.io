@@ -1,17 +1,68 @@
-/* The loader's count: under the mark, in the site's small type, gone before the mark opens. */
+/* The loader: the "se" mark is a circuit trace with a pad at each end, so loading is current
+   running along it. At first paint the trace is drawn as a fine outline; as the page loads a
+   cobalt-to-teal current fills it from the left pad, a small spark at its head; when it reaches
+   the right pad, that pad lights and a pulse runs the trace once. Then the letters open onto the
+   hero (the WebGL loader's cut-out) and the mark dissolves into that window.
+   The script is inline in index.html, right after the mark (so it runs at the first parse);
+   the geometry is the mark's own, so it sits exactly on the WebGL logo. */
+.home-loader {
+  --a: min(560px, 50vw, 66vh);                   /* the WebGL logo's size (the script measures it exactly) */
+}
+@media (max-width: 759px) { .home-loader { --a: min(82vw, 50vh); } }
+
+.home-loader__mark {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--a) * .9619);
+  height: var(--a);
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+.home-loader__track { stroke: #101c30; stroke-opacity: .2; stroke-width: .012; }
+.home-loader__current { stroke-dasharray: 0 2; }   /* drawn by the script */
+.home-loader__pad { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.home-loader__pad--a { transition: opacity .25s ease; }
+.home-loader.is-live .home-loader__pad--a { opacity: 1; }
+.home-loader__pad--b { transform: scale(.55); transition: opacity .18s ease, transform .42s cubic-bezier(.34, 1.56, .64, 1); }
+.home-loader.is-arrived .home-loader__pad--b { opacity: 1; transform: none; }
+.home-loader__sweep { stroke: #f4fbff; stroke-opacity: .75; stroke-dasharray: .1 1.2; stroke-dashoffset: .1; opacity: 0; }
+.home-loader.is-arrived .home-loader__sweep { animation: home-loader-sweep .5s cubic-bezier(.45, 0, .2, 1) .06s both; }
+@keyframes home-loader-sweep {
+  0% { stroke-dashoffset: .1; opacity: 0; }
+  12% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { stroke-dashoffset: -1.02; opacity: 0; }
+}
+.home-loader__spark { opacity: 0; transition: opacity .2s ease; }
+.home-loader.is-live:not(.is-arrived) .home-loader__spark { opacity: 1; }
+
+/* the count, under the mark, in the site's small type */
 .home-loader__count {
   position: absolute;
-  left: 50%;
-  bottom: 9svh;
   z-index: 2;
+  left: 50%;
+  top: calc(50% + var(--a) * .25 + 34px);
   margin: 0;
   transform: translateX(-50%);
-  color: var(--color-dark, #101c30);
-  font: 400 15.84px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
+  color: #101c30;
+  font: 500 14px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
   font-variant-numeric: tabular-nums;
-  letter-spacing: .04em;
-  opacity: .55;
+  letter-spacing: .08em;
+  opacity: .5;
   pointer-events: none;
-  transition: opacity .35s ease;
+  transition: opacity .3s ease;
 }
-.home-loader__count.is-done { opacity: 0; }
+.home-loader.is-arrived .home-loader__count { opacity: .32; }
+.home-loader.is-opening .home-loader__count { opacity: 0; }
+
+/* only for a real first load (a restored visit shows the cover without running the loader) */
+html:not([data-home-loader-state="pending"]) .home-loader__mark,
+html:not([data-home-loader-state="pending"]) .home-loader__count { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-loader__spark, .home-loader__sweep { display: none; }
+  .home-loader__pad--b { transition: opacity .2s ease; transform: none; }
+}
