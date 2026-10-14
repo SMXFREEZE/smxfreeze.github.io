@@ -49,6 +49,26 @@
 .experience.is-ready .experience__canvas { opacity: 1; }
 .experience.is-hovering .experience__canvas { cursor: pointer; }
 
+/* The in-app presentation uses the film's own stills. Only opacity changes on
+   scroll: no video decoders, WebGL contexts or continuously running render loop. */
+.experience.is-poster-ready .experience__canvas { display: none; }
+.experience__posters, .experience__poster, .experience__posters::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.experience__poster {
+  background: var(--poster) var(--poster-position) / cover no-repeat;
+  opacity: 0;
+}
+.experience__posters::after {
+  content: "";
+  background: linear-gradient(180deg, rgba(12, 22, 38, .3), transparent 30%, rgba(12, 22, 38, .82));
+}
+@media (max-aspect-ratio: 62/100) {
+  .experience__poster { background-image: var(--poster-phone); background-position: var(--poster-phone-position); }
+}
+
 /* the title stop, set like the toolkit header */
 .experience__intro {
   position: absolute;
