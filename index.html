@@ -49,7 +49,9 @@
           offset: initialScroll,
         }
 
-        const shouldShowHomeLoader = !homeLoaderShown
+        // Decide before first paint; the shared browser policy applies the same
+        // Instagram check when the page modules load.
+        const shouldShowHomeLoader = !homeLoaderShown && !/Instagram/i.test(navigator.userAgent)
         const hasScrollToRestore = initialHash !== null || initialScroll > 0
 
         // Avoid stacking the restore cover with an incoming transition.
@@ -92,17 +94,17 @@
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/><meta content="image/jpeg" property="og:image:type"/><meta content="Sami El-Figha" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="https://smxfreeze.github.io/og/sami-el-figha.jpg" name="twitter:image"/>
 <meta content="Sami El-Figha · Portfolio" data-i18n-attr="content:home.imageAlt" property="og:image:alt"/>
-<script crossorigin="" src="/assets/home-Y5hht4vi.js?v=04537505e1" type="module"></script>
+<script crossorigin="" src="/assets/home-Y5hht4vi.js?v=e5f46b029a" type="module"></script>
 <link crossorigin="" href="/assets/chunk-Deb1DmFP.js" rel="modulepreload"/>
-<link crossorigin="" href="/assets/setupCrossPageTransitions-CltNm_Hf.js?v=229f88bc29" rel="modulepreload"/>
+<link crossorigin="" href="/assets/setupCrossPageTransitions-CltNm_Hf.js?v=194da25e72" rel="modulepreload"/>
 <link crossorigin="" href="/assets/Observer-C5OqvjuH.js" rel="modulepreload"/>
 <link crossorigin="" href="/assets/ScrollTrigger-Or8JzwiZ.js" rel="modulepreload"/>
-<link crossorigin="" href="/assets/setupHeaderVisibility-D-FHk4jp.js?v=dad6731edb" rel="modulepreload"/>
+<link crossorigin="" href="/assets/setupHeaderVisibility-D-FHk4jp.js?v=be64bdefd4" rel="modulepreload"/>
 <link crossorigin="" href="/assets/three.module-fBMLdKIM.js" rel="modulepreload"/>
 <link crossorigin="" href="/assets/setupCrossPageTransitions-D60GSfRM.css" rel="stylesheet"/>
 <link crossorigin="" href="/assets/setupHeaderVisibility-fOJvfYOR.css" rel="stylesheet"/>
 <link crossorigin="" href="/assets/home-BJ-xnR8D.css?v=61ec4d3db3" rel="stylesheet"/>
-<link href="/personal/experience.css?v=d94d0f8d7d" rel="stylesheet"/><link href="/personal/loader.css?v=4a804a2224" rel="stylesheet"/><link href="/personal/theme.css?v=0fc124cac6" rel="stylesheet"/><meta content="#101c30" name="theme-color"/></head>
+<link href="/personal/experience.css?v=c9d0ffcbb4" rel="stylesheet"/><link href="/personal/loader.css?v=4a804a2224" rel="stylesheet"/><link href="/personal/theme.css?v=0fc124cac6" rel="stylesheet"/><meta content="#101c30" name="theme-color"/></head>
 <body>
 
 <div aria-label="Loading the page" class="home-loader" data-i18n-attr="aria-label:home.loaderLabel" role="status">
@@ -172,16 +174,20 @@ if (root && mark && html.dataset.homeLoaderState === 'pending') {
 </script></div>
 
 <script>
-      if (sessionStorage.getItem("pageTransitionPending") === "true") {
-        const storedColor = sessionStorage.getItem("pageTransitionColor")
-        const color = storedColor === "dark" ? "dark" : "cream"
+      try {
+        if (sessionStorage.getItem("pageTransitionPending") === "true") {
+          const storedColor = sessionStorage.getItem("pageTransitionColor")
+          const color = storedColor === "dark" ? "dark" : "cream"
 
-        const transition = document.createElement("div")
+          const transition = document.createElement("div")
 
-        transition.classList.add("page-transition", `page-transition--${color}`)
+          transition.classList.add("page-transition", `page-transition--${color}`)
 
-        transition.setAttribute("aria-hidden", "true")
-        document.body.prepend(transition)
+          transition.setAttribute("aria-hidden", "true")
+          document.body.prepend(transition)
+        }
+      } catch {
+        // Page transitions still work when the in-app browser disables storage.
       }
     </script>
 
@@ -447,6 +453,6 @@ if (root && mark && html.dataset.homeLoaderState === 'pending') {
 </div>
 </section>
 </main>
-<script src="/personal/experience.js?v=5cebb4eb99" type="module"></script></body>
+<script src="/personal/experience.js?v=c30a5ce241" type="module"></script></body>
 </html>
 

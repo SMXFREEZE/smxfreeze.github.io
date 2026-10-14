@@ -7,6 +7,8 @@
 // travels down into a lower third with the role, dates and résumé bullets. Scrolling on plays
 // the shot that carries the light into the next act.
 
+import { isInstagramBrowser, useReducedEffects } from '/personal/browser-policy.js?v=9eae260566';
+
 const section = document.querySelector('.experience');
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -34,7 +36,7 @@ const HAND = 0.45;              // half-width of a hand-off: long enough for the
 const SETTLE = [0.72, 1.22];    // inside an act: where the card travels into the lower third
 
 function init() {
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = useReducedEffects;
   const sticky = section.querySelector('.experience__sticky');
   const frame = section.querySelector('.experience__frame');
   const canvas = section.querySelector('.experience__canvas');
@@ -195,14 +197,51 @@ function init() {
         return;
       }
       gl = 'loading';
-      setup3d().then(x => { gl = x; observer.disconnect(); }).catch(err => { console.warn('experience film:', err); gl = null; });
+      setup3d().then(x => { gl = x; observer.disconnect(); requestTick(); }).catch(err => { console.warn('experience film:', err); gl = null; });
     }, { rootMargin: `${margin}px 0px` });
     preloadObserver = observer;
     observer.observe(section);
   }
   observePreload();
 
+  function setupPosters() {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'experience__posters';
+    backdrop.setAttribute('aria-hidden', 'true');
+    const layers = worlds.map(w => {
+      const layer = document.createElement('div');
+      const [x, y] = FILMS[w.slug].focus;
+      const [left, right] = CROPS[w.slug];
+      layer.className = 'experience__poster';
+      layer.style.setProperty('--poster', `url(/personal/experience/films/${w.slug}-poster.webp)`);
+      layer.style.setProperty('--poster-phone', `url(/personal/experience/films/${w.slug}-poster-phone.webp)`);
+      layer.style.setProperty('--poster-position', `${x * 100}% ${y * 100}%`);
+      layer.style.setProperty('--poster-phone-position', `${clamp((x - left) / (right - left), 0, 1) * 100}% ${y * 100}%`);
+      backdrop.append(layer);
+      return layer;
+    });
+    frame.prepend(backdrop);
+    section.classList.add('is-poster-ready');
+    let lastProgress = -1;
+    return {
+      frame() {
+        if (p === lastProgress) return;
+        lastProgress = p;
+        const progress = Math.max(0, s);
+        const act = Math.min(N - 1, Math.floor(progress));
+        const mix = act < N - 1 ? sstep(progress - act, 0.3, 0.7) : 0;
+        layers.forEach((layer, i) => {
+          layer.style.opacity = i === act ? 1 : i === act + 1 ? mix : 0;
+        });
+      },
+      sleep() {},
+    };
+  }
+
   async function setup3d() {
+    // Avoid video decoding, texture uploads and shader work inside Instagram.
+    // The same four scenes and résumé details still follow the native scroll.
+    if (isInstagramBrowser) return setupPosters();
     const THREE = await import('/personal/three.js?v=1bb4305f35');
     const coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
     const saveData = navigator.connection?.saveData;
@@ -516,21 +555,26 @@ function init() {
   // ---- loop -------------------------------------------------------------------------
   let running = false, inView = false, pageSuspended = false, raf = 0, then = performance.now();
   const tick = now => {
+    raf = 0;
     if (!running) return;
     const dt = clamp((now - then) / 1000, 1 / 240, 0.05); then = now;
     measure(dt);
     layout();
     if (gl && gl !== 'loading') gl.frame(dt, now);
-    raf = requestAnimationFrame(tick);
+    if (!isInstagramBrowser) raf = requestAnimationFrame(tick);
   };
+  function requestTick() {
+    if (running && !raf) raf = requestAnimationFrame(tick);
+  }
   const updateRunning = () => {
     const active = inView && !document.hidden && !pageSuspended;
     if (active === running) return;
     running = active;
-    if (running) { then = performance.now(); lastY = scrollY; raf = requestAnimationFrame(tick); }
-    else { cancelAnimationFrame(raf); if (gl && gl !== 'loading') gl.sleep(); }
+    if (running) { then = performance.now(); lastY = scrollY; requestTick(); }
+    else { cancelAnimationFrame(raf); raf = 0; if (gl && gl !== 'loading') gl.sleep(); }
   };
   new IntersectionObserver(([e]) => { inView = e.isIntersecting; updateRunning(); }).observe(section);
+  if (isInstagramBrowser) addEventListener('scroll', requestTick, { passive: true });
   document.addEventListener('visibilitychange', updateRunning);
   addEventListener('pagehide', () => { pageSuspended = true; updateRunning(); });
   addEventListener('pageshow', () => { pageSuspended = false; updateRunning(); });
@@ -538,6 +582,7 @@ function init() {
     H = frame.clientHeight;
     layoutDirty = true;
     observePreload();
+    requestTick();
   }).observe(frame);
   place(); measure(1 / 60); layout();
 }
