@@ -351,7 +351,9 @@ export const translations = {
       "languages": "English · French · Arabic",
       "location": "Waterloo, Ontario",
       "sourceTitle": "Design & animation",
-      "sourceText": "This version retains the design and animations of Guillaume Zhu’s portfolio, personalized with Sami El-Figha’s name, projects and information."
+      "sourceText": "This version retains the design and animations of Guillaume Zhu’s portfolio, personalized with Sami El-Figha’s name, projects and information.",
+      "footerLabel": "Thanks for reading",
+      "footerBack": "Back to home"
     },
     "experience": {
       "eyebrow": "Early teams. Real systems.",
@@ -764,7 +766,9 @@ export const translations = {
       "languages": "Anglais · Français · Arabe",
       "location": "Waterloo, Ontario",
       "sourceTitle": "Design & animation",
-      "sourceText": "Cette version conserve le design et les animations du portfolio de Guillaume Zhu, avec le nom, les projets et les informations de Sami El-Figha."
+      "sourceText": "Cette version conserve le design et les animations du portfolio de Guillaume Zhu, avec le nom, les projets et les informations de Sami El-Figha.",
+      "footerLabel": "Merci de votre lecture",
+      "footerBack": "Retour à l’accueil"
     },
     "experience": {
       "eyebrow": "Équipes ambitieuses. Systèmes concrets.",

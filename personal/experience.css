@@ -32,6 +32,10 @@
   will-change: transform;
   background: #1b2a40 url(/personal/experience/films/gutgutgoose-poster.webp) 66% 55% / cover;   /* the first frame, until WebGL takes over */
 }
+/* a portrait phone gets the phone master's first frame: the strip it shows, a third of the bytes */
+@media (max-aspect-ratio: 62/100) {
+  .experience__frame { background-image: url(/personal/experience/films/gutgutgoose-poster-phone.webp); background-position: 36% 55%; }
+}
 
 .experience__canvas {
   position: absolute;

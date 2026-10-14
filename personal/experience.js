@@ -175,50 +175,74 @@ function init() {
   }
 
   // ---- the film ----------------------------------------------------------------------
-  // start loading the film a little over a screen ahead (measured in the stage's stable height)
+  // start loading the film a little over a screen ahead (measured in the stage's stable height),
+  // but not before the page has its pinned layout: until the home loader is done the sections sit
+  // close together and the stage looks a screen away while it is really several screens down
   let gl = null, preloadObserver = null, preloadMargin = -1;
+  const laidOut = () => document.documentElement.dataset.homeLoaderState !== 'pending' && document.querySelectorAll('.pin-spacer').length > 1;
   function observePreload() {
     const margin = Math.round(sticky.clientHeight * 1.2);
     if (gl || margin === preloadMargin) return;
     preloadMargin = margin;
     preloadObserver?.disconnect();
-    preloadObserver = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !gl) {
-        gl = 'loading';
-        setup3d().then(x => { gl = x; preloadObserver.disconnect(); }).catch(err => { console.warn('experience film:', err); gl = null; });
+    const observer = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || gl) return;
+      if (!laidOut()) {
+        // too early: look again once the page is laid out (or, failing that, after a while)
+        observer.unobserve(section);
+        const since = performance.now();
+        const wait = setInterval(() => { if (laidOut() || performance.now() - since > 15000) { clearInterval(wait); observer.observe(section); } }, 400);
+        return;
       }
+      gl = 'loading';
+      setup3d().then(x => { gl = x; observer.disconnect(); }).catch(err => { console.warn('experience film:', err); gl = null; });
     }, { rootMargin: `${margin}px 0px` });
-    preloadObserver.observe(section);
+    preloadObserver = observer;
+    observer.observe(section);
   }
   observePreload();
 
   async function setup3d() {
-    const THREE = await import('/personal/vendor/three/build/three.module.min.js');
+    const THREE = await import('/personal/three.js?v=1bb4305f35');
     const coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
     const saveData = navigator.connection?.saveData;
-    const moving = !reduced && !saveData;
+    // on a 2G or 3G connection the clips would only stall on held frames: show the posters instead
+    const slow = /(^|-)2g$|^3g$/.test(navigator.connection?.effectiveType || '');
+    const moving = !reduced && !saveData && !slow;
     const dpr = Math.min(devicePixelRatio, coarse ? 1.5 : 2);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
     renderer.setPixelRatio(dpr);
     renderer.toneMapping = THREE.NoToneMapping;
     const texLoader = new THREE.TextureLoader();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    let needsDraw = true, contextAvailable = true, posterVersion = 0;
 
     // The films are mastered at 60 fps: 2560x1440 for a desktop ("desk"), and for a portrait phone
     // a full-height crop of just the part it shows ("phone", see CROPS). HEVC where the hardware
     // decodes it (Safari, and almost every Chrome/Edge/Firefox), H.264 at 30 fps otherwise.
+    let mode = frame.clientWidth / frame.clientHeight < 0.62 ? 'phone' : 'desk';
     const HEVC = 'video/mp4; codecs="hvc1.1.6.L153.90"';
     let codec = 'h264';
     if (document.createElement('video').canPlayType(HEVC)) {
       codec = 'hevc';
       try {
-        const r = await navigator.mediaCapabilities?.decodingInfo({ type: 'file', video: { contentType: HEVC, width: 2560, height: 1440, bitrate: 7e6, framerate: 60 } });
+        const master = mode === 'phone' ? { width: 1698, height: 1620, bitrate: 6e6, framerate: 60 } : { width: 2560, height: 1440, bitrate: 7e6, framerate: 60 };
+        const r = await navigator.mediaCapabilities?.decodingInfo({ type: 'file', video: { contentType: HEVC, ...master } });
         if (r && !(r.supported && r.smooth)) codec = 'h264';
       } catch {}
     }
-    let mode = frame.clientWidth / frame.clientHeight < 0.62 ? 'phone' : 'desk';
     const url = (name, rev) => `/personal/experience/films/${name}-${mode}${rev ? '-rev' : ''}.${codec}.mp4`;
-    const cropOf = tex => (tex.userData.name && mode === 'phone' ? CROPS[tex.userData.name] : FULL);
+    // a phone's poster is its master's first frame: the same strip, a third of the bytes
+    const cropOf = tex => tex.userData.crop || (tex.userData.name && mode === 'phone' ? CROPS[tex.userData.name] : FULL);
+    function loadPoster(o) {
+      const phone = mode === 'phone';
+      return texLoader.loadAsync(`/personal/experience/films/${o.slug}-poster${phone ? '-phone' : ''}.webp`).then(tex => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        // Keep the crop with the image, including while a rotation's replacement is loading.
+        tex.userData.crop = phone ? CROPS[o.slug] : FULL;
+        return tex;
+      });
+    }
 
     function clip(name, { loop = false, rev = false } = {}) {
       const v = Object.assign(document.createElement('video'), { muted: true, loop, playsInline: true, preload: 'none', crossOrigin: 'anonymous' });
@@ -226,6 +250,7 @@ function init() {
       v.dataset.name = name; v.dataset.rev = rev ? '1' : '';
       const tex = new THREE.VideoTexture(v); tex.colorSpace = THREE.SRGBColorSpace;
       tex.userData.name = name;
+      if (coarse) tex.frameRateLimit = 30;   // a phone uploads every other frame to the GPU (see three.js)
       // a paused video gets no frame callbacks: upload by hand when it has a frame or has seeked
       for (const ev of ['loadeddata', 'seeked']) v.addEventListener(ev, () => { tex.needsUpdate = true; });
       v.addEventListener('seeked', () => { v.seekingTo = null; });
@@ -236,15 +261,15 @@ function init() {
       const film = FILMS[w.slug];
       // the act's loop: plays only while its act holds the screen
       const [video, vtex] = clip(w.slug, { loop: true });
-      const poster = await texLoader.loadAsync(`/personal/experience/films/${w.slug}-poster.webp`);
-      poster.colorSpace = THREE.SRGBColorSpace;
+      const poster = await loadPoster(w);
       const scene = new THREE.Scene();
       // the film fills the frame (cover), pans gently as the camera settles and slowly pushes in.
       // The grade: a deeper sky so the header reads, and a navy rise from the bottom behind the
       // title card and the lower third, with a soft shade behind the bullets
       const bg = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
-        depthTest: false, depthWrite: false,
+        depthTest: false, depthWrite: false, toneMapped: false,
         uniforms: {
+          uTime: { value: 0 },
           tFilm: { value: poster }, tFilm2: { value: poster }, uMix: { value: 0 }, uDec: { value: new THREE.Vector2(0, 0) },
           uCrop1: { value: new THREE.Vector2(0, 1) }, uCrop2: { value: new THREE.Vector2(0, 1) },
           uFilmAspect: { value: 16 / 9 }, uAspect: { value: 1 }, uFocus: { value: new THREE.Vector2(film.focus[0], film.focus[1]) },
@@ -253,8 +278,9 @@ function init() {
         vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
         fragmentShader: /* glsl */`
           uniform sampler2D tFilm, tFilm2; uniform vec2 uDec, uFocus, uCrop1, uCrop2; uniform vec3 uScrim;
-          uniform float uMix, uFilmAspect, uAspect, uPan, uZoom, uTop, uLow, uCaption; uniform vec2 uBullets;
+          uniform float uMix, uFilmAspect, uAspect, uPan, uZoom, uTop, uLow, uCaption, uTime; uniform vec2 uBullets;
           varying vec2 vUv;
+          float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
           // three decodes sRGB video only inside its own materials, so a video frame arrives here
           // still encoded (uDec = 1) while the poster image is already linear (uDec = 0)
           vec3 linear(vec3 c, float on) { return mix(c, mix(c * 0.0773993808, pow(c * 0.9478672986 + 0.0521327014, vec3(2.4)), step(0.04045, c)), on); }
@@ -272,6 +298,10 @@ function init() {
             vec2 b = (vUv - uBullets) / vec2(0.36, 0.26);
             col = mix(col, uScrim, clamp(pow(low, 1.3) * mix(0.5, 0.78, uCaption) + exp(-dot(b, b) * 1.2) * 0.42 * uCaption, 0.0, 0.86));
             gl_FragColor = vec4(col, 1.0);
+            // Grade, encode and add grain in one pass, without a full-screen half-float target.
+            #include <colorspace_fragment>
+            float g = hash12(gl_FragCoord.xy + floor(uTime * 24.0) * vec2(37.0, 17.0));
+            gl_FragColor.rgb += (g - 0.5) * 0.035;
           }`,
       }));
       bg.frustumCulled = false;
@@ -282,20 +312,66 @@ function init() {
       return { ...w, scene, bg, video, vtex, poster, trans, ttex, transR, ttexR, copy: 'f', shown: ttex, rate: 1 };
     }));
     const videos = loaded.flatMap(o => [o.video, o.trans, o.transR]).filter(Boolean);
+    const pendingPlay = new WeakSet(), blockedPlay = new Set(), wantedPlay = new Set();
+    const rest = v => {
+      if (!v) return;
+      wantedPlay.delete(v);
+      if (!v.paused) v.pause();
+    };
+    function start(v) {
+      wantedPlay.add(v);
+      if (document.hidden || !v.paused || pendingPlay.has(v) || blockedPlay.has(v)) return;
+      pendingPlay.add(v);
+      v.play().then(() => {
+        pendingPlay.delete(v);
+        if (!wantedPlay.has(v) || document.hidden) v.pause();
+      }, err => {
+        pendingPlay.delete(v);
+        // Safari may deny autoplay. Retry on a real interaction, not on every animation frame.
+        if (err.name === 'NotAllowedError') blockedPlay.add(v);
+      });
+    }
+    const retryPlayback = () => {
+      const retry = [...blockedPlay].filter(v => wantedPlay.has(v));
+      blockedPlay.clear();
+      retry.forEach(start);
+    };
+    document.addEventListener('pointerup', retryPlayback, { passive: true });
+    document.addEventListener('keydown', retryPlayback);
+
+    canvas.addEventListener('webglcontextlost', event => {
+      event.preventDefault();
+      contextAvailable = false;
+      videos.forEach(rest);
+      section.classList.remove('is-ready');
+    });
+    canvas.addEventListener('webglcontextrestored', () => { contextAvailable = true; needsDraw = true; });
 
     function load(v) { if (moving && v && !v.src) { v.src = url(v.dataset.name, v.dataset.rev); v.preload = 'auto'; v.load(); } }
-    // a phone turned sideways (or back) needs the other master: swap sources, keep the time
+    // a phone turned sideways (or back) needs the other masters: swap sources, keep the time
     function remaster() {
+      const version = ++posterVersion;
       for (const v of videos) {
         if (!v.src) continue;
-        const t = v.currentTime, wasPlaying = !v.paused;
-        v.src = url(v.dataset.name, v.dataset.rev); v.load();
-        v.addEventListener('loadedmetadata', () => { v.currentTime = Math.min(t, (v.duration || t) - 0.05); if (wasPlaying) v.play().catch(() => {}); }, { once: true });
+        const t = v.currentTime, wasWanted = wantedPlay.has(v);
+        // Rotating must not download every act visited so far in the other resolution.
+        if (!wasWanted) { v.removeAttribute('src'); v.load(); v.seekingTo = null; continue; }
+        const source = url(v.dataset.name, v.dataset.rev);
+        v.src = source; v.load();
+        v.addEventListener('loadedmetadata', () => {
+          if (version !== posterVersion) return;
+          v.currentTime = Math.max(0, Math.min(t, (v.duration || t) - 0.05));
+          if (wantedPlay.has(v)) start(v);
+        }, { once: true });
       }
+      for (const o of loaded) loadPoster(o).then(tex => {
+        if (version !== posterVersion) { tex.dispose(); return; }
+        o.poster.dispose(); o.poster = tex; needsDraw = true;
+      }).catch(() => {});
     }
     function play(o, on) {
-      if (on && moving) { load(o.video); if (o.video.paused) o.video.play().catch(() => {}); }
-      else if (!o.video.paused) o.video.pause();
+      if (on && moving) { load(o.video); start(o.video); }
+      else rest(o.video);
     }
     // back to the loop's first frame (the frame its transition shot ends on), while nobody sees it
     function rewind(o) { const v = o.video; if (v.paused && v.readyState >= 1 && !v.seeking && v.currentTime > 0.02) v.currentTime = 0; }
@@ -306,7 +382,6 @@ function init() {
       u.uDec.value.set(t1.isVideoTexture ? 1 : 0, t2.isVideoTexture ? 1 : 0);
       u.uCrop1.value.fromArray(cropOf(t1)); u.uCrop2.value.fromArray(cropOf(t2));
     }
-    const rest = v => { if (v && !v.paused) v.pause(); };
     function seek(v, t) { if (v.seekingTo == null && Math.abs(v.currentTime - t) > 1 / 60) { v.seekingTo = t; v.currentTime = t; } }
 
     // The transition shot follows the scroll. It plays towards where the scroll is, faster the
@@ -334,29 +409,9 @@ function init() {
       if (useR !== back) { to(useR ? 'r' : 'f', t); return o.shown; }                           // turned around
       const v = useR ? vR : vF, rate = clamp(Math.abs(gap) * 5, 0.5, 6);
       if (Math.abs(v.playbackRate - rate) > 0.05) v.playbackRate = rate;
-      if (v.paused) v.play().catch(() => {});
+      start(v);
       return o.shown;
     }
-
-    // the frame renders linear into a target; the composite encodes it and adds the site's grain
-    const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
-    const comp = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
-      depthTest: false, depthWrite: false, toneMapped: false,
-      uniforms: { tA: { value: rt.texture }, uTime: { value: 0 } },
-      vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
-      fragmentShader: /* glsl */`
-        uniform sampler2D tA; uniform float uTime; varying vec2 vUv;
-        // a hash with no lattice, so the grain never shows a repeat
-        float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
-        void main() {
-          float g = hash12(gl_FragCoord.xy + floor(uTime * 24.0) * vec2(37.0, 17.0));
-          gl_FragColor = vec4(texture2D(tA, vUv).rgb, 1.0);
-          #include <colorspace_fragment>
-          gl_FragColor.rgb += (g - 0.5) * 0.035;                                  // grain, like the site's gradients
-        }`,
-    }));
-    comp.frustumCulled = false;
-    const compScene = new THREE.Scene(); compScene.add(comp);
 
     let portrait = false, drawnW = 0, drawnH = 0;
     const pan = o => (portrait ? FILMS[o.slug].phonePan || 0.12 : 0.05);
@@ -366,7 +421,7 @@ function init() {
       drawnW = w; drawnH = h;
       H = h;
       renderer.setSize(w, h, false);
-      rt.setSize(Math.round(w * dpr), Math.round(h * dpr));
+      needsDraw = true;
       const aspect = w / h;
       portrait = aspect < 0.85;
       const want = aspect < 0.62 ? 'phone' : 'desk';
@@ -391,14 +446,29 @@ function init() {
       o.rate = damp(o.rate, clamp(1 + Math.abs(velocity) / 1600, 1, 1.9), 3, dt);
       if (!o.video.paused && Math.abs(o.video.playbackRate - o.rate) > 0.04) o.video.playbackRate = o.rate;
     }
-    function draw(o) { renderer.setRenderTarget(rt); renderer.render(o.scene, camera); }
+    function draw(o, now) {
+      o.bg.material.uniforms.uTime.value = moving ? now * 0.001 : 0;
+      renderer.render(o.scene, camera);
+      if (!section.classList.contains('is-ready')) section.classList.add('is-ready');
+    }
 
-    for (const o of loaded) { await renderer.compileAsync(o.scene, camera); draw(o); }
-    renderer.setRenderTarget(null);
-    section.classList.add('is-ready');
+    for (const o of loaded) await renderer.compileAsync(o.scene, camera);
+    let lastFrame = -Infinity, nextFrame = 0, lastProgress = -1;
 
     return {
       frame(dt, now) {
+        if (!contextAvailable) return;
+        // The text still follows every display frame. The film needs at most 30 on a phone,
+        // matching its texture uploads even on a 120 Hz ProMotion screen.
+        if (coarse && now < nextFrame) return;
+        if (!moving && !needsDraw && p === lastProgress) return;
+        if (coarse) {
+          const interval = 1000 / 30;
+          const late = Number.isFinite(lastFrame) ? (now - nextFrame) % interval : 0;
+          nextFrame = now + interval - late;
+        }
+        if (Number.isFinite(lastFrame)) dt = clamp((now - lastFrame) / 1000, 1 / 240, 0.05);
+        lastFrame = now; lastProgress = p; needsDraw = false;
         const sc = Math.max(0, s);
         const a = Math.min(N - 1, Math.floor(sc)), f = sc - a;
         const handing = f > 0.0005 && f < 0.9995 && a + 1 < N;
@@ -411,12 +481,15 @@ function init() {
           play(o, o === A && !handing);
           if (!(handing && o === A)) { rest(o.trans); rest(o.transR); }
         });
-        // get ready both ways: the shot onward and the next loop, and the shot back (reversed)
-        load(A.trans);
-        if (ia + 1 < N) load(loaded[ia + 1].video);
+        // get ready in the order things are needed, so a slow connection spends its bandwidth on
+        // what is on screen first: the shot onward once this loop has its frames (or the act has
+        // settled a little), the next loop once the lower third is in, the shot back only after
+        // someone has scrolled back
+        const q = settleOf(ia);
+        if (A.video.readyState >= 3 || q > 0.25) load(A.trans);
+        if (ia + 1 < N && (q > 0.6 || (A.trans && A.trans.readyState >= 3))) load(loaded[ia + 1].video);
         if (ia > 0 && sawBack) load(loaded[ia - 1].transR || loaded[ia - 1].trans);
         if (handing) rewind(f < 0.5 ? B : A);
-        comp.material.uniforms.uTime.value = now * 0.001;
         if (handing) {
           // one shot, framed from the end of one act (panned, pushed in) to the start of the next
           const W = f < 0.5 ? A : B;
@@ -429,32 +502,38 @@ function init() {
           ub.uPan.value = reduced ? 0 : (1 - f) * A.dir * pan(A);
           ub.uZoom.value = reduced ? 1.02 : 1.08 + (1.02 - 1.08) * f;
           ub.uCaption.value = W === A ? 1 - sstep(f, 0.04, 0.3) : 0;
-          draw(W);
+          draw(W, now);
         } else {
           step(A, settleOf(ia), dt);
           film(A, still(A), still(A), 0);
-          draw(A);
+          draw(A, now);
         }
-        renderer.setRenderTarget(null);
-        renderer.render(compScene, camera);
       },
-      sleep() { videos.forEach(rest); },
+      sleep() { videos.forEach(rest); lastFrame = -Infinity; nextFrame = 0; },
     };
   }
 
   // ---- loop -------------------------------------------------------------------------
-  let running = false, raf = 0, then = performance.now();
+  let running = false, inView = false, pageSuspended = false, raf = 0, then = performance.now();
   const tick = now => {
+    if (!running) return;
     const dt = clamp((now - then) / 1000, 1 / 240, 0.05); then = now;
     measure(dt);
     layout();
     if (gl && gl !== 'loading') gl.frame(dt, now);
     raf = requestAnimationFrame(tick);
   };
-  new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !running) { running = true; then = performance.now(); lastY = scrollY; raf = requestAnimationFrame(tick); }
-    else if (!e.isIntersecting && running) { running = false; cancelAnimationFrame(raf); if (gl && gl !== 'loading') gl.sleep(); }
-  }).observe(section);
+  const updateRunning = () => {
+    const active = inView && !document.hidden && !pageSuspended;
+    if (active === running) return;
+    running = active;
+    if (running) { then = performance.now(); lastY = scrollY; raf = requestAnimationFrame(tick); }
+    else { cancelAnimationFrame(raf); if (gl && gl !== 'loading') gl.sleep(); }
+  };
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; updateRunning(); }).observe(section);
+  document.addEventListener('visibilitychange', updateRunning);
+  addEventListener('pagehide', () => { pageSuspended = true; updateRunning(); });
+  addEventListener('pageshow', () => { pageSuspended = false; updateRunning(); });
   new ResizeObserver(() => {
     H = frame.clientHeight;
     layoutDirty = true;
