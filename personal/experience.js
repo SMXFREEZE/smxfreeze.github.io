@@ -203,7 +203,7 @@ function init() {
   observePreload();
 
   async function setup3d() {
-    const THREE = await import('/personal/three.js');
+    const THREE = await import('/personal/three.js?v=1bb4305f35');
     const coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
     const saveData = navigator.connection?.saveData;
     // on a 2G or 3G connection the clips would only stall on held frames: show the posters instead
