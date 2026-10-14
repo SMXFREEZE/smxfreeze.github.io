@@ -25,6 +25,12 @@
 @media (orientation: landscape) and (max-height: 500px) {
   .scroll-indicator { display: none; }
 }
+/* The journey's and the footer's grain textures are 2400 and 2800px wide; a phone shows at most
+   1200px of them. Half-size copies for phones (the home bundle picks the same for its WebGL copy). */
+@media (max-width: 760px) {
+  .trajectory-sentences.is-background-ready .trajectory-sentences__visual { background-image: url(/home/trajectory/background-phone.webp); }
+  .next-section.is-background-ready .next-footer__background { background-image: url(/shared/footer/background-phone.webp); }
+}
 /* Without WebGL (iOS Lockdown Mode, some privacy settings) the home bundle removes the hero's canvas
    and the first screen would be blank cream: show the hero's own gradient and name instead. */
 .hero-three__frame:not(:has(.webgl)) {
