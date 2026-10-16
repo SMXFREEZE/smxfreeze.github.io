@@ -5,6 +5,12 @@
    hero (the WebGL loader's cut-out) and the mark dissolves into that window.
    The script is inline in index.html, right after the mark (so it runs at the first parse);
    the geometry is the mark's own, so it sits exactly on the WebGL logo. */
+/* While the loader is up the page stays at the top, from the first paint: nothing may scroll it
+   underneath (the opening reveal starts at the top of the hero). The loader covers the screen, so
+   touch-action covers every touch; the root overflow covers the wheel and the keyboard. This used
+   to depend on Lenis, which only exists once the page's modules have loaded. */
+html[data-home-loader-state="pending"] { overflow: hidden; }
+html[data-home-loader-state="pending"] .home-loader { touch-action: none; }
 .home-loader {
   --a: min(560px, 50vw, 66vh);                   /* the WebGL logo's size (the script measures it exactly) */
 }
