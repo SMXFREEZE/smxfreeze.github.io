@@ -43,6 +43,7 @@ function init() {
   const intro = section.querySelector('.experience__intro');
   const title = section.querySelector('.experience__title');
   const subtitle = section.querySelector('.experience__subtitle');
+  const resume = section.querySelector('.experience__resume');
 
   const split = el => {
     const text = el.textContent.trim();
@@ -127,7 +128,7 @@ function init() {
   document.fonts?.ready.then(place);
 
   // nothing moves unless the scroll, the frame or the text did: skip the style writes otherwise
-  let drawnP = -1, drawnEnter = -1, drawnLeave = -1;
+  let drawnP = -1, drawnEnter = -1, drawnLeave = -1, drawnResume = '';
   function layout() {
     if (!layoutDirty && p === drawnP && enter === drawnEnter && leave === drawnLeave) return;
     layoutDirty = false;
@@ -148,8 +149,12 @@ function init() {
       });
       subtitle.style.transform = reduced ? 'none' : `translate3d(0, ${-q * H * 0.24}px, 0)`;
     }
-    section.style.setProperty('--stage-in', sstep(s, -0.4, -0.1).toFixed(3));
-    section.style.setProperty('--stage-calm', (s < 0 ? 1 : 1 - sstep(Math.abs(s - Math.round(s)), 0.06, 0.16)).toFixed(3));
+    // the résumé link comes in with the stage and steps back during each hand-off. Written
+    // straight to the link: as a custom property on the section it restyled every element of
+    // the stage on every scroll frame, for the one element that reads it
+    const calm = s < 0 ? 1 : 1 - sstep(Math.abs(s - Math.round(s)), 0.06, 0.16);
+    const shown = (sstep(s, -0.4, -0.1) * calm).toFixed(3);
+    if (resume && shown !== drawnResume) { drawnResume = shown; resume.style.opacity = shown; }
 
     const rise = s < 0 ? sstep(s, -0.85, 0) : 1;
     worlds.forEach((w, i) => {

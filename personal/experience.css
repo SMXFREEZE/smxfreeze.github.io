@@ -201,7 +201,7 @@
   left: var(--col-x);
   top: 12svh;
   color: var(--stage-ink);
-  opacity: calc(var(--stage-calm, 1) * var(--stage-in, 1));
+  opacity: 0;   /* experience.js brings it in with the stage */
   font: 500 15.84px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
   text-shadow: 0 0 18px rgba(16, 28, 48, .55);
 }

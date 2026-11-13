@@ -4,6 +4,31 @@
   --color-dark: #101c30;
   --color-accent: #2864e8;
   --color-teal: #22b8b1;
+
+  /* Motion tokens. One ease-out family, the curve the site's own stylesheets already use, so
+     everything that enters or answers a pointer starts fast and settles; a stronger ease-in-out
+     for things that travel across the screen; the iOS sheet curve for surfaces that cover it. */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+  --ease-sheet: cubic-bezier(.32, .72, 0, 1);
+  /* Springs, for browsers without linear(): the ease-out, at a shorter time. */
+  --spring: var(--ease-out);
+  --spring-time: .6s;
+  --spring-ui: var(--ease-out);
+  --spring-ui-time: .4s;
+}
+/* Springs as linear() curves, sampled from the spring equation itself (each lasts until it is
+   within 0.1% of rest, so the time belongs to the curve):
+   --spring     the entry spring measured from Apple's keynote recaps (damping 15.35, stiffness
+                115, mass 1): slightly under-damped, a 4% overshoot that reads as weight, not bounce.
+   --spring-ui  Apple's default for interface motion: critically damped, response 0.4s, no overshoot. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(0, .0434, .1482, .2833, .4269, .5642, .6864, .7892, .8714, .9339, .9788, 1.009, 1.0275, 1.0369, 1.0399, 1.0386, 1.0347, 1.0294, 1.0237, 1.0181, 1.0131, 1.0089, 1.0055, 1.0029, 1.001, .9998, .999, .9986, .9984, .9984, .9986, .9988, 1);
+    --spring-time: .95s;
+    --spring-ui: linear(0, .0579, .1813, .3223, .457, .5749, .673, .7519, .8138, .8615, .8977, .925, .9453, .9602, .9712, .9793, .9851, .9893, .9924, .9946, .9961, .9973, .9981, .9986, 1);
+    --spring-ui-time: .59s;
+  }
 }
 ::selection { background: #2864e8; color: #eef5fb; }
 /* Touch: no grey flash over whatever is tapped (the site answers taps itself: a page transition or
@@ -11,11 +36,81 @@
    waiting to see whether a double-tap zoom is coming. */
 html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 a, button, [role="button"], label, summary { touch-action: manipulation; }
-/* the header's links scroll in place, so they answer the press itself */
-@media (hover: none) and (pointer: coarse) {
-  .site-header__logo, .site-header__link, .site-header__language-switch { transition: opacity 120ms cubic-bezier(.23, 1, .32, 1); }
-  .site-header__logo:active, .site-header__link:active, .site-header__language-switch:active { opacity: .55; }
+
+/* ---- Motion --------------------------------------------------------------------------------
+   The scroll scenes belong to the page's own scripts. This is everything that answers a pointer
+   or changes state, held to a few rules: it responds on the press, not the release; it moves
+   only transform and opacity, so the compositor carries it while the scroll scenes have the
+   main thread; it enters and leaves on the one ease-out; hover never sticks on a touch screen;
+   and under reduced motion, state still changes but nothing travels. */
+
+/* The press. Links dim the instant they are touched or clicked (a page cover or a scroll follows,
+   but the answer is the press itself); pills give a little, like something pressed. */
+/* (Only elements whose opacity no script drives: the project names and the Experience résumé link
+   are faded by the scroll itself, and a transition there would trail every frame of it.) */
+.site-header__logo, .site-header__link, .site-header__language-switch,
+.text-link:not(.experience__resume), .playground-link, .scroll-indicator__item {
+  transition: opacity .12s var(--ease-out);
 }
+.site-header__logo:active, .site-header__link:active, .site-header__language-switch:active,
+.text-link:not(.experience__resume):active, .playground-link:active, .scroll-indicator__item:active {
+  opacity: .55;
+}
+.credits-hero__nav a:active { transform: scale(.97); }
+@media (prefers-reduced-motion: no-preference) {
+  .not-found__back { transition: color .25s, transform .16s var(--ease-out); }
+  /* The project pages' back pill keeps the transition list its own stylesheet gives it: a list
+     cannot be added to, only restated, and that would restate its hover here too. So its press
+     is immediate rather than eased. */
+  .project-back:active, .not-found__back:active { transform: scale(.97); }
+}
+
+/* The header leaves as you scroll down and returns as you scroll up (the script only sets the
+   class). Returning is the quicker of the two: that one you asked for. */
+.site-header { transition: color .4s var(--ease-out), transform .34s var(--ease-out); }
+.site-header.is-away { transform: translateY(-110%); transition: color .4s var(--ease-out), transform .45s var(--ease-out); }
+.site-header.is-instant { transition: color .4s var(--ease-out); }
+
+/* Underlines draw on the ease-out, a little quicker than before. */
+.site-header__link:not(.site-header__link--playground)::after, .text-link::after, .project-context__link::after,
+.credits-page__back::after, .credits-list__license::after, .credits-resource__links a::after,
+.site-header__language-switch span:first-child::after, .site-header__language-switch span:last-child::after {
+  transition: transform .28s var(--ease-out);
+}
+.credits-list__model span, .credits-footer__arrow { transition: transform .28s var(--ease-out); }
+.toolkit-card { transition: transform .24s var(--ease-out); }
+
+/* The side indicator's bars changed width, a layout property, in the middle of a scroll. Each bar
+   is now laid out at its longest and scaled to its state (12 and 28 of 48px), so the change is
+   a transform; the progress fill inside scales with it. */
+.scroll-indicator__bar,
+.scroll-indicator__item.is-neighbor .scroll-indicator__bar,
+.scroll-indicator__item.is-active .scroll-indicator__bar { width: var(--scroll-indicator-active); }
+.scroll-indicator__bar { transform: scaleX(.25); transition: transform .45s var(--ease-out); }
+.scroll-indicator__item.is-neighbor .scroll-indicator__bar { transform: scaleX(.5833); }
+.scroll-indicator__item.is-active .scroll-indicator__bar { transform: none; }
+.scroll-indicator__item::after { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+
+/* A touch screen reports hover after a tap and keeps it until the next one: nothing may stay
+   drawn there (keyboard focus still shows it). */
+@media (hover: none) {
+  .site-header__link:hover:not(:focus-visible)::after, .text-link:hover:not(:focus-visible)::after,
+  .project-context__link:hover:not(:focus-visible)::after, .credits-page__back:hover:not(:focus-visible)::after,
+  .credits-list__license:hover:not(:focus-visible)::after, .credits-resource__links a:hover:not(:focus-visible)::after,
+  .site-header__language-switch:hover:not(:focus-visible) span:first-child:not(.is-active)::after,
+  .site-header__language-switch:hover:not(:focus-visible) span:last-child:not(.is-active)::after { transform: scaleX(0); }
+  .site-header__language-switch:hover:not(:focus-visible) span:first-child:not(.is-active),
+  .site-header__language-switch:hover:not(:focus-visible) span:last-child:not(.is-active) { opacity: .45; }
+  .scroll-indicator__item:hover:not(:focus-visible)::after { opacity: 0; transform: translate(-4px, -50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header, .site-header.is-away { transition: color .4s var(--ease-out); }
+  .scroll-indicator__bar, .scroll-indicator__item::after, .toolkit-card { transition: none; }
+  .credits-hero__nav a:active { transform: none; }
+}
+/* ---- end of motion -------------------------------------------------------------------------- */
+
 /* The home bundle resets this tspan to fill:inherit on touch devices; keep the gradient there too. */
 @media (hover: none) and (pointer: coarse) {
   #nextTextGradientPart { fill: url(#nextTextGradient); }

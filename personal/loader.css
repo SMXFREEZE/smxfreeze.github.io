@@ -1,74 +1,153 @@
-/* The loader: the "se" mark is a circuit trace with a pad at each end, so loading is current
-   running along it. At first paint the trace is drawn as a fine outline; as the page loads a
-   cobalt-to-teal current fills it from the left pad, a small spark at its head; when it reaches
-   the right pad, that pad lights and a pulse runs the trace once. Then the letters open onto the
-   hero (the WebGL loader's cut-out) and the mark dissolves into that window.
-   The script is inline in index.html, right after the mark (so it runs at the first parse);
-   the geometry is the mark's own, so it sits exactly on the WebGL logo. */
-/* While the loader is up the page stays at the top, from the first paint: nothing may scroll it
-   underneath (the opening reveal starts at the top of the hero). The loader covers the screen, so
-   touch-action covers every touch; the root overflow covers the wheel and the keyboard. This used
-   to depend on Lenis, which only exists once the page's modules have loaded. */
-html[data-home-loader-state="pending"] { overflow: hidden; }
-html[data-home-loader-state="pending"] .home-loader { touch-action: none; }
-.home-loader {
-  --a: min(560px, 50vw, 66vh);                   /* the WebGL logo's size (the script measures it exactly) */
-}
-@media (max-width: 759px) { .home-loader { --a: min(82vw, 50vh); } }
+/* The loader is the hero's own frame before it wakes: the same cobalt field with its two teal
+   glows, the same grain, cream border and corner radius, and the "se" mark drawn as the hero's
+   glass, front on, exactly where the 3D logo stands. Loading is light running through the glass
+   from the left pad, a small spark at its head; when it reaches the right pad that pad lights and
+   a pulse runs the trace once. Then the light drains, leaving the glass as the hero shows it, and
+   the frame dissolves into the live scene: the name comes up behind the mark and the mark starts
+   to turn. The script is inline in index.html, right after the mark (so it runs at the first parse).
 
-.home-loader__mark {
+   Motion: the fill follows real progress (script). Every beat after it is a transition on
+   opacity, transform or a small blur, so the compositor carries it while the hero's first frames
+   keep the main thread busy. Springs are the site's tokens (theme.css). */
+
+/* While the loader is up the page stays at the top, from the first paint: nothing may scroll it
+   underneath (the opening starts at the top of the hero). The loader covers the screen, so
+   touch-action covers every touch; the root overflow covers the wheel and the keyboard. */
+html[data-home-loader-state="pending"] { overflow: hidden; }
+/* the cover itself is clear: the page's own cream shows around the frame, as it does on the hero */
+html[data-home-loader-state="pending"] .home-loader { touch-action: none; background: none; }
+
+.home-loader {
+  /* the 3D logo's size as the hero first shows it: its camera fits it to a portrait frame's
+     width, and holds it at its own size (a share of the height) in anything wider */
+  --a: min(83vw, 61vh);
+  --inset: clamp(8px, calc(2.5vw - 8px), 16px);   /* the hero frame's inset */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='discrete' tableValues='0 1'/%3E%3CfeFuncG type='discrete' tableValues='0 1'/%3E%3CfeFuncB type='discrete' tableValues='0 1'/%3E%3CfeFuncA type='table' tableValues='.34 0 .34'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");
+  --field: #024de5;   /* the hero's cobalt, as its scene renders it */
+  /* one of its two glows, corner outward: teal, through periwinkle, into the field */
+  --glow: #43a6b2 0, #45a5b3 23%, #4a9bb8 33%, #4c96cb 45%, #5590dc 56%, #5886e5 70%, #3f7ae5 83%, #1a65e5 93%, #024de500;
+}
+
+/* the frame: laid out like .hero-three__frame (the full first screen, clipped to the inset) */
+.home-loader__stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  -webkit-clip-path: inset(var(--inset) round 18px);
+  clip-path: inset(var(--inset) round 18px);
+  background:
+    var(--grain) 0 0 / 240px 240px,
+    radial-gradient(42% 46% at 102% -5%, var(--glow)),
+    radial-gradient(42% 46% at 102% 105%, var(--glow)),
+    var(--field);
+  will-change: opacity;
+  transition: opacity .6s ease;
+}
+/* a portrait frame sits between the two glows: only a faint lift toward the right edge */
+@media (max-aspect-ratio: 1/1) {
+  .home-loader__stage {
+    background:
+      var(--grain) 0 0 / 240px 240px,
+      linear-gradient(100deg, #024de500 45%, #1a62e5),
+      var(--field);
+  }
+}
+
+/* the mark: three layers on the logo's own box. The glass never changes, so it is drawn once;
+   the light is redrawn as it advances; the halo is a blurred copy that only ever changes opacity */
+.home-loader__lockup {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 50%;
+  top: 50vh;
   width: calc(var(--a) * .9619);
-  height: var(--a);
+  aspect-ratio: 2.19 / 1.135;
   transform: translate(-50%, -50%);
-  overflow: visible;
   pointer-events: none;
+  will-change: opacity;
+  /* it settles in from a little large, on the measured spring */
+  animation: home-loader-in var(--spring-time, .95s) var(--spring, cubic-bezier(.22, 1, .36, 1));
+  /* it leaves at the frame's own rate (below), so the flat glass hands over to the 3D glass
+     behind it evenly: as much of one as is missing of the other */
+  transition: opacity .6s ease, filter .6s ease;
 }
-.home-loader__track { stroke: #101c30; stroke-opacity: .2; stroke-width: .012; }
+.home-loader__lockup > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+@keyframes home-loader-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(1.06); }
+}
+
 .home-loader__current { stroke-dasharray: 0 2; }   /* drawn by the script */
+.home-loader__mark { transition: opacity .44s var(--ease-out, cubic-bezier(.22, 1, .36, 1)); }
 .home-loader__pad { opacity: 0; transform-box: fill-box; transform-origin: center; }
 .home-loader__pad--a { transition: opacity .25s ease; }
 .home-loader.is-live .home-loader__pad--a { opacity: 1; }
-.home-loader__pad--b { transform: scale(.55); transition: opacity .18s ease, transform .42s cubic-bezier(.34, 1.56, .64, 1); }
+.home-loader__pad--b { transform: scale(.82); transition: opacity .18s ease, transform var(--spring-time, .95s) var(--spring, cubic-bezier(.22, 1, .36, 1)); }
 .home-loader.is-arrived .home-loader__pad--b { opacity: 1; transform: none; }
-.home-loader__sweep { stroke: #f4fbff; stroke-opacity: .75; stroke-dasharray: .1 1.2; stroke-dashoffset: .1; opacity: 0; }
-.home-loader.is-arrived .home-loader__sweep { animation: home-loader-sweep .5s cubic-bezier(.45, 0, .2, 1) .06s both; }
+/* the pulse: a swell the full width of the tube, so it reads over the light already in it */
+.home-loader__sweep { stroke: #fff; stroke-width: .14; stroke-dasharray: .1 1.2; stroke-dashoffset: .1; opacity: 0; }
+.home-loader.is-arrived .home-loader__sweep { animation: home-loader-sweep .5s cubic-bezier(.45, 0, .2, 1) .04s both; }
 @keyframes home-loader-sweep {
   0% { stroke-dashoffset: .1; opacity: 0; }
-  12% { opacity: 1; }
-  85% { opacity: 1; }
+  12% { opacity: .95; }
+  85% { opacity: .95; }
   100% { stroke-dashoffset: -1.02; opacity: 0; }
 }
 .home-loader__spark { opacity: 0; transition: opacity .2s ease; }
 .home-loader.is-live:not(.is-arrived) .home-loader__spark { opacity: 1; }
+.home-loader__halo { opacity: 0; filter: blur(calc(var(--a) * .03)); will-change: opacity; }
+.home-loader.is-arrived .home-loader__halo { animation: home-loader-halo .9s var(--ease-out, cubic-bezier(.22, 1, .36, 1)) both; }
+@keyframes home-loader-halo {
+  0% { opacity: 0; }
+  26% { opacity: .62; }
+  100% { opacity: 0; }
+}
 
 /* the count, under the mark, in the site's small type */
 .home-loader__count {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: calc(50% + var(--a) * .25 + 34px);
+  top: calc(50vh + var(--a) * .2493 + 30px);
   margin: 0;
   transform: translateX(-50%);
-  color: #101c30;
+  color: #eef5fb;
   font: 500 14px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
   font-variant-numeric: tabular-nums;
   letter-spacing: .08em;
-  opacity: .5;
+  opacity: .78;
   pointer-events: none;
+  animation: home-loader-fade .6s ease .12s backwards;
   transition: opacity .3s ease;
 }
-.home-loader.is-arrived .home-loader__count { opacity: .32; }
-.home-loader.is-opening .home-loader__count { opacity: 0; }
+@keyframes home-loader-fade { from { opacity: 0; } }
+.home-loader.is-arrived .home-loader__count { opacity: .4; }
 
-/* only for a real first load (a restored visit shows the cover without running the loader) */
-html:not([data-home-loader-state="pending"]) .home-loader__mark,
+/* the light drains: the glass is left as the hero shows it */
+.home-loader.is-settled .home-loader__mark,
+.home-loader.is-settled .home-loader__count { opacity: 0; }
+
+/* the frame dissolves into the hero behind it; a little blur carries the flat mark into the 3D one */
+.home-loader.is-opening .home-loader__stage { opacity: 0; }
+.home-loader.is-opening .home-loader__lockup { opacity: 0; filter: blur(4px); }
+
+/* only for a real first load (a restored visit shows the plain cover without running the loader) */
+html:not([data-home-loader-state="pending"]) .home-loader__stage,
+html:not([data-home-loader-state="pending"]) .home-loader__lockup,
 html:not([data-home-loader-state="pending"]) .home-loader__count { display: none; }
 
+/* reduced motion: the light still fills (it is the progress); nothing travels, pulses or blurs */
 @media (prefers-reduced-motion: reduce) {
-  .home-loader__spark, .home-loader__sweep { display: none; }
-  .home-loader__pad--b { transition: opacity .2s ease; transform: none; }
+  .home-loader__lockup, .home-loader__count { animation: none; }
+  .home-loader__spark, .home-loader__sweep, .home-loader__halo { display: none; }
+  .home-loader__pad--b { transform: none; transition: opacity .2s ease; }
+  .home-loader__stage, .home-loader__lockup { transition: opacity .24s ease; }
+  .home-loader.is-opening .home-loader__lockup { filter: none; }
 }
